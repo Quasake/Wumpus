@@ -7,6 +7,8 @@ import java.awt.image.BufferStrategy;
 import me.quasar.wumpus.graphics.Assets;
 import me.quasar.wumpus.graphics.Window;
 import me.quasar.wumpus.objects.Map;
+import me.quasar.wumpus.objects.entities.Player;
+import me.quasar.wumpus.objects.tiles.Tile;
 import me.quasar.wumpus.utils.Constants;
 
 public class Game implements Runnable {
@@ -14,13 +16,13 @@ public class Game implements Runnable {
 	private int height;
 
 	private Window window;
-
+	private Map map;
+	private Player player;
+	
 	private Graphics graphics;
 	private BufferStrategy bufferStrategy;
 	private Thread thread;
 	private boolean running;
-	
-	private Map map;
 
 	public Game (int width, int height) {
 		this.width = width;
@@ -29,15 +31,17 @@ public class Game implements Runnable {
 
 	private void init ( ) {
 		window = new Window(width, height, Constants.GAME_TITLE);
-		
 		map = new Map(Constants.MAP_SIZE, Constants.MAP_SIZE);
-
+		
 		Assets.init( );
 		map.generateMap( );
+		
+		Tile playerTile = map.getRandomTile(false);
+		player = new Player(playerTile.getX( ), playerTile.getY( ), map);
 	}
 
 	private void update ( ) {
-
+		player.update( );
 	}
 
 	private void render ( ) {
@@ -54,6 +58,8 @@ public class Game implements Runnable {
 		graphics.fillRect(0, 0, Constants.GAME_WIDTH, Constants.GAME_HEIGHT);
 		
 		map.render(graphics);
+		
+		player.render(graphics);
 
 		bufferStrategy.show( );
 		graphics.dispose( );

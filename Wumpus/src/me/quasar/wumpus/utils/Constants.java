@@ -10,6 +10,8 @@ public class Constants {
 	public static final int SPRITE_WIDTH = 16;
 	public static final int SPRITE_HEIGHT = 16;
 	public static final int SPRITE_SCALE = 4;
+	public static final int SPRITE_ANIMATION_LENGTH = 4;
+	public static final int SPRITE_ANIMATION_SPEED = 150;
 
 	public static final int IMAGE_WIDTH = SPRITE_WIDTH * SPRITE_SCALE;
 	public static final int IMAGE_HEIGHT = SPRITE_HEIGHT * SPRITE_SCALE;
@@ -20,6 +22,8 @@ public class Constants {
 	public static int MAP_SIZE = 4;
 	
 	public static final int INFOBOX_WIDTH = IMAGE_WIDTH * 5;
+	
+	public static final int ENTITY_SPEED = IMAGE_WIDTH / 16;
 
 	public static final String GAME_TITLE = "Wumpus";
 	public static final int GAME_WIDTH = (IMAGE_WIDTH * (MAP_SIZE + (MAP_BORDER * 2) + 1)) + INFOBOX_WIDTH;

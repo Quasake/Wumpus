@@ -107,11 +107,7 @@ public class Map {
 		return tiles[x + Constants.MAP_BORDER][y + Constants.MAP_BORDER];
 	}
 
-	public Tile[ ][ ] getTiles ( ) {
-		return tiles;
-	}
-
-	private Tile getRandomTile (boolean canHaveItem) {
+	public Tile getRandomTile (boolean canHaveItem) {
 		Tile tile = null;
 
 		while (true) {
@@ -124,6 +120,18 @@ public class Map {
 				return tile;
 			}
 		}
+	}
+
+	public Tile[ ][ ] getTiles ( ) {
+		return tiles;
+	}
+
+	public int getWidth ( ) {
+		return width;
+	}
+
+	public int getHeight ( ) {
+		return height;
 	}
 
 }

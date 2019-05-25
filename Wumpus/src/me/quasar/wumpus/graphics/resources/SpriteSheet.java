@@ -31,8 +31,18 @@ public class SpriteSheet {
 		g2d.scale(scale, scale);
 		g2d.drawImage(image, 0, 0, null);
 		g2d.dispose( );
-		
+
 		return resizedImage;
+	}
+
+	public BufferedImage[ ] getAnimation (int x, int y) {
+		BufferedImage[ ] animation = new BufferedImage[Constants.SPRITE_ANIMATION_LENGTH];
+
+		for (int i = 0; i < animation.length; i++) {
+			animation[i] = getSprite(x + i, y);
+		}
+
+		return animation;
 	}
 
 }
