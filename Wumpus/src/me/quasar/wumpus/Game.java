@@ -1,10 +1,12 @@
 package me.quasar.wumpus;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 
 import me.quasar.wumpus.graphics.Assets;
 import me.quasar.wumpus.graphics.Window;
+import me.quasar.wumpus.objects.Map;
 import me.quasar.wumpus.utils.Constants;
 
 public class Game implements Runnable {
@@ -17,6 +19,8 @@ public class Game implements Runnable {
 	private BufferStrategy bufferStrategy;
 	private Thread thread;
 	private boolean running;
+	
+	private Map map;
 
 	public Game (int width, int height) {
 		this.width = width;
@@ -25,8 +29,11 @@ public class Game implements Runnable {
 
 	private void init ( ) {
 		window = new Window(width, height, Constants.GAME_TITLE);
+		
+		map = new Map(Constants.MAP_SIZE, Constants.MAP_SIZE);
 
 		Assets.init( );
+		map.generateMap( );
 	}
 
 	private void update ( ) {
@@ -42,6 +49,11 @@ public class Game implements Runnable {
 		graphics = bufferStrategy.getDrawGraphics( );
 
 		graphics.clearRect(0, 0, width, height);
+		
+		graphics.setColor(Color.LIGHT_GRAY);
+		graphics.fillRect(0, 0, Constants.GAME_WIDTH, Constants.GAME_HEIGHT);
+		
+		map.render(graphics);
 
 		bufferStrategy.show( );
 		graphics.dispose( );
