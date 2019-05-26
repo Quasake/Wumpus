@@ -11,11 +11,12 @@ public abstract class Entity {
 
 	protected int tileX;
 	protected int tileY;
-	
+
 	protected int moveToTileX;
 	protected int moveToTileY;
 	protected int moveCountX = 0;
 	protected int moveCountY = 0;
+	protected boolean moving = false;
 
 	protected Map map;
 
@@ -23,7 +24,7 @@ public abstract class Entity {
 		this.x = x;
 		this.y = y;
 		this.map = map;
-		
+
 		tileX = (int) ((x / Constants.IMAGE_WIDTH) - Constants.MAP_BORDER);
 		tileY = (int) ((y / Constants.IMAGE_HEIGHT) - Constants.MAP_BORDER);
 		moveToTileX = tileX;
@@ -41,55 +42,65 @@ public abstract class Entity {
 		} else if (tileX > moveToTileX) {
 			x -= Constants.ENTITY_SPEED;
 			moveCountX--;
-		}
-		if (tileY < moveToTileY) {
-			y -= Constants.ENTITY_SPEED;
-			moveCountY--;
-		} else if (tileY > moveToTileY) {
+		} else if (tileY < moveToTileY) {
 			y += Constants.ENTITY_SPEED;
 			moveCountY++;
+		} else if (tileY > moveToTileY) {
+			y -= Constants.ENTITY_SPEED;
+			moveCountY--;
 		}
-		
-		if (Math.abs(moveCountX) * Constants.ENTITY_SPEED == Constants.IMAGE_WIDTH) {
-			if (moveCountX > 0) {
-				tileX++;
-			} else {
-				tileX--;
+
+		if (moving) {
+			if (Math.abs(moveCountX) * Constants.ENTITY_SPEED == Constants.IMAGE_WIDTH) {
+				if (moveCountX > 0) {
+					tileX++;
+				} else if (moveCountX < 0) {
+					tileX--;
+				}
+				moving = false;
+				moveCountX = 0;
+			} else if (Math.abs(moveCountY) * Constants.ENTITY_SPEED == Constants.IMAGE_HEIGHT) {
+				if (moveCountY > 0) {
+					tileY++;
+				} else if (moveCountY < 0) {
+					tileY--;
+				}
+				moving = false;
+				moveCountY = 0;
 			}
-			moveCountX = 0;
-		}
-		if (Math.abs(moveCountY) * Constants.ENTITY_SPEED == Constants.IMAGE_HEIGHT) {
-			if (moveCountY > 0) {
-				tileY++;
-			} else {
-				tileY--;
-			}
-			moveCountY = 0;
 		}
 	}
 
 	public void moveUp ( ) {
 		if (moveToTileY > 0) {
 			moveToTileY--;
+			moving = true;
 		}
 	}
 
 	public void moveRight ( ) {
 		if (moveToTileX < map.getWidth( ) - 1) {
 			moveToTileX++;
+			moving = true;
 		}
 	}
 
 	public void moveDown ( ) {
 		if (moveToTileY < map.getHeight( ) - 1) {
 			moveToTileY++;
+			moving = true;
 		}
 	}
 
 	public void moveLeft ( ) {
 		if (moveToTileX > 0) {
 			moveToTileX--;
+			moving = true;
 		}
+	}
+
+	public boolean getMoving ( ) {
+		return moving;
 	}
 
 	public int getTileX ( ) {

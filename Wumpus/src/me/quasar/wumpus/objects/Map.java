@@ -55,29 +55,29 @@ public class Map {
 				if ((x >= Constants.MAP_BORDER - 1 && x <= width + ((Constants.MAP_BORDER - 1) * 2))
 					&& (y >= Constants.MAP_BORDER - 1 && y <= height + ((Constants.MAP_BORDER - 1) * 2))) {
 					if ((x >= Constants.MAP_BORDER && x < width + Constants.MAP_BORDER) && (y >= Constants.MAP_BORDER && y < height + Constants.MAP_BORDER)) {
-						tiles[x][y] = new FloorTile(x * Constants.IMAGE_WIDTH, y * Constants.IMAGE_HEIGHT, false);
+						tiles[x][y] = new FloorTile(x * Constants.IMAGE_WIDTH, y * Constants.IMAGE_HEIGHT, true);
 					} else {
 						if (x == Constants.MAP_BORDER - 1) {
 							if (y == Constants.MAP_BORDER - 1) {
-								tiles[x][y] = new WallTile(x * Constants.IMAGE_WIDTH, y * Constants.IMAGE_HEIGHT, 7, false);
+								tiles[x][y] = new WallTile(x * Constants.IMAGE_WIDTH, y * Constants.IMAGE_HEIGHT, 7, true);
 							} else if (y == height + ((Constants.MAP_BORDER - 1) * 2)) {
-								tiles[x][y] = new WallTile(x * Constants.IMAGE_WIDTH, y * Constants.IMAGE_HEIGHT, 5, false);
+								tiles[x][y] = new WallTile(x * Constants.IMAGE_WIDTH, y * Constants.IMAGE_HEIGHT, 5, true);
 							} else {
-								tiles[x][y] = new WallTile(x * Constants.IMAGE_WIDTH, y * Constants.IMAGE_HEIGHT, 6, false);
+								tiles[x][y] = new WallTile(x * Constants.IMAGE_WIDTH, y * Constants.IMAGE_HEIGHT, 6, true);
 							}
 						} else if (x == width + ((Constants.MAP_BORDER - 1) * 2)) {
 							if (y == Constants.MAP_BORDER - 1) {
-								tiles[x][y] = new WallTile(x * Constants.IMAGE_WIDTH, y * Constants.IMAGE_HEIGHT, 1, false);
+								tiles[x][y] = new WallTile(x * Constants.IMAGE_WIDTH, y * Constants.IMAGE_HEIGHT, 1, true);
 							} else if (y == height + ((Constants.MAP_BORDER - 1) * 2)) {
-								tiles[x][y] = new WallTile(x * Constants.IMAGE_WIDTH, y * Constants.IMAGE_HEIGHT, 3, false);
+								tiles[x][y] = new WallTile(x * Constants.IMAGE_WIDTH, y * Constants.IMAGE_HEIGHT, 3, true);
 							} else {
-								tiles[x][y] = new WallTile(x * Constants.IMAGE_WIDTH, y * Constants.IMAGE_HEIGHT, 2, false);
+								tiles[x][y] = new WallTile(x * Constants.IMAGE_WIDTH, y * Constants.IMAGE_HEIGHT, 2, true);
 							}
 						} else {
 							if (y == Constants.MAP_BORDER - 1) {
-								tiles[x][y] = new WallTile(x * Constants.IMAGE_WIDTH, y * Constants.IMAGE_HEIGHT, 0, false);
+								tiles[x][y] = new WallTile(x * Constants.IMAGE_WIDTH, y * Constants.IMAGE_HEIGHT, 0, true);
 							} else if (y == height + ((Constants.MAP_BORDER - 1) * 2)) {
-								tiles[x][y] = new WallTile(x * Constants.IMAGE_WIDTH, y * Constants.IMAGE_HEIGHT, 4, false);
+								tiles[x][y] = new WallTile(x * Constants.IMAGE_WIDTH, y * Constants.IMAGE_HEIGHT, 4, true);
 							}
 						}
 					}
@@ -96,7 +96,7 @@ public class Map {
 		}
 	}
 
-	public Tile getTile (int x, int y) {
+	public Tile getBoardTile (int x, int y) {
 		if (x >= width || x < 0) {
 			return null;
 		}
@@ -106,12 +106,20 @@ public class Map {
 
 		return tiles[x + Constants.MAP_BORDER][y + Constants.MAP_BORDER];
 	}
+	
+	public Tile getTile (int x, int y) {
+		try {
+			return tiles[x + Constants.MAP_BORDER][y + Constants.MAP_BORDER];
+		} catch (ArrayIndexOutOfBoundsException e) {
+			return null;
+		}
+	}
 
 	public Tile getRandomTile (boolean canHaveItem) {
 		Tile tile = null;
 
 		while (true) {
-			tile = getTile(Constants.RANDOM.nextInt(width), Constants.RANDOM.nextInt(height));
+			tile = getBoardTile(Constants.RANDOM.nextInt(width), Constants.RANDOM.nextInt(height));
 			if (!canHaveItem) {
 				if (!tile.hasItem( )) {
 					return tile;

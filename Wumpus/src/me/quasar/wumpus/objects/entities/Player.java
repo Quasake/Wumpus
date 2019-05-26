@@ -7,88 +7,103 @@ import me.quasar.wumpus.graphics.resources.Animation;
 import me.quasar.wumpus.objects.Map;
 
 public class Player extends Entity {
-	private Animation playerIdle;
-	private Animation playerMoveUp;
-	private Animation playerMoveRight;
-	private Animation playerMoveDown;
-	private Animation playerMoveLeft;
-
-	private Animation playerIdleTorch;
-	private Animation playerMoveUpTorch;
-	private Animation playerMoveRightTorch;
-	private Animation playerMoveDownTorch;
-	private Animation playerMoveLeftTorch;
-	
 	private Animation currentAnimation;
 
 	private boolean hasTorch = false;
 
 	public Player (float x, float y, Map map) {
 		super(x, y, map);
-		
-		playerIdle = new Animation(Assets.playerIdle);
-		playerMoveUp = new Animation(Assets.playerMoveUp);
-		playerMoveRight = new Animation(Assets.playerMoveRight);
-		playerMoveDown = new Animation(Assets.playerMoveDown);
-		playerMoveLeft = new Animation(Assets.playerMoveLeft);
-		
-		playerIdleTorch = new Animation(Assets.playerIdleTorch);
-		playerMoveUpTorch = new Animation(Assets.playerMoveUpTorch);
-		playerMoveRightTorch = new Animation(Assets.playerMoveRightTorch);
-		playerMoveDownTorch = new Animation(Assets.playerMoveDownTorch);
-		playerMoveLeftTorch = new Animation(Assets.playerMoveLeftTorch);
-		
-		currentAnimation = playerIdle;
+
+		currentAnimation = Assets.playerIdleAnimation;
 	}
 
 	@Override
 	public void update ( ) {
-		if (moveCountX > 0) {
-			if (hasTorch) {
-				setAnimation(playerMoveRightTorch);
-			} else {
-				setAnimation(playerMoveRight);
-			}
-		} else if (moveCountX < 0) {
-			if (hasTorch) {
-				setAnimation(playerMoveLeftTorch);
-			} else {
-				setAnimation(playerMoveLeft);
-			}
-		}
-		if (moveCountY > 0) {
-			if (hasTorch) {
-				setAnimation(playerMoveDownTorch);
-			} else {
-				setAnimation(playerMoveDown);
-			}
-		} else if (moveCountY < 0) {
-			if (hasTorch) {
-				setAnimation(playerMoveUpTorch);
-			} else {
-				setAnimation(playerMoveUp);
-			}
-		}
-		if (moveCountX == 0 && moveCountY == 0) {
-			if (hasTorch) {
-				setAnimation(playerIdleTorch);
-			} else {
-				setAnimation(playerIdle);
-			}
-		}
-		
+		updateAnimations( );
+
 		currentAnimation.update( );
-		
-		move();
+
+		move( );
+
+		updateSurroundingTiles( );
 	}
 
 	@Override
 	public void render (Graphics graphics) {
 		graphics.drawImage(currentAnimation.getCurrentFrame( ), (int) x, (int) y, null);
 	}
-	
+
 	private void setAnimation (Animation animation) {
 		currentAnimation = animation;
+	}
+
+	private void updateSurroundingTiles ( ) {
+		map.getBoardTile(tileX, tileY).setHidden(false);
+		if (tileX == 0) {
+			if (tileY == 0) {
+				map.getTile(tileX - 1, tileY).setHidden(false);
+				map.getTile(tileX - 1, tileY - 1).setHidden(false);
+				map.getTile(tileX, tileY - 1).setHidden(false);
+			} else if (tileY == map.getHeight( ) - 1) {
+				map.getTile(tileX - 1, tileY).setHidden(false);
+				map.getTile(tileX - 1, tileY + 1).setHidden(false);
+				map.getTile(tileX, tileY + 1).setHidden(false);
+			} else {
+				map.getTile(tileX - 1, tileY).setHidden(false);
+			}
+		} else if (tileX == map.getWidth( ) - 1) {
+			if (tileY == 0) {
+				map.getTile(tileX, tileY - 1).setHidden(false);
+				map.getTile(tileX + 1, tileY - 1).setHidden(false);
+				map.getTile(tileX + 1, tileY).setHidden(false);
+			} else if (tileY == map.getHeight( ) - 1) {
+				map.getTile(tileX + 1, tileY).setHidden(false);
+				map.getTile(tileX + 1, tileY + 1).setHidden(false);
+				map.getTile(tileX, tileY + 1).setHidden(false);
+			} else {
+				map.getTile(tileX + 1, tileY).setHidden(false);
+			}
+		} else {
+			if (tileY == 0) {
+				map.getTile(tileX, tileY - 1).setHidden(false);
+			} else if (tileY == map.getHeight( ) - 1) {
+				map.getTile(tileX, tileY + 1).setHidden(false);
+			}
+		}
+	}
+
+	private void updateAnimations ( ) {
+		if (moveCountX > 0) {
+			if (hasTorch) {
+				setAnimation(Assets.playerMoveRightTorchAnimation);
+			} else {
+				setAnimation(Assets.playerMoveRightAnimation);
+			}
+		} else if (moveCountX < 0) {
+			if (hasTorch) {
+				setAnimation(Assets.playerMoveLeftTorchAnimation);
+			} else {
+				setAnimation(Assets.playerMoveLeftAnimation);
+			}
+		} else if (moveCountY > 0) {
+			if (hasTorch) {
+				setAnimation(Assets.playerMoveDownTorchAnimation);
+			} else {
+				setAnimation(Assets.playerMoveDownAnimation);
+			}
+		} else if (moveCountY < 0) {
+			if (hasTorch) {
+				setAnimation(Assets.playerMoveUpTorchAnimation);
+			} else {
+				setAnimation(Assets.playerMoveUpAnimation);
+			}
+		} else if (moveCountX == 0 && moveCountY == 0) {
+			if (hasTorch) {
+				setAnimation(Assets.playerIdleTorchAnimation);
+			} else {
+				setAnimation(Assets.playerIdleAnimation);
+			}
+		}
 	}
 
 	public void giveTorch ( ) {
