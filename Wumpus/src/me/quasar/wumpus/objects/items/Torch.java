@@ -4,7 +4,7 @@ import me.quasar.wumpus.graphics.Assets;
 
 public class Torch extends Item {
 
-	public Torch () {
+	public Torch ( ) {
 		super(Assets.torch, "torch");
 	}
 

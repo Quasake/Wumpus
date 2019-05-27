@@ -35,8 +35,8 @@ public class Handler {
 	public boolean getLeftPressed ( ) {
 		return game.getMouseManager( ).getLeftPressed( );
 	}
-	
-	public Player getPlayer () {
+
+	public Player getPlayer ( ) {
 		return game.getPlayer( );
 	}
 

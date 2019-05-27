@@ -21,7 +21,7 @@ public class Assets {
 	public static BufferedImage wallBottomLeft;
 	public static BufferedImage wallLeft;
 	public static BufferedImage wallTopLeft;
-	
+
 	public static BufferedImage floorTile;
 	public static BufferedImage hiddenTile;
 	public static BufferedImage nullTile;
@@ -46,7 +46,7 @@ public class Assets {
 	public static Animation playerMoveRightAnimation;
 	public static Animation playerMoveDownAnimation;
 	public static Animation playerMoveLeftAnimation;
-	
+
 	public static Animation playerIdleTorchAnimation;
 	public static Animation playerMoveUpTorchAnimation;
 	public static Animation playerMoveRightTorchAnimation;
@@ -66,13 +66,13 @@ public class Assets {
 		playerMoveRightAnimation = new Animation(player.getAnimation(0, 4));
 		playerMoveDownAnimation = new Animation(player.getAnimation(0, 1));
 		playerMoveLeftAnimation = new Animation(player.getAnimation(0, 3));
-		
+
 		playerIdleTorchAnimation = new Animation(player.getAnimation(Constants.SPRITE_ANIMATION_LENGTH, 0));
 		playerMoveUpTorchAnimation = new Animation(player.getAnimation(Constants.SPRITE_ANIMATION_LENGTH, 2));
 		playerMoveRightTorchAnimation = new Animation(player.getAnimation(Constants.SPRITE_ANIMATION_LENGTH, 4));
 		playerMoveDownTorchAnimation = new Animation(player.getAnimation(Constants.SPRITE_ANIMATION_LENGTH, 1));
 		playerMoveLeftTorchAnimation = new Animation(player.getAnimation(Constants.SPRITE_ANIMATION_LENGTH, 3));
-		
+
 		SpriteSheet textures = new SpriteSheet(ImageLoader.loadImage("/textures/wumpus_textures.png"));
 		wallTop = textures.getSprite(1, 0);
 		wallTopRight = textures.getSprite(2, 0);
@@ -82,7 +82,7 @@ public class Assets {
 		wallBottomLeft = textures.getSprite(0, 2);
 		wallLeft = textures.getSprite(0, 1);
 		wallTopLeft = textures.getSprite(0, 0);
-		
+
 		floorTile = textures.getSprite(1, 1);
 		hiddenTile = textures.getSprite(5, 0);
 		nullTile = textures.getSprite(4, 1);

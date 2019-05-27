@@ -4,7 +4,7 @@ import me.quasar.wumpus.graphics.Assets;
 
 public class Bow extends Item {
 
-	public Bow () {
+	public Bow ( ) {
 		super(Assets.bow, "bow");
 	}
 

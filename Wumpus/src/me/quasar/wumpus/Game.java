@@ -79,7 +79,7 @@ public class Game implements Runnable {
 
 		Tile playerTile = map.getRandomTile(false);
 		player = new Player(playerTile.getX( ), playerTile.getY( ), map);
-		
+
 		gameManager = new GameManager(handler);
 
 		if (Math.random( ) < 0.5) {
@@ -113,7 +113,7 @@ public class Game implements Runnable {
 				break;
 			case GAME :
 				gameManager.update( );
-				
+
 				player.update( );
 				break;
 		}
@@ -148,7 +148,7 @@ public class Game implements Runnable {
 				break;
 			case GAME :
 				gameManager.render(graphics);
-				
+
 				player.render(graphics);
 				break;
 		}
@@ -220,8 +220,8 @@ public class Game implements Runnable {
 	public Map getMap ( ) {
 		return map;
 	}
-	
-	public GameManager getGameManager () {
+
+	public GameManager getGameManager ( ) {
 		return gameManager;
 	}
 

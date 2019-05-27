@@ -19,7 +19,7 @@ public class GameManager {
 	private Button attackRight;
 	private Button attackDown;
 	private Button attackLeft;
-	
+
 	private boolean playerMoving = false;
 	private int turns = 0;
 
@@ -57,7 +57,7 @@ public class GameManager {
 			attackDown.setDisabled(false);
 			attackLeft.setDisabled(false);
 		}
-		
+
 		moveUp.update( );
 		moveRight.update( );
 		moveDown.update( );
@@ -66,15 +66,15 @@ public class GameManager {
 		attackRight.update( );
 		attackDown.update( );
 		attackLeft.update( );
-		
+
 		if (moveUp.getClicked( )) {
-			handler.getPlayer().moveUp( );
+			handler.getPlayer( ).moveUp( );
 		} else if (moveRight.getClicked( )) {
-			handler.getPlayer().moveRight( );
+			handler.getPlayer( ).moveRight( );
 		} else if (moveDown.getClicked( )) {
-			handler.getPlayer().moveDown( );
+			handler.getPlayer( ).moveDown( );
 		} else if (moveLeft.getClicked( )) {
-			handler.getPlayer().moveLeft( );
+			handler.getPlayer( ).moveLeft( );
 		}
 	}
 

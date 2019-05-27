@@ -30,17 +30,14 @@ public class Renderer {
 		final float tintOpacity = 0.45f;
 		Graphics2D g2d = img.createGraphics( );
 
-		// Draw the base image
 		g2d.drawImage(loadImg, null, 0, 0);
-		// Set the color to a transparent version of the input color
 		g2d.setColor(new Color(color.getRed( ) / 255f, color.getGreen( ) / 255f, color.getBlue( ) / 255f, tintOpacity));
 
-		// Iterate over every pixel, if it isn't transparent paint over it
 		Raster data = loadImg.getData( );
 		for (int x = data.getMinX( ); x < data.getWidth( ); x++) {
 			for (int y = data.getMinY( ); y < data.getHeight( ); y++) {
 				int[ ] pixel = data.getPixel(x, y, new int[4]);
-				if (pixel[3] > 0) { // If pixel isn't full alpha. Could also be pixel[3]==255
+				if (pixel[3] > 0) {
 					g2d.fillRect(x, y, 1, 1);
 				}
 			}

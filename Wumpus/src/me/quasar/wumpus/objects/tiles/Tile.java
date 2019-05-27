@@ -9,7 +9,7 @@ import me.quasar.wumpus.objects.items.Item;
 public abstract class Tile {
 	protected float x;
 	protected float y;
-	
+
 	protected BufferedImage texture = Assets.nullTile;
 	protected Item item = null;
 
@@ -23,11 +23,11 @@ public abstract class Tile {
 		this.hidden = hidden;
 		setItem(item);
 	}
-	
+
 	public void render (Graphics graphics) {
 		if (!hidden) {
 			graphics.drawImage(texture, (int) x, (int) y, null);
-			
+
 			if (hasItem) {
 				graphics.drawImage(item.getTexture( ), (int) x, (int) y, null);
 			}
@@ -45,7 +45,7 @@ public abstract class Tile {
 
 	public void setItem (Item item) {
 		this.item = item;
-		
+
 		if (this.item != null) {
 			hasItem = true;
 		} else {
@@ -53,26 +53,27 @@ public abstract class Tile {
 		}
 	}
 
-	public float getX () {
+	public float getX ( ) {
 		return x;
 	}
-	public float getY () {
+
+	public float getY ( ) {
 		return y;
 	}
-	
+
 	public Item getItem ( ) {
 		return item;
 	}
-	
-	public boolean hasItem () {
+
+	public boolean hasItem ( ) {
 		return hasItem;
 	}
-	
+
 	public void setHidden (boolean hidden) {
 		this.hidden = hidden;
 	}
-	
-	public boolean getHidden () {
+
+	public boolean getHidden ( ) {
 		return hidden;
 	}
 

@@ -18,9 +18,9 @@ public class Constants {
 	public static int MAP_SIZE = 4;
 	public static final int MAP_WIDTH = (MAP_SIZE + (MAP_BORDER * 2)) * IMAGE_WIDTH;
 	public static final int MAP_HEIGHT = (MAP_SIZE + (MAP_BORDER * 2)) * IMAGE_HEIGHT;
-	
+
 	public static final int INFOBOX_WIDTH = IMAGE_WIDTH * 5;
-	
+
 	public static final float ENTITY_SPEED = IMAGE_WIDTH / 15f;
 
 	public static final String GAME_TITLE = "Wumpus";

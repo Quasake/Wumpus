@@ -17,7 +17,7 @@ public class Window {
 
 		canvas = new Canvas( );
 		canvas.setFocusable(false);
-		
+
 		setSize(width, height);
 
 		frame.add(canvas);
@@ -31,11 +31,11 @@ public class Window {
 	public Canvas getCanvas ( ) {
 		return canvas;
 	}
-	
+
 	public void setSize (int width, int height) {
 		frame.setSize(width, height);
 		frame.setLocationRelativeTo(null);
-		
+
 		canvas.setPreferredSize(new Dimension(width, height));
 		canvas.setMaximumSize(new Dimension(width, height));
 		canvas.setMinimumSize(new Dimension(width, height));
