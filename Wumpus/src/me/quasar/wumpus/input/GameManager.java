@@ -46,7 +46,6 @@ public class GameManager {
 			attackRight.setDisabled(true);
 			attackDown.setDisabled(true);
 			attackLeft.setDisabled(true);
-			turns++;
 		} else {
 			moveUp.setDisabled(false);
 			moveRight.setDisabled(false);
@@ -69,12 +68,16 @@ public class GameManager {
 
 		if (moveUp.getClicked( )) {
 			handler.getPlayer( ).moveUp( );
+			turns++;
 		} else if (moveRight.getClicked( )) {
 			handler.getPlayer( ).moveRight( );
+			turns++;
 		} else if (moveDown.getClicked( )) {
 			handler.getPlayer( ).moveDown( );
+			turns++;
 		} else if (moveLeft.getClicked( )) {
 			handler.getPlayer( ).moveLeft( );
+			turns++;
 		}
 	}
 
@@ -89,6 +92,8 @@ public class GameManager {
 		attackRight.render(graphics);
 		attackDown.render(graphics);
 		attackLeft.render(graphics);
+		
+		Renderer.drawText("Turns : " + turns, (Constants.IMAGE_WIDTH / 2) * 3, Constants.GAME_HEIGHT - (Constants.IMAGE_HEIGHT / 2), Constants.GAME_TEXT_SIZE, Color.LIGHT_GRAY, graphics);
 	}
 
 }

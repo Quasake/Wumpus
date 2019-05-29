@@ -24,9 +24,6 @@ import me.quasar.wumpus.utils.Constants;
 import me.quasar.wumpus.utils.Handler;
 
 public class Game implements Runnable {
-	private int width;
-	private int height;
-
 	private Window window;
 	private Map map;
 	private Player player;
@@ -40,6 +37,11 @@ public class Game implements Runnable {
 	private Button playButton;
 	private Button exitButton;
 
+	private Button optionsButton;
+	private Button backButton;
+	private Button increaseSizeButton;
+	private Button decreaseSizeButton;
+
 	private Graphics graphics;
 	private BufferStrategy bufferStrategy;
 	private Thread thread;
@@ -51,13 +53,11 @@ public class Game implements Runnable {
 
 	private GameState currentState;
 
-	public Game (int width, int height) {
-		this.width = width;
-		this.height = height;
+	public Game ( ) {
 	}
 
-	private void init ( ) {
-		window = new Window(width, height, Constants.GAME_TITLE);
+	private void init (GameState state) {
+		window = new Window(Constants.GAME_WIDTH, Constants.GAME_HEIGHT, Constants.GAME_TITLE);
 		map = new Map(Constants.MAP_SIZE, Constants.MAP_SIZE);
 		handler = new Handler(this);
 
@@ -90,7 +90,12 @@ public class Game implements Runnable {
 		playButton = new Button(Constants.INFOBOX_CENTER, Constants.GAME_HEIGHT / 4, "Play", handler);
 		exitButton = new Button(Constants.INFOBOX_CENTER, (Constants.GAME_HEIGHT / 4) * 3, "Exit", handler);
 
-		currentState = GameState.TITLESCREEN;
+		optionsButton = new Button(Constants.INFOBOX_CENTER, Constants.GAME_HEIGHT / 2, "Options", handler);
+		backButton = new Button(Constants.INFOBOX_CENTER, (Constants.GAME_HEIGHT / 10) * 9, "Back", handler);
+		increaseSizeButton = new Button(Constants.INFOBOX_CENTER + (Constants.IMAGE_WIDTH / 2), Constants.GAME_HEIGHT / 4, 1, handler);
+		decreaseSizeButton = new Button(Constants.INFOBOX_CENTER - (Constants.IMAGE_WIDTH / 2), Constants.GAME_HEIGHT / 4, 3, handler);
+
+		currentState = state;
 	}
 
 	private void update ( ) {
@@ -100,6 +105,7 @@ public class Game implements Runnable {
 
 				playButton.update( );
 				exitButton.update( );
+				optionsButton.update( );
 
 				if (playButton.getClicked( )) {
 					currentState = GameState.GAME;
@@ -107,9 +113,26 @@ public class Game implements Runnable {
 				if (exitButton.getClicked( )) {
 					System.exit(0);
 				}
+				if (optionsButton.getClicked( )) {
+					currentState = GameState.OPTIONS;
+				}
 				break;
 			case OPTIONS :
+				backButton.update( );
 
+				increaseSizeButton.update( );
+				decreaseSizeButton.update( );
+
+				if (backButton.getClicked( )) {
+					currentState = GameState.TITLESCREEN;
+				}
+
+				if (increaseSizeButton.getClicked( )) {
+					setBoardSize(map.getWidth( ) + 1);
+				}
+				if (decreaseSizeButton.getClicked( )) {
+					setBoardSize(map.getWidth( ) - 1);
+				}
 				break;
 			case GAME :
 				gameManager.update( );
@@ -127,9 +150,9 @@ public class Game implements Runnable {
 		}
 		graphics = bufferStrategy.getDrawGraphics( );
 
-		graphics.clearRect(0, 0, width, height);
+		graphics.clearRect(0, 0, Constants.GAME_WIDTH, Constants.GAME_HEIGHT);
 		graphics.setFont(font);
-		graphics.setColor(Color.LIGHT_GRAY);
+		graphics.setColor(Color.GRAY);
 		graphics.fillRect(0, 0, Constants.GAME_WIDTH, Constants.GAME_HEIGHT);
 
 		map.render(graphics);
@@ -142,9 +165,16 @@ public class Game implements Runnable {
 
 				playButton.render(graphics);
 				exitButton.render(graphics);
+				optionsButton.render(graphics);
 				break;
 			case OPTIONS :
+				backButton.render(graphics);
 
+				increaseSizeButton.render(graphics);
+				decreaseSizeButton.render(graphics);
+
+				Renderer.drawText("Map size : " + Constants.MAP_SIZE + " x " + Constants.MAP_SIZE, Constants.MAP_WIDTH / 2, Constants.MAP_HEIGHT / 4, Constants.GAME_TEXT_SIZE,
+					Color.LIGHT_GRAY, graphics);
 				break;
 			case GAME :
 				gameManager.render(graphics);
@@ -182,7 +212,7 @@ public class Game implements Runnable {
 
 	@Override
 	public void run ( ) {
-		init( );
+		init(GameState.TITLESCREEN);
 
 		double timePerTick = 1000000000 / Constants.GAME_FPS;
 		double delta = 0;
@@ -203,6 +233,16 @@ public class Game implements Runnable {
 		}
 
 		stop( );
+	}
+
+	public void setBoardSize (int size) {
+		if (size <= Constants.MAP_MAX_SIZE && size >= Constants.MAP_MIN_SIZE) {
+			Constants.UPDATE(size);
+
+			window.getFrame( ).dispose( );
+
+			init(GameState.OPTIONS);
+		}
 	}
 
 	public Window getWindow ( ) {

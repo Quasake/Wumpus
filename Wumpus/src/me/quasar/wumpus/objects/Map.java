@@ -86,8 +86,9 @@ public class Map {
 				}
 			}
 		}
-
-		getRandomTile(false).setItem(new Torch( ));
+		for (int i = 0; i < width / Constants.MAP_MIN_SIZE; i++) {
+			getRandomTile(false).setItem(new Torch( ));
+		}
 		getRandomTile(false).setItem(new Compass( ));
 		if (Math.random( ) < 0.5) {
 			getRandomTile(false).setItem(new Sword( ));
