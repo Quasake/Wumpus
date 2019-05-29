@@ -6,64 +6,48 @@ import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.GraphicsEnvironment;
 import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import me.quasar.wumpus.graphics.Assets;
-import me.quasar.wumpus.graphics.Renderer;
 import me.quasar.wumpus.graphics.Window;
-import me.quasar.wumpus.graphics.resources.Animation;
-import me.quasar.wumpus.graphics.resources.SpriteSheet;
-import me.quasar.wumpus.input.GameManager;
 import me.quasar.wumpus.input.MouseManager;
-import me.quasar.wumpus.objects.Button;
 import me.quasar.wumpus.objects.Map;
-import me.quasar.wumpus.objects.entities.Player;
-import me.quasar.wumpus.objects.tiles.Tile;
+import me.quasar.wumpus.states.CreditsState;
+import me.quasar.wumpus.states.GameState;
+import me.quasar.wumpus.states.OptionState;
+import me.quasar.wumpus.states.State;
+import me.quasar.wumpus.states.TitlescreenState;
 import me.quasar.wumpus.utils.Constants;
 import me.quasar.wumpus.utils.Handler;
 
 public class Game implements Runnable {
 	private Window window;
-	private Map map;
-	private Player player;
 	private Handler handler;
 	private MouseManager mouseManager;
-	private GameManager gameManager;
 
 	private Font font;
-
-	private Animation playerTitleScreenAnimation;
-	private Button playButton;
-	private Button exitButton;
-
-	private Button optionsButton;
-	private Button backButton;
-	private Button increaseSizeButton;
-	private Button decreaseSizeButton;
 
 	private Graphics graphics;
 	private BufferStrategy bufferStrategy;
 	private Thread thread;
 	private boolean running;
-
-	private enum GameState {
-		TITLESCREEN, OPTIONS, GAME
-	}
-
-	private GameState currentState;
+	
+	public State gameState;
+	public State titlescreenState;
+	public State optionState;
+	public State creditsState;
 
 	public Game ( ) {
 	}
 
-	private void init (GameState state) {
+	private void init (int state) {
 		window = new Window(Constants.GAME_WIDTH, Constants.GAME_HEIGHT, Constants.GAME_TITLE);
-		map = new Map(Constants.MAP_SIZE, Constants.MAP_SIZE);
-		handler = new Handler(this);
 
 		mouseManager = new MouseManager( );
 		window.getCanvas( ).addMouseListener(mouseManager);
 		window.getCanvas( ).addMouseMotionListener(mouseManager);
+		
+		handler = new Handler(this);
 
 		try { // Load game font
 			font = Font.createFont(Font.TRUETYPE_FONT, getClass( ).getClassLoader( ).getResourceAsStream("fonts/pixelated.ttf")).deriveFont(Constants.GAME_TEXT_SIZE);
@@ -73,72 +57,33 @@ public class Game implements Runnable {
 			font = null;
 			e.printStackTrace( );
 		}
-
 		Assets.init( );
-		map.generateMap( );
+		
+		gameState = new GameState(handler);
+		titlescreenState = new TitlescreenState(handler);
+		optionState = new OptionState(handler);
+		creditsState = new CreditsState(handler);
 
-		Tile playerTile = map.getRandomTile(false);
-		player = new Player(playerTile.getX( ), playerTile.getY( ), map);
-
-		gameManager = new GameManager(handler);
-
-		if (Math.random( ) < 0.5) {
-			playerTitleScreenAnimation = Assets.playerIdleAnimation;
-		} else {
-			playerTitleScreenAnimation = Assets.playerIdleTorchAnimation;
+		switch(state) {
+			case 0:
+				State.setState(titlescreenState);
+				break;
+			case 1:
+				State.setState(optionState);
+				break;
+			case 2:
+				State.setState(creditsState);
+				break;
+			case 3:
+				State.setState(gameState);
+			default:
+				State.setState(titlescreenState);
 		}
-		playButton = new Button(Constants.INFOBOX_CENTER, Constants.GAME_HEIGHT / 4, "Play", handler);
-		exitButton = new Button(Constants.INFOBOX_CENTER, (Constants.GAME_HEIGHT / 4) * 3, "Exit", handler);
-
-		optionsButton = new Button(Constants.INFOBOX_CENTER, Constants.GAME_HEIGHT / 2, "Options", handler);
-		backButton = new Button(Constants.INFOBOX_CENTER, (Constants.GAME_HEIGHT / 10) * 9, "Back", handler);
-		increaseSizeButton = new Button(Constants.INFOBOX_CENTER + (Constants.IMAGE_WIDTH / 2), Constants.GAME_HEIGHT / 4, 1, handler);
-		decreaseSizeButton = new Button(Constants.INFOBOX_CENTER - (Constants.IMAGE_WIDTH / 2), Constants.GAME_HEIGHT / 4, 3, handler);
-
-		currentState = state;
 	}
 
 	private void update ( ) {
-		switch (currentState) {
-			case TITLESCREEN :
-				playerTitleScreenAnimation.update( );
-
-				playButton.update( );
-				exitButton.update( );
-				optionsButton.update( );
-
-				if (playButton.getClicked( )) {
-					currentState = GameState.GAME;
-				}
-				if (exitButton.getClicked( )) {
-					System.exit(0);
-				}
-				if (optionsButton.getClicked( )) {
-					currentState = GameState.OPTIONS;
-				}
-				break;
-			case OPTIONS :
-				backButton.update( );
-
-				increaseSizeButton.update( );
-				decreaseSizeButton.update( );
-
-				if (backButton.getClicked( )) {
-					currentState = GameState.TITLESCREEN;
-				}
-
-				if (increaseSizeButton.getClicked( )) {
-					setBoardSize(map.getWidth( ) + 1);
-				}
-				if (decreaseSizeButton.getClicked( )) {
-					setBoardSize(map.getWidth( ) - 1);
-				}
-				break;
-			case GAME :
-				gameManager.update( );
-
-				player.update( );
-				break;
+		if (State.getState( ) != null) {
+			State.getState( ).update( );
 		}
 	}
 
@@ -154,33 +99,9 @@ public class Game implements Runnable {
 		graphics.setFont(font);
 		graphics.setColor(Color.GRAY);
 		graphics.fillRect(0, 0, Constants.GAME_WIDTH, Constants.GAME_HEIGHT);
-
-		map.render(graphics);
-		switch (currentState) {
-			case TITLESCREEN :
-				graphics.drawImage(Assets.title, (Constants.MAP_WIDTH / 2) - (Assets.title.getWidth( ) / 2), (Constants.MAP_HEIGHT / 4) - (Assets.title.getHeight( ) / 2), null);
-				Renderer.drawText("Created by Frank Alfano", Constants.MAP_WIDTH / 2, Constants.MAP_HEIGHT / 2, Constants.GAME_TEXT_SIZE, Color.LIGHT_GRAY, graphics);
-				BufferedImage playerImage = SpriteSheet.resize(playerTitleScreenAnimation.getCurrentFrame( ), 3);
-				graphics.drawImage(playerImage, (Constants.MAP_WIDTH / 2) - (playerImage.getWidth( ) / 2), ((Constants.MAP_HEIGHT / 4) * 3) - (playerImage.getHeight( ) / 2), null);
-
-				playButton.render(graphics);
-				exitButton.render(graphics);
-				optionsButton.render(graphics);
-				break;
-			case OPTIONS :
-				backButton.render(graphics);
-
-				increaseSizeButton.render(graphics);
-				decreaseSizeButton.render(graphics);
-
-				Renderer.drawText("Map size : " + Constants.MAP_SIZE + " x " + Constants.MAP_SIZE, Constants.MAP_WIDTH / 2, Constants.MAP_HEIGHT / 4, Constants.GAME_TEXT_SIZE,
-					Color.LIGHT_GRAY, graphics);
-				break;
-			case GAME :
-				gameManager.render(graphics);
-
-				player.render(graphics);
-				break;
+		
+		if (State.getState( ) != null) {
+			State.getState( ).render(graphics);
 		}
 
 		bufferStrategy.show( );
@@ -212,7 +133,7 @@ public class Game implements Runnable {
 
 	@Override
 	public void run ( ) {
-		init(GameState.TITLESCREEN);
+		init(0);
 
 		double timePerTick = 1000000000 / Constants.GAME_FPS;
 		double delta = 0;
@@ -241,7 +162,7 @@ public class Game implements Runnable {
 
 			window.getFrame( ).dispose( );
 
-			init(GameState.OPTIONS);
+			init(1);
 		}
 	}
 
@@ -251,18 +172,6 @@ public class Game implements Runnable {
 
 	public MouseManager getMouseManager ( ) {
 		return mouseManager;
-	}
-
-	public Player getPlayer ( ) {
-		return player;
-	}
-
-	public Map getMap ( ) {
-		return map;
-	}
-
-	public GameManager getGameManager ( ) {
-		return gameManager;
 	}
 
 }

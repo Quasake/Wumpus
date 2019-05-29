@@ -3,7 +3,9 @@ package me.quasar.wumpus.utils;
 import me.quasar.wumpus.Game;
 import me.quasar.wumpus.graphics.Window;
 import me.quasar.wumpus.input.MouseManager;
+import me.quasar.wumpus.objects.Map;
 import me.quasar.wumpus.objects.entities.Player;
+import me.quasar.wumpus.objects.entities.Wumpus;
 
 public class Handler {
 	private Game game;
@@ -34,10 +36,6 @@ public class Handler {
 
 	public boolean getLeftPressed ( ) {
 		return game.getMouseManager( ).getLeftPressed( );
-	}
-
-	public Player getPlayer ( ) {
-		return game.getPlayer( );
 	}
 
 }

@@ -5,10 +5,14 @@ import java.awt.Graphics;
 
 import me.quasar.wumpus.graphics.Renderer;
 import me.quasar.wumpus.objects.Button;
+import me.quasar.wumpus.objects.entities.Player;
+import me.quasar.wumpus.objects.entities.Wumpus;
 import me.quasar.wumpus.utils.Constants;
 import me.quasar.wumpus.utils.Handler;
 
 public class GameManager {
+	private Player player;
+	private Wumpus wumpus;
 	private Handler handler;
 
 	private Button moveUp;
@@ -20,10 +24,11 @@ public class GameManager {
 	private Button attackDown;
 	private Button attackLeft;
 
-	private boolean playerMoving = false;
 	private int turns = 0;
 
-	public GameManager (Handler handler) {
+	public GameManager (Player player, Wumpus wumpus, Handler handler) {
+		this.player = player;
+		this.wumpus = wumpus;
 		this.handler = handler;
 
 		moveUp = new Button(Constants.INFOBOX_CENTER - ((Constants.IMAGE_WIDTH / 2) * 3), (Constants.GAME_HEIGHT / 3) * 2, 0, handler);
@@ -37,7 +42,7 @@ public class GameManager {
 	}
 
 	public void update ( ) {
-		if (handler.getPlayer( ).getMoving( )) {
+		if (player.getMoving( )) {
 			moveUp.setDisabled(true);
 			moveRight.setDisabled(true);
 			moveDown.setDisabled(true);
@@ -67,16 +72,20 @@ public class GameManager {
 		attackLeft.update( );
 
 		if (moveUp.getClicked( )) {
-			handler.getPlayer( ).moveUp( );
+			player.moveUp( );
+			wumpus.moveRandomly( );
 			turns++;
 		} else if (moveRight.getClicked( )) {
-			handler.getPlayer( ).moveRight( );
+			player.moveRight( );
+			wumpus.moveRandomly( );
 			turns++;
 		} else if (moveDown.getClicked( )) {
-			handler.getPlayer( ).moveDown( );
+			player.moveDown( );
+			wumpus.moveRandomly( );
 			turns++;
 		} else if (moveLeft.getClicked( )) {
-			handler.getPlayer( ).moveLeft( );
+			player.moveLeft( );
+			wumpus.moveRandomly( );
 			turns++;
 		}
 	}

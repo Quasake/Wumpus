@@ -38,7 +38,7 @@ public class Map {
 		}
 	}
 
-	public void generateMap ( ) {
+	public void generateMap (boolean background) {
 		for (int x = 0; x < tiles.length; x++) {
 			for (int y = 0; y < tiles[x].length; y++) {
 				if (x == tiles.length - 1) {
@@ -51,8 +51,8 @@ public class Map {
 					}
 					continue;
 				}
-
-				if ((x >= Constants.MAP_BORDER - 1 && x <= width + ((Constants.MAP_BORDER - 1) * 2))
+				
+				if ((x >= Constants.MAP_BORDER - 1 && x <= width + ((Constants.MAP_BORDER - 1) * 2) && !background)
 					&& (y >= Constants.MAP_BORDER - 1 && y <= height + ((Constants.MAP_BORDER - 1) * 2))) {
 					if ((x >= Constants.MAP_BORDER && x < width + Constants.MAP_BORDER) && (y >= Constants.MAP_BORDER && y < height + Constants.MAP_BORDER)) {
 						tiles[x][y] = new FloorTile(x * Constants.IMAGE_WIDTH, y * Constants.IMAGE_HEIGHT, true);
@@ -86,14 +86,17 @@ public class Map {
 				}
 			}
 		}
-		for (int i = 0; i < width / Constants.MAP_MIN_SIZE; i++) {
-			getRandomTile(false).setItem(new Torch( ));
-		}
-		getRandomTile(false).setItem(new Compass( ));
-		if (Math.random( ) < 0.5) {
-			getRandomTile(false).setItem(new Sword( ));
-		} else {
-			getRandomTile(false).setItem(new Bow( ));
+		
+		if (!background) {
+			for (int i = 0; i < width / Constants.MAP_MIN_SIZE; i++) {
+				getRandomTile(false).setItem(new Torch( ));
+			}
+			getRandomTile(false).setItem(new Compass( ));
+			if (Math.random( ) < 0.5) {
+				getRandomTile(false).setItem(new Sword( ));
+			} else {
+				getRandomTile(false).setItem(new Bow( ));
+			}
 		}
 	}
 

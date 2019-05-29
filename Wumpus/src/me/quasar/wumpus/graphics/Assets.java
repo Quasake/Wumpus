@@ -53,6 +53,12 @@ public class Assets {
 	public static Animation playerMoveDownTorchAnimation;
 	public static Animation playerMoveLeftTorchAnimation;
 
+	public static Animation wumpusIdleAnimation;
+	public static Animation wumpusMoveUpAnimation;
+	public static Animation wumpusMoveRightAnimation;
+	public static Animation wumpusMoveDownAnimation;
+	public static Animation wumpusMoveLeftAnimation;
+
 	public static void init ( ) {
 		SpriteSheet items = new SpriteSheet(ImageLoader.loadImage("/textures/wumpus_items.png"));
 		torch = items.getSprite(0, 0);
@@ -101,5 +107,12 @@ public class Assets {
 		buttonLeft = textures.getSprite(5, 3);
 
 		title = SpriteSheet.resize(ImageLoader.loadImage("/textures/wumpus_title.png"), Constants.SPRITE_SCALE * 2);
+
+		SpriteSheet wumpus = new SpriteSheet(ImageLoader.loadImage("/textures/wumpus_wumpus.png"));
+		wumpusIdleAnimation = new Animation(wumpus.getAnimation(0, 0));
+		wumpusMoveUpAnimation = new Animation(wumpus.getAnimation(0, 2));
+		wumpusMoveRightAnimation = new Animation(wumpus.getAnimation(0, 4));
+		wumpusMoveDownAnimation = new Animation(wumpus.getAnimation(0, 1));
+		wumpusMoveLeftAnimation = new Animation(wumpus.getAnimation(0, 3));
 	}
 }

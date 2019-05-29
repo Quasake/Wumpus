@@ -9,7 +9,6 @@ import me.quasar.wumpus.objects.items.Item;
 import me.quasar.wumpus.utils.Constants;
 
 public class Player extends Entity {
-	private Animation currentAnimation;
 	private Item[ ] inventory;
 
 	private int torchCount = 0;
@@ -50,11 +49,7 @@ public class Player extends Entity {
 			}
 		}
 	}
-
-	private void setAnimation (Animation animation) {
-		currentAnimation = animation;
-	}
-
+	
 	private void updateSurroundingTiles ( ) {
 		for (int i = -torchCount; i <= torchCount; i++) {
 			for (int j = -torchCount; j <= torchCount; j++) {
@@ -99,8 +94,9 @@ public class Player extends Entity {
 			}
 		}
 	}
-
-	private void updateAnimations ( ) {
+	
+	@Override
+	protected void updateAnimations ( ) {
 		if (moveCountX > 0) {
 			if (hasTorch( )) {
 				setAnimation(Assets.playerMoveRightTorchAnimation);

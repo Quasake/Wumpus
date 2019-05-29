@@ -2,6 +2,7 @@ package me.quasar.wumpus.objects.entities;
 
 import java.awt.Graphics;
 
+import me.quasar.wumpus.graphics.resources.Animation;
 import me.quasar.wumpus.objects.Map;
 import me.quasar.wumpus.utils.Constants;
 
@@ -17,6 +18,8 @@ public abstract class Entity {
 	protected int moveCountX = 0;
 	protected int moveCountY = 0;
 	protected boolean moving = false;
+
+	protected Animation currentAnimation;
 
 	protected Map map;
 
@@ -70,6 +73,12 @@ public abstract class Entity {
 			}
 		}
 	}
+
+	protected void setAnimation (Animation animation) {
+		currentAnimation = animation;
+	}
+
+	protected abstract void updateAnimations ( );
 
 	public void moveUp ( ) {
 		if (moveToTileY > 0) {
