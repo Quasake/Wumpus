@@ -11,7 +11,7 @@ import me.quasar.wumpus.utils.Handler;
 
 public class OptionState extends State {
 	private Map map;
-	
+
 	private Button backButton;
 	private Button increaseSizeButton;
 	private Button decreaseSizeButton;
@@ -28,7 +28,8 @@ public class OptionState extends State {
 		decreaseSizeButton.update( );
 
 		if (backButton.getClicked( )) {
-			State.setState(handler.getGame( ).titlescreenState);
+			goToState = handler.getGame( ).titlescreenState;
+			panel.fadeOut( );
 		}
 
 		if (increaseSizeButton.getClicked( )) {
@@ -37,12 +38,14 @@ public class OptionState extends State {
 		if (decreaseSizeButton.getClicked( )) {
 			handler.getGame( ).setBoardSize(Constants.MAP_SIZE - 1);
 		}
+
+		updatePanel( );
 	}
 
 	@Override
 	public void render (Graphics graphics) {
 		map.render(graphics);
-		
+
 		backButton.render(graphics);
 
 		increaseSizeButton.render(graphics);
@@ -50,13 +53,15 @@ public class OptionState extends State {
 
 		Renderer.drawText("Map size : " + Constants.MAP_SIZE + " x " + Constants.MAP_SIZE, Constants.MAP_WIDTH / 2, Constants.MAP_HEIGHT / 4, Constants.GAME_TEXT_SIZE,
 			Color.LIGHT_GRAY, graphics);
+
+		panel.render(graphics);
 	}
 
 	@Override
 	public void init ( ) {
 		map = new Map(Constants.MAP_SIZE, Constants.MAP_SIZE);
 		map.generateMap(true);
-		
+
 		backButton = new Button(Constants.INFOBOX_CENTER, (Constants.GAME_HEIGHT / 10) * 9, "Back", handler);
 		increaseSizeButton = new Button(Constants.INFOBOX_CENTER + (Constants.IMAGE_WIDTH / 2), Constants.GAME_HEIGHT / 4, 1, handler);
 		decreaseSizeButton = new Button(Constants.INFOBOX_CENTER - (Constants.IMAGE_WIDTH / 2), Constants.GAME_HEIGHT / 4, 3, handler);

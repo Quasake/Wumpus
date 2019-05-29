@@ -28,6 +28,7 @@ public class Constants {
 	public static int GAME_HEIGHT = IMAGE_HEIGHT * (MAP_SIZE + (MAP_BORDER * 2));
 	public static final int GAME_FPS = 60;
 	public static final float GAME_TEXT_SIZE = 16f;
+	public static final float GAME_FADESPEED = 0.04f;
 
 	public static float INFOBOX_CENTER = GAME_WIDTH - ((GAME_WIDTH - (MAP_WIDTH + IMAGE_WIDTH)) / 2.0f);
 

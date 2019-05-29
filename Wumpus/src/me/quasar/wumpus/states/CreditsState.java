@@ -12,12 +12,12 @@ public class CreditsState extends State {
 
 	@Override
 	public void update ( ) {
-
+		updatePanel( );
 	}
 
 	@Override
 	public void render (Graphics graphics) {
-
+		panel.render(graphics);
 	}
 
 	@Override

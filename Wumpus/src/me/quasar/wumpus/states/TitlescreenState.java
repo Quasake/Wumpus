@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 
 import me.quasar.wumpus.graphics.Assets;
 import me.quasar.wumpus.graphics.Renderer;
+import me.quasar.wumpus.graphics.TransitionPanel;
 import me.quasar.wumpus.graphics.resources.Animation;
 import me.quasar.wumpus.graphics.resources.SpriteSheet;
 import me.quasar.wumpus.objects.Button;
@@ -15,7 +16,7 @@ import me.quasar.wumpus.utils.Handler;
 
 public class TitlescreenState extends State {
 	private Map map;
-	
+
 	private Animation titleScreenAnimation;
 
 	private Button playButton;
@@ -29,6 +30,7 @@ public class TitlescreenState extends State {
 
 	@Override
 	public void update ( ) {
+
 		titleScreenAnimation.update( );
 
 		playButton.update( );
@@ -37,23 +39,28 @@ public class TitlescreenState extends State {
 		exitButton.update( );
 
 		if (playButton.getClicked( )) {
-			State.setState(handler.getGame( ).gameState);
+			goToState = handler.getGame( ).gameState;
+			panel.fadeOut( );
 		}
 		if (optionsButton.getClicked( )) {
-			State.setState(handler.getGame( ).optionState);;
+			goToState = handler.getGame( ).optionState;
+			panel.fadeOut( );
 		}
 		if (creditsButton.getClicked( )) {
-			State.setState(handler.getGame( ).creditsState);
+			goToState = handler.getGame( ).creditsState;
+			panel.fadeOut( );
 		}
 		if (exitButton.getClicked( )) {
-			System.exit(0);
+			System.exit(1);
 		}
+
+		updatePanel( );
 	}
 
 	@Override
 	public void render (Graphics graphics) {
 		map.render(graphics);
-		
+
 		graphics.drawImage(Assets.title, (Constants.MAP_WIDTH / 2) - (Assets.title.getWidth( ) / 2), (Constants.MAP_HEIGHT / 4) - (Assets.title.getHeight( ) / 2), null);
 		Renderer.drawText("Created by Frank Alfano", Constants.MAP_WIDTH / 2, Constants.MAP_HEIGHT / 2, Constants.GAME_TEXT_SIZE, Color.LIGHT_GRAY, graphics);
 		BufferedImage playerImage = SpriteSheet.resize(titleScreenAnimation.getCurrentFrame( ), 3);
@@ -63,24 +70,24 @@ public class TitlescreenState extends State {
 		exitButton.render(graphics);
 		optionsButton.render(graphics);
 		creditsButton.render(graphics);
-		
-		
+
+		panel.render(graphics);
 	}
 
 	@Override
 	public void init ( ) {
 		map = new Map(Constants.MAP_SIZE, Constants.MAP_SIZE);
 		map.generateMap(true);
-		
+
 		float randValue = (float) Math.random( );
 		if (randValue < 0.333) {
 			titleScreenAnimation = Assets.playerIdleAnimation;
-		} else if (randValue >= 0.333 && randValue < 0.666){
+		} else if (randValue >= 0.333 && randValue < 0.666) {
 			titleScreenAnimation = Assets.playerIdleTorchAnimation;
 		} else {
 			titleScreenAnimation = Assets.wumpusIdleAnimation;
 		}
-		
+
 		playButton = new Button(Constants.INFOBOX_CENTER, Constants.GAME_HEIGHT / 4, "Play", handler);
 		creditsButton = new Button(Constants.INFOBOX_CENTER, (Constants.GAME_HEIGHT / 4) + (Constants.GAME_HEIGHT / 6), "Credits", handler);
 		optionsButton = new Button(Constants.INFOBOX_CENTER, ((Constants.GAME_HEIGHT / 4) * 3) - (Constants.GAME_HEIGHT / 6), "Options", handler);

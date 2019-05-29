@@ -13,7 +13,7 @@ import me.quasar.wumpus.utils.Handler;
 public class GameState extends State {
 	private Map map;
 	private GameManager gameManager;
-	
+
 	private Player player;
 	private Wumpus wumpus;
 
@@ -27,23 +27,27 @@ public class GameState extends State {
 
 		player.update( );
 		wumpus.update( );
+
+		updatePanel( );
 	}
 
 	@Override
 	public void render (Graphics graphics) {
 		map.render(graphics);
-		
+
 		gameManager.render(graphics);
 
 		player.render(graphics);
 		wumpus.render(graphics);
+		
+		panel.render(graphics);
 	}
 
 	@Override
 	public void init ( ) {
 		map = new Map(Constants.MAP_SIZE, Constants.MAP_SIZE);
 		map.generateMap(false);
-		
+
 		Tile playerTile = map.getRandomTile(false);
 		player = new Player(playerTile.getX( ), playerTile.getY( ), map);
 		Tile wumpusTile;
@@ -51,7 +55,7 @@ public class GameState extends State {
 			wumpusTile = map.getRandomTile(true);
 		} while (wumpusTile.getX( ) != playerTile.getX( ) && wumpusTile.getY( ) != playerTile.getY( ));
 		wumpus = new Wumpus(wumpusTile.getX( ), wumpusTile.getY( ), map);
-		
+
 		gameManager = new GameManager(player, wumpus, handler);
 	}
 

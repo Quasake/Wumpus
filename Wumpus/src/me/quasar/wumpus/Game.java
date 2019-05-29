@@ -9,9 +9,9 @@ import java.awt.image.BufferStrategy;
 import java.io.IOException;
 
 import me.quasar.wumpus.graphics.Assets;
+import me.quasar.wumpus.graphics.TransitionPanel;
 import me.quasar.wumpus.graphics.Window;
 import me.quasar.wumpus.input.MouseManager;
-import me.quasar.wumpus.objects.Map;
 import me.quasar.wumpus.states.CreditsState;
 import me.quasar.wumpus.states.GameState;
 import me.quasar.wumpus.states.OptionState;
@@ -31,7 +31,7 @@ public class Game implements Runnable {
 	private BufferStrategy bufferStrategy;
 	private Thread thread;
 	private boolean running;
-	
+
 	public State gameState;
 	public State titlescreenState;
 	public State optionState;
@@ -40,13 +40,13 @@ public class Game implements Runnable {
 	public Game ( ) {
 	}
 
-	private void init (int state) {
+	private void init (int state, boolean fadeToState) {
 		window = new Window(Constants.GAME_WIDTH, Constants.GAME_HEIGHT, Constants.GAME_TITLE);
 
 		mouseManager = new MouseManager( );
 		window.getCanvas( ).addMouseListener(mouseManager);
 		window.getCanvas( ).addMouseMotionListener(mouseManager);
-		
+
 		handler = new Handler(this);
 
 		try { // Load game font
@@ -58,26 +58,22 @@ public class Game implements Runnable {
 			e.printStackTrace( );
 		}
 		Assets.init( );
-		
+
 		gameState = new GameState(handler);
 		titlescreenState = new TitlescreenState(handler);
 		optionState = new OptionState(handler);
 		creditsState = new CreditsState(handler);
 
-		switch(state) {
-			case 0:
-				State.setState(titlescreenState);
+		switch (state) {
+			case 0 :
+				State.setState(titlescreenState, fadeToState);
 				break;
-			case 1:
-				State.setState(optionState);
+			case 1 :
+				State.setState(optionState, fadeToState);
 				break;
-			case 2:
-				State.setState(creditsState);
+			default :
+				State.setState(titlescreenState, false);
 				break;
-			case 3:
-				State.setState(gameState);
-			default:
-				State.setState(titlescreenState);
 		}
 	}
 
@@ -99,7 +95,7 @@ public class Game implements Runnable {
 		graphics.setFont(font);
 		graphics.setColor(Color.GRAY);
 		graphics.fillRect(0, 0, Constants.GAME_WIDTH, Constants.GAME_HEIGHT);
-		
+
 		if (State.getState( ) != null) {
 			State.getState( ).render(graphics);
 		}
@@ -133,7 +129,7 @@ public class Game implements Runnable {
 
 	@Override
 	public void run ( ) {
-		init(0);
+		init(0, true);
 
 		double timePerTick = 1000000000 / Constants.GAME_FPS;
 		double delta = 0;
@@ -162,7 +158,7 @@ public class Game implements Runnable {
 
 			window.getFrame( ).dispose( );
 
-			init(1);
+			init(1, false);
 		}
 	}
 
