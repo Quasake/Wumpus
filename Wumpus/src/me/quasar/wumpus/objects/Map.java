@@ -126,12 +126,14 @@ public class Map {
 			tile = getBoardTile(Constants.RANDOM.nextInt(width), Constants.RANDOM.nextInt(height));
 			if (!canHaveItem) {
 				if (!tile.hasItem( )) {
-					return tile;
+					break;
 				}
 			} else {
-				return tile;
+				break;
 			}
 		}
+		
+		return tile;
 	}
 
 	public Tile[ ][ ] getTiles ( ) {

@@ -46,6 +46,7 @@ public abstract class State {
 		if (goToState != null) {
 			if (panel.getAlpha( ) == 1) {
 				State.setState(goToState, true);
+				goToState.init( );
 				goToState = null;
 			}
 		}

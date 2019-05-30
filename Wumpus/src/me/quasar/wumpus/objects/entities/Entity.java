@@ -80,36 +80,48 @@ public abstract class Entity {
 
 	protected abstract void updateAnimations ( );
 
-	public void moveUp ( ) {
+	public boolean moveUp ( ) {
 		if (moveToTileY > 0) {
 			moveToTileY--;
 			moving = true;
+			return true;
 		}
+		return false;
 	}
 
-	public void moveRight ( ) {
+	public boolean moveRight ( ) {
 		if (moveToTileX < map.getWidth( ) - 1) {
 			moveToTileX++;
 			moving = true;
+			return true;
 		}
+		return false;
 	}
 
-	public void moveDown ( ) {
+	public boolean moveDown ( ) {
 		if (moveToTileY < map.getHeight( ) - 1) {
 			moveToTileY++;
 			moving = true;
+			return true;
 		}
+		return false;
 	}
 
-	public void moveLeft ( ) {
+	public boolean moveLeft ( ) {
 		if (moveToTileX > 0) {
 			moveToTileX--;
 			moving = true;
+			return true;
 		}
+		return false;
 	}
 
 	public boolean getMoving ( ) {
 		return moving;
+	}
+
+	public Map getMap ( ) {
+		return map;
 	}
 
 	public int getTileX ( ) {
@@ -118,6 +130,14 @@ public abstract class Entity {
 
 	public int getTileY ( ) {
 		return tileY;
+	}
+
+	public int getMoveToTileX ( ) {
+		return moveToTileX;
+	}
+
+	public int getMoveToTileY ( ) {
+		return moveToTileY;
 	}
 
 	public float getX ( ) {

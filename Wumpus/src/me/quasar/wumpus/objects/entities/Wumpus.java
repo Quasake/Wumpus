@@ -7,6 +7,7 @@ import me.quasar.wumpus.objects.Map;
 import me.quasar.wumpus.utils.Constants;
 
 public class Wumpus extends Entity {
+	private boolean hidden;
 
 	public Wumpus (float x, float y, Map map) {
 		super(x, y, map);
@@ -17,36 +18,42 @@ public class Wumpus extends Entity {
 	@Override
 	public void update ( ) {
 		currentAnimation.update( );
-		
+
+		hidden = map.getBoardTile(moveToTileX, moveToTileY).getHidden( ) && map.getBoardTile(tileX, tileY).getHidden( );
+
 		move( );
 
-		if (!map.getBoardTile(tileX, tileY).getHidden( )) {
+		if (!hidden) {
 			updateAnimations( );
 		}
 	}
 
 	@Override
 	public void render (Graphics graphics) {
-		if (!map.getBoardTile(tileX, tileY).getHidden( )) {
+		if (!hidden) {
 			graphics.drawImage(currentAnimation.getCurrentFrame( ), (int) x, (int) y, null);
 		}
 	}
 
 	public void moveRandomly ( ) {
-		int randomDirection = Constants.RANDOM.nextInt(4);
-		switch (randomDirection) {
-			case 0 :
-				moveUp();
-				break;
-			case 1 :
-				moveRight();
-				break;
-			case 2 :
-				moveDown();
-				break;
-			case 3 :
-				moveLeft();
-				break;
+		boolean moved = false;
+
+		while (!moved) {
+			int randomDirection = Constants.RANDOM.nextInt(4);
+			switch (randomDirection) {
+				case 0 :
+					moved = moveUp( );
+					break;
+				case 1 :
+					moved = moveRight( );
+					break;
+				case 2 :
+					moved = moveDown( );
+					break;
+				case 3 :
+					moved = moveLeft( );
+					break;
+			}
 		}
 	}
 
@@ -63,6 +70,10 @@ public class Wumpus extends Entity {
 		} else if (moveCountX == 0 && moveCountY == 0) {
 			setAnimation(Assets.wumpusIdleAnimation);
 		}
+	}
+
+	public boolean isHidden ( ) {
+		return map.getBoardTile(moveToTileX, moveToTileY).getHidden( );
 	}
 
 }

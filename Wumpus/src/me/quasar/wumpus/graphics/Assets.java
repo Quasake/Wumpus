@@ -40,6 +40,8 @@ public class Assets {
 	public static BufferedImage buttonLeft;
 
 	public static BufferedImage title;
+	public static BufferedImage gameover;
+	public static BufferedImage win;
 
 	public static Animation playerIdleAnimation;
 	public static Animation playerMoveUpAnimation;
@@ -107,6 +109,8 @@ public class Assets {
 		buttonLeft = textures.getSprite(5, 3);
 
 		title = SpriteSheet.resize(ImageLoader.loadImage("/textures/wumpus_title.png"), Constants.SPRITE_SCALE * 2);
+		gameover = SpriteSheet.resize(ImageLoader.loadImage("/textures/wumpus_gameover.png"), Constants.SPRITE_SCALE * 2);
+		win = SpriteSheet.resize(ImageLoader.loadImage("/textures/wumpus_win.png"), Constants.SPRITE_SCALE * 2);
 
 		SpriteSheet wumpus = new SpriteSheet(ImageLoader.loadImage("/textures/wumpus_wumpus.png"));
 		wumpusIdleAnimation = new Animation(wumpus.getAnimation(0, 0));
