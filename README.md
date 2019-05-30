@@ -52,7 +52,7 @@
     - Bow
     - Sword
   - Player footsteps [?]
-- Blur tiles that are not covered by the player's torch
+- Blur tiles that are not covered by the player's torch **✓**
 - Map hazards
   - Hole
   - Other hazards [?]
@@ -61,6 +61,7 @@
 - Easter Eggs [?]
 - Highscore system [?]
 - Currency (+ game shop) [?]
+- Game stats
 
 ## Credits :
 > **Creator** : Frank Alfano  
