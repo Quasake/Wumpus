@@ -47,37 +47,37 @@ public class Player extends Entity {
 		for (int i = -torchCount; i <= torchCount; i++) {
 			for (int j = -torchCount; j <= torchCount; j++) {
 				try {
-					map.getTile(tileX + i, tileY + j).setHidden(false);
+					map.getGameTile(tileX + i, tileY + j).setHidden(false);
 
 					if (tileX + i == 0) {
 						if (tileY + j == 0) {
-							map.getTile(tileX + i - 1, tileY + j).setHidden(false);
-							map.getTile(tileX + i - 1, tileY + j - 1).setHidden(false);
-							map.getTile(tileX + i, tileY + j - 1).setHidden(false);
+							map.getGameTile(tileX + i - 1, tileY + j).setHidden(false);
+							map.getGameTile(tileX + i - 1, tileY + j - 1).setHidden(false);
+							map.getGameTile(tileX + i, tileY + j - 1).setHidden(false);
 						} else if (tileY + j == map.getHeight( ) - 1) {
-							map.getTile(tileX + i - 1, tileY + j).setHidden(false);
-							map.getTile(tileX + i - 1, tileY + j + 1).setHidden(false);
-							map.getTile(tileX + i, tileY + j + 1).setHidden(false);
+							map.getGameTile(tileX + i - 1, tileY + j).setHidden(false);
+							map.getGameTile(tileX + i - 1, tileY + j + 1).setHidden(false);
+							map.getGameTile(tileX + i, tileY + j + 1).setHidden(false);
 						} else {
-							map.getTile(tileX + i - 1, tileY + j).setHidden(false);
+							map.getGameTile(tileX + i - 1, tileY + j).setHidden(false);
 						}
 					} else if (tileX + i == map.getWidth( ) - 1) {
 						if (tileY + j == 0) {
-							map.getTile(tileX + i, tileY + j - 1).setHidden(false);
-							map.getTile(tileX + i + 1, tileY + j - 1).setHidden(false);
-							map.getTile(tileX + i + 1, tileY + j).setHidden(false);
+							map.getGameTile(tileX + i, tileY + j - 1).setHidden(false);
+							map.getGameTile(tileX + i + 1, tileY + j - 1).setHidden(false);
+							map.getGameTile(tileX + i + 1, tileY + j).setHidden(false);
 						} else if (tileY + j == map.getHeight( ) - 1) {
-							map.getTile(tileX + i + 1, tileY + j).setHidden(false);
-							map.getTile(tileX + i + 1, tileY + j + 1).setHidden(false);
-							map.getTile(tileX + i, tileY + j + 1).setHidden(false);
+							map.getGameTile(tileX + i + 1, tileY + j).setHidden(false);
+							map.getGameTile(tileX + i + 1, tileY + j + 1).setHidden(false);
+							map.getGameTile(tileX + i, tileY + j + 1).setHidden(false);
 						} else {
-							map.getTile(tileX + i + 1, tileY + j).setHidden(false);
+							map.getGameTile(tileX + i + 1, tileY + j).setHidden(false);
 						}
 					} else {
 						if (tileY + j == 0) {
-							map.getTile(tileX + i, tileY + j - 1).setHidden(false);
+							map.getGameTile(tileX + i, tileY + j - 1).setHidden(false);
 						} else if (tileY + j == map.getHeight( ) - 1) {
-							map.getTile(tileX + i, tileY + j + 1).setHidden(false);
+							map.getGameTile(tileX + i, tileY + j + 1).setHidden(false);
 						}
 					}
 				} catch (Exception e) {

@@ -26,6 +26,7 @@ public class Assets {
 	public static BufferedImage hiddenTile;
 	public static BufferedImage nullTile;
 	public static BufferedImage inventorySlot;
+	public static BufferedImage coveredTile;
 
 	public static BufferedImage poleTop;
 	public static BufferedImage poleMiddle;
@@ -95,6 +96,7 @@ public class Assets {
 		hiddenTile = textures.getSprite(5, 0);
 		nullTile = textures.getSprite(4, 1);
 		inventorySlot = textures.getSprite(5, 1);
+		coveredTile = textures.getSprite(3, 3);
 
 		poleTop = textures.getSprite(3, 0);
 		poleMiddle = textures.getSprite(3, 1);
@@ -108,9 +110,9 @@ public class Assets {
 		buttonDown = textures.getSprite(5, 2);
 		buttonLeft = textures.getSprite(5, 3);
 
-		title = SpriteSheet.resize(ImageLoader.loadImage("/textures/wumpus_title.png"), Constants.SPRITE_SCALE * 2);
-		gameover = SpriteSheet.resize(ImageLoader.loadImage("/textures/wumpus_gameover.png"), Constants.SPRITE_SCALE * 2);
-		win = SpriteSheet.resize(ImageLoader.loadImage("/textures/wumpus_win.png"), Constants.SPRITE_SCALE * 2);
+		title = SpriteSheet.resize(ImageLoader.loadImage("/textures/wumpus_title.png"), Constants.SPRITE_SCALE * 1.5f);
+		gameover = SpriteSheet.resize(ImageLoader.loadImage("/textures/wumpus_gameover.png"), Constants.SPRITE_SCALE * 1.5f);
+		win = SpriteSheet.resize(ImageLoader.loadImage("/textures/wumpus_win.png"), Constants.SPRITE_SCALE * 1.5f);
 
 		SpriteSheet wumpus = new SpriteSheet(ImageLoader.loadImage("/textures/wumpus_wumpus.png"));
 		wumpusIdleAnimation = new Animation(wumpus.getAnimation(0, 0));

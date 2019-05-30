@@ -2,7 +2,6 @@ package me.quasar.wumpus.input;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import me.quasar.wumpus.graphics.Assets;
@@ -123,8 +122,6 @@ public class GameManager {
 				}
 				turns++;
 			}
-		} else {
-
 		}
 	}
 

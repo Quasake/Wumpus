@@ -39,7 +39,7 @@ public class Wumpus extends Entity {
 		boolean moved = false;
 
 		while (!moved) {
-			int randomDirection = Constants.RANDOM.nextInt(4);
+			int randomDirection = Constants.RANDOM.nextInt(5);
 			switch (randomDirection) {
 				case 0 :
 					moved = moveUp( );
@@ -52,6 +52,9 @@ public class Wumpus extends Entity {
 					break;
 				case 3 :
 					moved = moveLeft( );
+					break;
+				case 4 :
+					moved = true;
 					break;
 			}
 		}

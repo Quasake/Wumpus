@@ -111,7 +111,7 @@ public class Map {
 		return tiles[x + Constants.MAP_BORDER][y + Constants.MAP_BORDER];
 	}
 
-	public Tile getTile (int x, int y) {
+	public Tile getGameTile (int x, int y) {
 		try {
 			return tiles[x + Constants.MAP_BORDER][y + Constants.MAP_BORDER];
 		} catch (ArrayIndexOutOfBoundsException e) {

@@ -65,9 +65,20 @@ public class GameState extends State {
 		player.render(graphics);
 		wumpus.render(graphics);
 
+		for (int i = -1; i < map.getWidth( ) + 2; i++) {
+			for (int j = -1; j < map.getHeight( ) + 2; j++) {
+				if (!map.getGameTile(j, i).getHidden( )) {
+					if ((Math.abs(j - player.getTileX( )) > player.getTorchNumber( ) || Math.abs(i - player.getTileY( )) > player.getTorchNumber( ))
+						&& (Math.abs(j - player.getMoveToTileX( )) > player.getTorchNumber( ) || Math.abs(i - player.getMoveToTileY( )) > player.getTorchNumber( ))) {
+						graphics.drawImage(Assets.coveredTile, (int) map.getGameTile(j, i).getX( ), (int) map.getGameTile(j, i).getY( ), null);
+					}
+				}
+			}
+		}
+
 		if (gameEnded) {
 			BufferedImage result = (gameManager.getWin( )) ? Assets.win : Assets.gameover;
-			graphics.drawImage(result, (Constants.MAP_WIDTH / 2) - (result.getWidth( ) / 2), (Constants.MAP_HEIGHT / 4) - (result.getHeight( ) / 2), null);
+			graphics.drawImage(result, (Constants.MAP_WIDTH / 2) - (result.getWidth( ) / 2), (Constants.MAP_HEIGHT / 2) - (result.getHeight( ) / 2), null);
 
 			retryButton.render(graphics);
 			exitButton.render(graphics);
@@ -83,8 +94,8 @@ public class GameState extends State {
 
 		gameEnded = false;
 
-		retryButton = new Button(Constants.MAP_WIDTH / 2, (Constants.GAME_HEIGHT / 4) + (Constants.GAME_HEIGHT / 6), "Retry", handler);
-		exitButton = new Button(Constants.MAP_WIDTH / 2, (Constants.GAME_HEIGHT / 4) + ((Constants.GAME_HEIGHT / 6) * 2), "Exit", handler);
+		retryButton = new Button(Constants.INFOBOX_CENTER, (Constants.GAME_HEIGHT / 2) - (Constants.GAME_HEIGHT / 6), "Retry", handler);
+		exitButton = new Button(Constants.INFOBOX_CENTER, (Constants.GAME_HEIGHT / 2) + (Constants.GAME_HEIGHT / 6), "Exit", handler);
 
 		Tile playerTile = map.getRandomTile(false);
 		player = new Player(playerTile.getX( ), playerTile.getY( ), map);
