@@ -13,7 +13,7 @@
   - Title **✓**
   - Tiles **✓**
   - Game over **✓**
-  - Win
+  - Win **✓**
   - Player death [?]
   - Wumpus death [?]
   - Player attack [?]
@@ -36,7 +36,7 @@
   - Change music volume
 - Player movement **✓**
 - Wumpus movement **✓**
-- Player-wumpus collision
+- Player-wumpus collision **✓**
 - Player attack
   - Bow
   - Sword
