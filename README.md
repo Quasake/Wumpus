@@ -42,7 +42,7 @@
   - Sword
 - Compass functionality
 - Music
-  - Titlescreen
+  - Titlescreen **✓**
   - Death
   - In-game
 - Sound Effects
@@ -55,6 +55,7 @@
 - Blur tiles that are not covered by the player's torch **✓**
 - Map hazards
   - Hole
+  - Bat [?]
   - Other hazards [?]
 - Pause menu [?]
 - More items [?]
