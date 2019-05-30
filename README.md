@@ -11,6 +11,9 @@
   - Game over
   - Player death [?]
   - Wumpus death [?]
+  - Player attack [?]
+    - Bow [?]
+    - Sword [?]
 - Make game states **✓**
 - Game state transitions **✓**
 - Inventory **✓**
