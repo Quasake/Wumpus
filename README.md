@@ -8,7 +8,8 @@
   - Wumpus **✓**
   - Title **✓**
   - Tiles **✓**
-  - Game over
+  - Game over **✓**
+  - Win
   - Player death [?]
   - Wumpus death [?]
   - Player attack [?]
