@@ -26,6 +26,7 @@
 - Make game states **✓**
 - Game state transitions **✓**
 - Inventory **✓**
+- Death / Win messages (what the player did to win or lose)
 - Titlescreen **✓**
   - Play button **✓**
   - Options button **✓**
