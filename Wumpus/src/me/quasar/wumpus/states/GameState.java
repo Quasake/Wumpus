@@ -9,6 +9,7 @@ import me.quasar.wumpus.objects.Button;
 import me.quasar.wumpus.objects.Map;
 import me.quasar.wumpus.objects.entities.Player;
 import me.quasar.wumpus.objects.entities.Wumpus;
+import me.quasar.wumpus.objects.tiles.FloorTile;
 import me.quasar.wumpus.objects.tiles.Tile;
 import me.quasar.wumpus.utils.Constants;
 import me.quasar.wumpus.utils.Handler;
@@ -65,8 +66,8 @@ public class GameState extends State {
 		player.render(graphics);
 		wumpus.render(graphics);
 
-		for (int i = -1; i < map.getWidth( ) + 2; i++) {
-			for (int j = -1; j < map.getHeight( ) + 2; j++) {
+		for (int i = -1; i < map.getWidth( ) + 1; i++) {
+			for (int j = -1; j < map.getHeight( ) + 1; j++) {
 				if (!map.getGameTile(j, i).getHidden( )) {
 					if ((Math.abs(j - player.getTileX( )) > player.getTorchNumber( ) || Math.abs(i - player.getTileY( )) > player.getTorchNumber( ))
 						&& (Math.abs(j - player.getMoveToTileX( )) > player.getTorchNumber( ) || Math.abs(i - player.getMoveToTileY( )) > player.getTorchNumber( ))) {
@@ -97,12 +98,16 @@ public class GameState extends State {
 		retryButton = new Button(Constants.INFOBOX_CENTER, (Constants.GAME_HEIGHT / 2) - (Constants.GAME_HEIGHT / 6), "Retry", handler);
 		exitButton = new Button(Constants.INFOBOX_CENTER, (Constants.GAME_HEIGHT / 2) + (Constants.GAME_HEIGHT / 6), "Exit", handler);
 
-		Tile playerTile = map.getRandomTile(false);
+		Tile playerTile;
+		do {
+			playerTile = map.getRandomTile(false);
+		} while (((FloorTile) playerTile).isHole( ));
 		player = new Player(playerTile.getX( ), playerTile.getY( ), map);
+
 		Tile wumpusTile;
 		do {
 			wumpusTile = map.getRandomTile(true);
-		} while (wumpusTile == playerTile);
+		} while (wumpusTile == playerTile || ((FloorTile) wumpusTile).isHole( ));
 		wumpus = new Wumpus(wumpusTile.getX( ), wumpusTile.getY( ), map);
 
 		gameManager = new GameManager(player, wumpus, handler);

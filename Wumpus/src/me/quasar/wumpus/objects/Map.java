@@ -51,11 +51,11 @@ public class Map {
 					}
 					continue;
 				}
-				
+
 				if ((x >= Constants.MAP_BORDER - 1 && x <= width + ((Constants.MAP_BORDER - 1) * 2) && !background)
 					&& (y >= Constants.MAP_BORDER - 1 && y <= height + ((Constants.MAP_BORDER - 1) * 2))) {
 					if ((x >= Constants.MAP_BORDER && x < width + Constants.MAP_BORDER) && (y >= Constants.MAP_BORDER && y < height + Constants.MAP_BORDER)) {
-						tiles[x][y] = new FloorTile(x * Constants.IMAGE_WIDTH, y * Constants.IMAGE_HEIGHT, true);
+						tiles[x][y] = new FloorTile(x * Constants.IMAGE_WIDTH, y * Constants.IMAGE_HEIGHT, false, true);
 					} else {
 						if (x == Constants.MAP_BORDER - 1) {
 							if (y == Constants.MAP_BORDER - 1) {
@@ -86,7 +86,7 @@ public class Map {
 				}
 			}
 		}
-		
+
 		if (!background) {
 			for (int i = 0; i < width / Constants.MAP_MIN_SIZE; i++) {
 				getRandomTile(false).setItem(new Torch( ));
@@ -96,6 +96,10 @@ public class Map {
 				getRandomTile(false).setItem(new Sword( ));
 			} else {
 				getRandomTile(false).setItem(new Bow( ));
+			}
+
+			for (int i = 0; i < width / Constants.MAP_MIN_SIZE; i++) {
+				((FloorTile) getRandomTile(false)).setHole( );
 			}
 		}
 	}
@@ -132,8 +136,15 @@ public class Map {
 				break;
 			}
 		}
-		
+
 		return tile;
+	}
+
+	public void setGameTile (int x, int y, Tile tile) {
+		try {
+			tiles[x + Constants.MAP_BORDER][y + Constants.MAP_BORDER] = tile;
+		} catch (ArrayIndexOutOfBoundsException e) {
+		}
 	}
 
 	public Tile[ ][ ] getTiles ( ) {

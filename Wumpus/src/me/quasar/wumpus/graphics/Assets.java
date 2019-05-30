@@ -27,6 +27,7 @@ public class Assets {
 	public static BufferedImage nullTile;
 	public static BufferedImage inventorySlot;
 	public static BufferedImage coveredTile;
+	public static BufferedImage holeTile;
 
 	public static BufferedImage poleTop;
 	public static BufferedImage poleMiddle;
@@ -97,6 +98,7 @@ public class Assets {
 		nullTile = textures.getSprite(4, 1);
 		inventorySlot = textures.getSprite(5, 1);
 		coveredTile = textures.getSprite(3, 3);
+		holeTile = textures.getSprite(4, 0);
 
 		poleTop = textures.getSprite(3, 0);
 		poleMiddle = textures.getSprite(3, 1);

@@ -9,6 +9,7 @@ import me.quasar.wumpus.graphics.Renderer;
 import me.quasar.wumpus.objects.Button;
 import me.quasar.wumpus.objects.entities.Player;
 import me.quasar.wumpus.objects.entities.Wumpus;
+import me.quasar.wumpus.objects.tiles.FloorTile;
 import me.quasar.wumpus.utils.Constants;
 import me.quasar.wumpus.utils.Handler;
 
@@ -88,6 +89,9 @@ public class GameManager {
 						} else {
 							win = false;
 						}
+					} else if (((FloorTile) player.getMap( ).getGameTile(player.getTileX( ), player.getTileY( ))).isHole( )) {
+						gameover = true;
+						win = false;
 					}
 				}
 			}
@@ -162,11 +166,28 @@ public class GameManager {
 	}
 
 	private void updateEvents ( ) {
-		if ((Math.abs(player.getTileX( ) - wumpus.getTileX( )) <= 2 && Math.abs(player.getTileX( ) - wumpus.getTileX( )) >= -2)
-			&& (Math.abs(player.getTileY( ) - wumpus.getTileY( )) <= 2 && Math.abs(player.getTileY( ) - wumpus.getTileY( )) >= -2) && wumpus.isHidden( )) {
+		if ((Math.abs(player.getTileX( ) - wumpus.getTileX( )) <= Constants.ENTITY_RANGE && Math.abs(player.getTileX( ) - wumpus.getTileX( )) >= -Constants.ENTITY_RANGE)
+			&& (Math.abs(player.getTileY( ) - wumpus.getTileY( )) <= Constants.ENTITY_RANGE && Math.abs(player.getTileY( ) - wumpus.getTileY( )) >= -Constants.ENTITY_RANGE)
+			&& wumpus.isHidden( )) {
 			addEvent("You smell wumpus.");
 		} else if (Math.abs(player.getTileX( ) - wumpus.getTileX( )) <= player.getTorchNumber( ) && Math.abs(player.getTileY( ) - wumpus.getTileY( )) <= player.getTorchNumber( )) {
 			addEvent("You found wumpus droppings.");
+		}
+
+		boolean foundHole = false;
+		for (int i = -Constants.ENTITY_RANGE; i <= Constants.ENTITY_RANGE; i++) {
+			for (int j = -Constants.ENTITY_RANGE; j <= Constants.ENTITY_RANGE; j++) {
+				if ((player.getMap( ).getGameTile(i + player.getTileX( ), j + player.getTileY( )) instanceof FloorTile)
+					&& ((FloorTile) player.getMap( ).getGameTile(i + player.getTileX( ), j + player.getTileY( ))).isHole( )) {
+					addEvent("You feel a slight breeze.");
+					foundHole = true;
+					break;
+				}
+			}
+
+			if (foundHole) {
+				break;
+			}
 		}
 
 	}

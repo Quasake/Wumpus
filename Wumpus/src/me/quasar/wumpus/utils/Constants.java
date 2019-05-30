@@ -22,6 +22,7 @@ public class Constants {
 	public static final int INFOBOX_WIDTH = IMAGE_WIDTH * 5;
 
 	public static final float ENTITY_SPEED = IMAGE_WIDTH / 10f;
+	public static final int ENTITY_RANGE = 2;
 
 	public static final String GAME_TITLE = "Wumpus";
 	public static int GAME_WIDTH = (IMAGE_WIDTH * (MAP_SIZE + (MAP_BORDER * 2) + 1)) + INFOBOX_WIDTH;

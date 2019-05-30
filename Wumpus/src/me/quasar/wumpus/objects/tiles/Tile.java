@@ -36,6 +36,10 @@ public abstract class Tile {
 		}
 	}
 
+	public void setTexture (BufferedImage texture) {
+		this.texture = texture;
+	}
+
 	public BufferedImage getTexture ( ) {
 		if (hidden) {
 			return Assets.hiddenTile;
