@@ -26,7 +26,7 @@
 - Make game states **✓**
 - Game state transitions **✓**
 - Inventory **✓**
-- Death / Win messages (what the player did to win or lose)
+- Death / win messages (what the player did to win or lose)
 - Titlescreen **✓**
   - Play button **✓**
   - Options button **✓**
@@ -52,10 +52,9 @@
   - Player attack
     - Bow
     - Sword
-  - Player footsteps [?]
 - Blur tiles that are not covered by the player's torch **✓**
 - Map hazards
-  - Hole
+  - Hole **✓**
   - Bat [?]
   - Other hazards [?]
 - Pause menu [?]
