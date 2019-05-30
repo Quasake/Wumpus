@@ -46,12 +46,12 @@
   - Titlescreen **✓**
   - Death
   - In-game
-- Sound Effects
-  - Death
-  - Button press
-  - Player attack
-    - Bow
-    - Sword
+- Sound Effects **✓**
+  - Death **✓**
+  - Button press **✓**
+  - Player attack **✓**
+    - Bow **✓**
+    - Sword **✓**
 - Blur tiles that are not covered by the player's torch **✓**
 - Map hazards
   - Hole **✓**
