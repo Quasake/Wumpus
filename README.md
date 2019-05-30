@@ -3,6 +3,10 @@
 ##### Created By Frank Alfano
 
 ## To Do :
+> **Key** :  
+> [?] = Idea, might complete  
+> **✓** = Completed
+
 - Game Sprites
   - Player **✓**
   - Wumpus **✓**
@@ -13,8 +17,12 @@
   - Player death [?]
   - Wumpus death [?]
   - Player attack [?]
-    - Bow [?]
+    - Bow
+      - Character animation [?]
+      - Arrow animation
     - Sword [?]
+      - Character animation [?]
+      - Sword slash animation [?]
 - Make game states **✓**
 - Game state transitions **✓**
 - Inventory **✓**
@@ -44,12 +52,15 @@
     - Bow
     - Sword
   - Player footsteps [?]
+- Blur tiles that are not covered by the player's torch
 - Map hazards
   - Hole
   - Other hazards [?]
 - Pause menu [?]
 - More items [?]
 - Easter Eggs [?]
+- Highscore system [?]
+- Currency (+ game shop) [?]
 
 ## Credits :
 > **Creator** : Frank Alfano  
