@@ -1,9 +1,11 @@
 package me.quasar.wumpus.states;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import me.quasar.wumpus.graphics.Assets;
+import me.quasar.wumpus.graphics.Renderer;
 import me.quasar.wumpus.input.GameManager;
 import me.quasar.wumpus.objects.Button;
 import me.quasar.wumpus.objects.Map;
@@ -63,16 +65,16 @@ public class GameState extends State {
 
 		gameManager.render(graphics);
 
-		player.render(graphics);
 		wumpus.render(graphics);
+		player.render(graphics);
 
 		for (int i = -1; i < map.getWidth( ) + 1; i++) {
 			for (int j = -1; j < map.getHeight( ) + 1; j++) {
-				if (!map.getGameTile(j, i).getHidden( )) {
-					if ((Math.abs(j - player.getTileX( )) > player.getTorchNumber( ) || Math.abs(i - player.getTileY( )) > player.getTorchNumber( ))
-						&& (Math.abs(j - player.getMoveToTileX( )) > player.getTorchNumber( ) || Math.abs(i - player.getMoveToTileY( )) > player.getTorchNumber( ))) {
-						graphics.drawImage(Assets.coveredTile, (int) map.getGameTile(j, i).getX( ), (int) map.getGameTile(j, i).getY( ), null);
-					}
+				if ((Math.abs(j - player.getTileX( )) > player.getTorchNumber( ) || Math.abs(i - player.getTileY( )) > player.getTorchNumber( ))
+					&& (Math.abs(j - player.getMoveToTileX( )) > player.getTorchNumber( ) || Math.abs(i - player.getMoveToTileY( )) > player.getTorchNumber( ))) {
+					map.getGameTile(j, i).setCovered(true);
+				} else {
+					map.getGameTile(j, i).setCovered(false);
 				}
 			}
 		}
@@ -80,6 +82,8 @@ public class GameState extends State {
 		if (gameEnded) {
 			BufferedImage result = (gameManager.getWin( )) ? Assets.win : Assets.gameover;
 			graphics.drawImage(result, (Constants.MAP_WIDTH / 2) - (result.getWidth( ) / 2), (Constants.MAP_HEIGHT / 2) - (result.getHeight( ) / 2), null);
+			Renderer.drawText(gameManager.getGameOverMessage( ), Constants.MAP_WIDTH / 2, (Constants.MAP_HEIGHT / 4) * 3, Constants.GAME_TEXT_SIZE,
+				(gameManager.getWin( )) ? Color.GREEN : Color.RED, graphics);
 
 			retryButton.render(graphics);
 			exitButton.render(graphics);

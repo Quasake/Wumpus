@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import me.quasar.wumpus.graphics.Assets;
 import me.quasar.wumpus.input.GameManager;
 import me.quasar.wumpus.objects.Map;
+import me.quasar.wumpus.objects.items.Compass;
 import me.quasar.wumpus.objects.items.Item;
 import me.quasar.wumpus.utils.Constants;
 
@@ -12,8 +13,9 @@ public class Player extends Entity {
 	private Item[ ] inventory;
 
 	private int torchCount = 0;
-	
-	private boolean hasWeapon = false;
+
+	private String weapon = "";
+	private Arrow arrow;
 
 	public Player (float x, float y, Map map) {
 		super(x, y, map);
@@ -21,26 +23,47 @@ public class Player extends Entity {
 		currentAnimation = Assets.playerIdleAnimation;
 
 		inventory = new Item[4];
+		inventory[0] = new Compass( );
 	}
 
 	@Override
 	public void update ( ) {
-		updateAnimations( );
-
 		currentAnimation.update( );
+
+		if (arrow != null) {
+			arrow.update( );
+
+			if (arrow.isDestroyed( )) {
+				arrow = null;
+			}
+		}
 
 		move( );
 
-		if (!moving) {
+		if (!updated && !moving) {
 			updateSurroundingTiles( );
-
 			checkItem( );
+
+			updated = true;
 		}
 	}
 
 	@Override
 	public void render (Graphics graphics) {
 		graphics.drawImage(currentAnimation.getCurrentFrame( ), (int) x, (int) y, null);
+
+		if (arrow != null) {
+			arrow.render(graphics);
+		}
+
+		for (int i = 0; i < inventory.length; i++) {
+			graphics.drawImage(Assets.inventorySlot, (int) (Constants.INFOBOX_CENTER - (Constants.IMAGE_WIDTH * (inventory.length / 2.0)) + (Constants.IMAGE_WIDTH * i)),
+				(Constants.GAME_HEIGHT / 10) * 1, null);
+			if (inventory[i] != null) {
+				graphics.drawImage(inventory[i].getTexture( ), (int) (Constants.INFOBOX_CENTER - (Constants.IMAGE_WIDTH * (inventory.length / 2.0)) + (Constants.IMAGE_WIDTH * i)),
+					(Constants.GAME_HEIGHT / 10) * 1, null);
+			}
+		}
 	}
 
 	private void updateSurroundingTiles ( ) {
@@ -88,31 +111,31 @@ public class Player extends Entity {
 
 	@Override
 	protected void updateAnimations ( ) {
-		if (moveCountX > 0) {
+		if (moveToTileX > tileX) {
 			if (hasTorch( )) {
 				setAnimation(Assets.playerMoveRightTorchAnimation);
 			} else {
 				setAnimation(Assets.playerMoveRightAnimation);
 			}
-		} else if (moveCountX < 0) {
+		} else if (moveToTileX < tileX) {
 			if (hasTorch( )) {
 				setAnimation(Assets.playerMoveLeftTorchAnimation);
 			} else {
 				setAnimation(Assets.playerMoveLeftAnimation);
 			}
-		} else if (moveCountY > 0) {
+		} else if (moveToTileY > tileY) {
 			if (hasTorch( )) {
 				setAnimation(Assets.playerMoveDownTorchAnimation);
 			} else {
 				setAnimation(Assets.playerMoveDownAnimation);
 			}
-		} else if (moveCountY < 0) {
+		} else if (moveToTileY < tileY) {
 			if (hasTorch( )) {
 				setAnimation(Assets.playerMoveUpTorchAnimation);
 			} else {
 				setAnimation(Assets.playerMoveUpAnimation);
 			}
-		} else if (moveCountX == 0 && moveCountY == 0) {
+		} else {
 			if (hasTorch( )) {
 				setAnimation(Assets.playerIdleTorchAnimation);
 			} else {
@@ -123,19 +146,19 @@ public class Player extends Entity {
 
 	public void checkItem ( ) {
 		Item item = map.getBoardTile(tileX, tileY).getItem( );
-		
+
 		if (item != null) {
 			GameManager.addEvent("You found a " + item.getName( ) + "!");
-			
+
 			for (int i = 0; i < inventory.length; i++) {
 				if (inventory[i] == null) {
 					if (item.getName( ).equals("torch")) {
 						giveTorch( );
 					} else {
 						inventory[i] = item;
-						
+
 						if (item.getName( ).equals("bow") || item.getName( ).equals("sword")) {
-							hasWeapon = true;
+							weapon = item.getName( );
 						}
 					}
 
@@ -144,6 +167,24 @@ public class Player extends Entity {
 				}
 			}
 		}
+	}
+
+	public boolean searchInventory (String itemName) {
+		for (Item item : inventory) {
+			if (item != null && item.getName( ).equals(itemName)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public int getIndexOfItem (String itemName) {
+		for (int i = 0; i < inventory.length; i++) {
+			if (inventory[i] != null && inventory[i].getName( ).equals(itemName)) {
+				return i;
+			}
+		}
+		return -1;
 	}
 
 	public Item[ ] getInventory ( ) {
@@ -157,9 +198,21 @@ public class Player extends Entity {
 	public boolean hasTorch ( ) {
 		return torchCount > 0;
 	}
-	
-	public boolean hasWeapon () {
-		return hasWeapon;
+
+	public void shootArrow (Arrow arrow) {
+		this.arrow = arrow;
+	}
+
+	public Arrow getArrow ( ) {
+		return arrow;
+	}
+
+	public String getWeapon ( ) {
+		return weapon;
+	}
+
+	public boolean hasWeapon ( ) {
+		return !weapon.equals("");
 	}
 
 	public int getTorchNumber ( ) {

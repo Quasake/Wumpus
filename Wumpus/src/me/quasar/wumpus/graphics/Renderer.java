@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.awt.image.Raster;
 
@@ -25,15 +26,15 @@ public class Renderer {
 		graphics.setFont(previousFont);
 	}
 
-	public static BufferedImage tint (BufferedImage loadImg, Color color) {
-		BufferedImage img = new BufferedImage(loadImg.getWidth( ), loadImg.getHeight( ), BufferedImage.TRANSLUCENT);
+	public static BufferedImage tint (BufferedImage image, Color color) {
+		BufferedImage result = new BufferedImage(image.getWidth( ), image.getHeight( ), BufferedImage.TRANSLUCENT);
 		final float tintOpacity = 0.45f;
-		Graphics2D g2d = img.createGraphics( );
+		Graphics2D g2d = result.createGraphics( );
 
-		g2d.drawImage(loadImg, null, 0, 0);
+		g2d.drawImage(image, null, 0, 0);
 		g2d.setColor(new Color(color.getRed( ) / 255f, color.getGreen( ) / 255f, color.getBlue( ) / 255f, tintOpacity));
 
-		Raster data = loadImg.getData( );
+		Raster data = image.getData( );
 		for (int x = data.getMinX( ); x < data.getWidth( ); x++) {
 			for (int y = data.getMinY( ); y < data.getHeight( ); y++) {
 				int[ ] pixel = data.getPixel(x, y, new int[4]);
@@ -43,7 +44,31 @@ public class Renderer {
 			}
 		}
 		g2d.dispose( );
-		return img;
+		return result;
+	}
+
+	public static BufferedImage rotate90 (BufferedImage image, int direction) {
+		int width = image.getWidth( );
+		int height = image.getHeight( );
+
+		BufferedImage result = new BufferedImage(height, width, image.getType( ));
+
+		Graphics2D graphics2D = result.createGraphics( );
+		graphics2D.translate((height - width) / 2, (height - width) / 2);
+		switch (direction) {
+			case 1 :
+				graphics2D.rotate(Math.PI / 2, height / 2, width / 2);
+				break;
+			case 2 :
+				graphics2D.rotate(Math.PI, height / 2, width / 2);
+				break;
+			case 3 :
+				graphics2D.rotate((Math.PI / 2) * 3, height / 2, width / 2);
+				break;
+		}
+		graphics2D.drawRenderedImage(image, null);
+
+		return result;
 	}
 
 }

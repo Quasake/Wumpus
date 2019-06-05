@@ -14,6 +14,7 @@ public abstract class Tile {
 	protected Item item = null;
 
 	protected boolean hidden;
+	protected boolean covered;
 	protected boolean hasItem;
 
 	public Tile (float x, float y, BufferedImage texture, boolean hidden) {
@@ -21,6 +22,7 @@ public abstract class Tile {
 		this.y = y;
 		this.texture = texture;
 		this.hidden = hidden;
+		this.covered = false;
 		setItem(item);
 	}
 
@@ -30,6 +32,10 @@ public abstract class Tile {
 
 			if (hasItem) {
 				graphics.drawImage(item.getTexture( ), (int) x, (int) y, null);
+			}
+
+			if (covered) {
+				graphics.drawImage(Assets.coveredTile, (int) x, (int) y, null);
 			}
 		} else {
 			graphics.drawImage(Assets.hiddenTile, (int) x, (int) y, null);
@@ -75,6 +81,14 @@ public abstract class Tile {
 
 	public void setHidden (boolean hidden) {
 		this.hidden = hidden;
+	}
+
+	public boolean getCovered ( ) {
+		return covered;
+	}
+
+	public void setCovered (boolean covered) {
+		this.covered = covered;
 	}
 
 	public boolean getHidden ( ) {

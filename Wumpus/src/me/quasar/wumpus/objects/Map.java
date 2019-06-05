@@ -147,6 +147,19 @@ public class Map {
 		}
 	}
 
+	public Tile getTileWithItem (String itemName) {
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++) {
+				if (getBoardTile(i, j).hasItem( )) {
+					if (getBoardTile(i, j).getItem( ).getName( ).equals(itemName)) {
+						return getBoardTile(i, j);
+					}
+				}
+			}
+		}
+		return null;
+	}
+
 	public Tile[ ][ ] getTiles ( ) {
 		return tiles;
 	}

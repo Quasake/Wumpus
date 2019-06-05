@@ -60,17 +60,10 @@ public class Button {
 	public void render (Graphics graphics) {
 		for (int i = 0; i < buttonParts.length; i++) {
 			BufferedImage image = (disabled) ? Renderer.tint(buttonParts[i], Color.BLACK) : buttonParts[i];
+			graphics.drawImage(image, (int) (x - (Constants.IMAGE_WIDTH * (buttonParts.length / 2.0f)) + (Constants.IMAGE_WIDTH * i)), (int) (y - (Constants.IMAGE_HEIGHT / 2)),
+				null);
 
-			if (buttonParts.length == 1) {
-				graphics.drawImage(image, (int) (x - (Constants.IMAGE_WIDTH / 2)), (int) (y - (Constants.IMAGE_HEIGHT / 2)), null);
-			} else {
-				graphics.drawImage(image, (int) (x - (Constants.IMAGE_WIDTH * (buttonParts.length / 2.0f)) + (Constants.IMAGE_WIDTH * i)), (int) (y - (Constants.IMAGE_HEIGHT / 2)),
-					null);
-			}
-
-			if (!text.equals("")) {
-				Renderer.drawText(text, x, y, Constants.GAME_TEXT_SIZE, Color.BLACK, graphics);
-			}
+			Renderer.drawText(text, x, y, Constants.GAME_TEXT_SIZE, Color.BLACK, graphics);
 		}
 	}
 

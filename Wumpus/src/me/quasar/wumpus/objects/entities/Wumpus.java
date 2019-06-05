@@ -22,10 +22,6 @@ public class Wumpus extends Entity {
 		hidden = map.getBoardTile(moveToTileX, moveToTileY).getHidden( ) && map.getBoardTile(tileX, tileY).getHidden( );
 
 		move( );
-
-		if (!hidden) {
-			updateAnimations( );
-		}
 	}
 
 	@Override
@@ -42,16 +38,16 @@ public class Wumpus extends Entity {
 			int randomDirection = Constants.RANDOM.nextInt(5);
 			switch (randomDirection) {
 				case 0 :
-					moved = moveUp( );
+					moved = moveUp(true);
 					break;
 				case 1 :
-					moved = moveRight( );
+					moved = moveRight(true);
 					break;
 				case 2 :
-					moved = moveDown( );
+					moved = moveDown(true);
 					break;
 				case 3 :
-					moved = moveLeft( );
+					moved = moveLeft(true);
 					break;
 				case 4 :
 					moved = true;
@@ -62,15 +58,15 @@ public class Wumpus extends Entity {
 
 	@Override
 	protected void updateAnimations ( ) {
-		if (moveCountX > 0) {
+		if (moveToTileX > tileX) {
 			setAnimation(Assets.wumpusMoveRightAnimation);
-		} else if (moveCountX < 0) {
+		} else if (moveToTileX < tileX) {
 			setAnimation(Assets.wumpusMoveLeftAnimation);
-		} else if (moveCountY > 0) {
+		} else if (moveToTileY > tileY) {
 			setAnimation(Assets.wumpusMoveDownAnimation);
-		} else if (moveCountY < 0) {
+		} else if (moveToTileY < tileY) {
 			setAnimation(Assets.wumpusMoveUpAnimation);
-		} else if (moveCountX == 0 && moveCountY == 0) {
+		} else {
 			setAnimation(Assets.wumpusIdleAnimation);
 		}
 	}

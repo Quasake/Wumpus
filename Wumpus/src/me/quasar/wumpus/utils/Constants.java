@@ -7,7 +7,7 @@ public class Constants {
 	public static final int SPRITE_HEIGHT = 16;
 	public static final int SPRITE_SCALE = 4;
 	public static final int SPRITE_ANIMATION_LENGTH = 4;
-	public static final int SPRITE_ANIMATION_SPEED = 150;
+	public static final int SPRITE_ANIMATION_SPEED = 75;
 
 	public static final int IMAGE_WIDTH = SPRITE_WIDTH * SPRITE_SCALE;
 	public static final int IMAGE_HEIGHT = SPRITE_HEIGHT * SPRITE_SCALE;

@@ -12,6 +12,7 @@ public class Assets {
 	public static BufferedImage sword;
 	public static BufferedImage bow;
 	public static BufferedImage compass;
+	public static BufferedImage arrow;
 
 	public static BufferedImage wallTop;
 	public static BufferedImage wallTopRight;
@@ -64,13 +65,14 @@ public class Assets {
 	public static Animation wumpusMoveLeftAnimation;
 
 	public static void init ( ) {
-		SpriteSheet items = new SpriteSheet(ImageLoader.loadImage("/textures/wumpus_items.png"));
+		SpriteSheet items = new SpriteSheet(ImageLoader.loadImage("/textures/items.png"));
 		torch = items.getSprite(0, 0);
 		sword = items.getSprite(0, 1);
 		bow = items.getSprite(1, 0);
 		compass = items.getSprite(1, 1);
+		arrow = items.getSprite(2, 0);
 
-		SpriteSheet player = new SpriteSheet(ImageLoader.loadImage("/textures/wumpus_player.png"));
+		SpriteSheet player = new SpriteSheet(ImageLoader.loadImage("/textures/player.png"));
 		playerIdleAnimation = new Animation(player.getAnimation(0, 0));
 		playerMoveUpAnimation = new Animation(player.getAnimation(0, 2));
 		playerMoveRightAnimation = new Animation(player.getAnimation(0, 4));
@@ -83,7 +85,7 @@ public class Assets {
 		playerMoveDownTorchAnimation = new Animation(player.getAnimation(Constants.SPRITE_ANIMATION_LENGTH, 1));
 		playerMoveLeftTorchAnimation = new Animation(player.getAnimation(Constants.SPRITE_ANIMATION_LENGTH, 3));
 
-		SpriteSheet textures = new SpriteSheet(ImageLoader.loadImage("/textures/wumpus_textures.png"));
+		SpriteSheet textures = new SpriteSheet(ImageLoader.loadImage("/textures/textures.png"));
 		wallTop = textures.getSprite(1, 0);
 		wallTopRight = textures.getSprite(2, 0);
 		wallRight = textures.getSprite(2, 1);
@@ -112,11 +114,11 @@ public class Assets {
 		buttonDown = textures.getSprite(5, 2);
 		buttonLeft = textures.getSprite(5, 3);
 
-		title = SpriteSheet.resize(ImageLoader.loadImage("/textures/wumpus_title.png"), Constants.SPRITE_SCALE * 1.5f);
-		gameover = SpriteSheet.resize(ImageLoader.loadImage("/textures/wumpus_gameover.png"), Constants.SPRITE_SCALE * 1.5f);
-		win = SpriteSheet.resize(ImageLoader.loadImage("/textures/wumpus_win.png"), Constants.SPRITE_SCALE * 1.5f);
+		title = SpriteSheet.resize(ImageLoader.loadImage("/textures/title.png"), Constants.SPRITE_SCALE * 1.5f);
+		gameover = SpriteSheet.resize(ImageLoader.loadImage("/textures/gameover.png"), Constants.SPRITE_SCALE * 1.5f);
+		win = SpriteSheet.resize(ImageLoader.loadImage("/textures/win.png"), Constants.SPRITE_SCALE * 1.5f);
 
-		SpriteSheet wumpus = new SpriteSheet(ImageLoader.loadImage("/textures/wumpus_wumpus.png"));
+		SpriteSheet wumpus = new SpriteSheet(ImageLoader.loadImage("/textures/wumpus.png"));
 		wumpusIdleAnimation = new Animation(wumpus.getAnimation(0, 0));
 		wumpusMoveUpAnimation = new Animation(wumpus.getAnimation(0, 2));
 		wumpusMoveRightAnimation = new Animation(wumpus.getAnimation(0, 4));

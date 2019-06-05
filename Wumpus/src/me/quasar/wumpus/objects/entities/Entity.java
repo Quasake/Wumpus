@@ -19,6 +19,8 @@ public abstract class Entity {
 	protected int moveCountY = 0;
 	protected boolean moving = false;
 
+	protected boolean updated = false;
+
 	protected Animation currentAnimation;
 
 	protected Map map;
@@ -39,27 +41,30 @@ public abstract class Entity {
 	public abstract void render (Graphics graphics);
 
 	public void move ( ) {
-		if (tileX < moveToTileX) {
-			x += Constants.ENTITY_SPEED;
-			moveCountX++;
-		} else if (tileX > moveToTileX) {
-			x -= Constants.ENTITY_SPEED;
-			moveCountX--;
-		} else if (tileY < moveToTileY) {
-			y += Constants.ENTITY_SPEED;
-			moveCountY++;
-		} else if (tileY > moveToTileY) {
-			y -= Constants.ENTITY_SPEED;
-			moveCountY--;
-		}
-
 		if (moving) {
+			if (tileX < moveToTileX) {
+				x += Constants.ENTITY_SPEED;
+				moveCountX++;
+			} else if (tileX > moveToTileX) {
+				x -= Constants.ENTITY_SPEED;
+				moveCountX--;
+			} else if (tileY < moveToTileY) {
+				y += Constants.ENTITY_SPEED;
+				moveCountY++;
+			} else if (tileY > moveToTileY) {
+				y -= Constants.ENTITY_SPEED;
+				moveCountY--;
+			}
+
 			if (Math.abs(moveCountX) * Constants.ENTITY_SPEED == Constants.IMAGE_WIDTH) {
 				if (moveCountX > 0) {
 					tileX++;
 				} else if (moveCountX < 0) {
 					tileX--;
 				}
+
+				updateAnimations( );
+				updated = false;
 				moving = false;
 				moveCountX = 0;
 			} else if (Math.abs(moveCountY) * Constants.ENTITY_SPEED == Constants.IMAGE_HEIGHT) {
@@ -68,7 +73,10 @@ public abstract class Entity {
 				} else if (moveCountY < 0) {
 					tileY--;
 				}
+
+				updateAnimations( );
 				moving = false;
+				updated = false;
 				moveCountY = 0;
 			}
 		}
@@ -80,37 +88,41 @@ public abstract class Entity {
 
 	protected abstract void updateAnimations ( );
 
-	public boolean moveUp ( ) {
-		if (moveToTileY > 0) {
+	public boolean moveUp (boolean checkBounds) {
+		if (!checkBounds || moveToTileY > 0) {
 			moveToTileY--;
 			moving = true;
+			updateAnimations( );
 			return true;
 		}
 		return false;
 	}
 
-	public boolean moveRight ( ) {
-		if (moveToTileX < map.getWidth( ) - 1) {
+	public boolean moveRight (boolean checkBounds) {
+		if (!checkBounds || moveToTileX < map.getWidth( ) - 1) {
 			moveToTileX++;
 			moving = true;
+			updateAnimations( );
 			return true;
 		}
 		return false;
 	}
 
-	public boolean moveDown ( ) {
-		if (moveToTileY < map.getHeight( ) - 1) {
+	public boolean moveDown (boolean checkBounds) {
+		if (!checkBounds || moveToTileY < map.getHeight( ) - 1) {
 			moveToTileY++;
 			moving = true;
+			updateAnimations( );
 			return true;
 		}
 		return false;
 	}
 
-	public boolean moveLeft ( ) {
-		if (moveToTileX > 0) {
+	public boolean moveLeft (boolean checkBounds) {
+		if (!checkBounds || moveToTileX > 0) {
 			moveToTileX--;
 			moving = true;
+			updateAnimations( );
 			return true;
 		}
 		return false;
