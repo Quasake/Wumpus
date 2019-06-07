@@ -30,6 +30,7 @@
 - Titlescreen **✓**
   - Play button **✓**
   - Options button **✓**
+  - Extras button **✓**
   - Credits button **✓**
   - Exit button **✓**
 - Options menu
@@ -39,7 +40,7 @@
 - Wumpus movement **✓**
 - Player-wumpus collision **✓**
 - Player attack
-  - Bow
+  - Bow **✓**
   - Sword
 - Compass functionality
 - Music
@@ -60,7 +61,7 @@
 - Pause menu [?]
 - More items [?]
 - Easter Eggs [?]
-- Highscore system [?]
+- Highscore system
 - Currency (+ game shop) [?]
 - Game stats
 
@@ -72,7 +73,8 @@
 > **Music** : Bosca Ceoil [https://boscaceoil.net/]  
 > **Sound Effects** : sfxr [http://www.drpetter.se/project_sfxr.html]
 
-> **Art** : paint.NET [https://www.getpaint.net/index.html]
+> **Art** : paint.NET [https://www.getpaint.net/index.html]  
+> **Font** : [https://fontstruct.com/]
 
 > **Special Thanks To** :  
 > ~ **CodeNMore** [https://www.youtube.com/user/CodeNMore]  
