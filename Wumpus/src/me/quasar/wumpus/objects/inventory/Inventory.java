@@ -78,4 +78,8 @@ public class Inventory {
 		return -1;
 	}
 
+	public InventorySlot getSlot (int index) {
+		return inventory[index];
+	}
+
 }

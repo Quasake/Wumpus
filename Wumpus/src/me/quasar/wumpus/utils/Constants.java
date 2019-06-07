@@ -25,7 +25,7 @@ public class Constants {
 	public static final int INFOBOX_WIDTH = IMAGE_WIDTH * 5;
 
 	public static final int GAME_FPS = 60;
-	public static final String GAME_VERSION = "1.0.1";
+	public static final String GAME_VERSION = "1.0.5";
 	public static final float GAME_TEXT_SIZE = 16f;
 	public static final float GAME_FADESPEED = 0.04f;
 	public static final String GAME_TITLE = "Wumpus";
@@ -34,8 +34,10 @@ public class Constants {
 
 	public static float INFOBOX_CENTER = GAME_WIDTH - ((GAME_WIDTH - (MAP_WIDTH + IMAGE_WIDTH)) / 2.0f);
 	public static final float INFOBOX_CREDITS_SPACING = GAME_TEXT_SIZE * 1.5f;
+	public static final int INFOBOX_CREDITS_LINES = 17;
 	public static int INFOBOX_CREDITS_X = Constants.MAP_WIDTH / 2;
-	public static int INFOBOX_CREDITS_Y = Constants.MAP_HEIGHT / 8;
+	public static int INFOBOX_CREDITS_Y = Constants.MAP_HEIGHT / 2;
+	public static final int INFOBOX_HIGHSCORE_LENGTH = 5;
 
 	public static final Random RANDOM = new Random( );
 
@@ -52,8 +54,13 @@ public class Constants {
 
 		INFOBOX_CENTER = GAME_WIDTH - ((GAME_WIDTH - (MAP_WIDTH + IMAGE_WIDTH)) / 2.0f);
 		INFOBOX_CREDITS_X = Constants.MAP_WIDTH / 2;
-		INFOBOX_CREDITS_Y = Constants.MAP_HEIGHT / 8;
+		INFOBOX_CREDITS_Y = Constants.MAP_HEIGHT / 2;
 	}
+
+	public static final int UP = 0;
+	public static final int RIGHT = 1;
+	public static final int DOWN = 2;
+	public static final int LEFT = 3;
 
 	public static final int ID_NULL = 0;
 	public static final int ID_BOW = 1;

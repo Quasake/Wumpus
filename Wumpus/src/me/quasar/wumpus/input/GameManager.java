@@ -190,7 +190,7 @@ public class GameManager {
 			player.getArrow( ).update( );
 		}
 
-		if (compassSelection) {
+		if (compassSelection && compassTile == null) {
 			if (getCompassInput( )) {
 				compassSelection = false;
 			}
@@ -227,10 +227,10 @@ public class GameManager {
 	}
 
 	private void updateEvents ( ) {
-		if (Utils.inTileRange(player.getTileX( ), player.getTileY( ), wumpus.getTileX( ), wumpus.getTileY( ), Constants.ENTITY_RANGE, map)) {
-			addEvent("You smell wumpus.");
-		} else if (Utils.inTileRange(player.getTileX( ), player.getTileY( ), wumpus.getTileX( ), wumpus.getTileY( ), player.getTorchCount( ), map)) {
+		if (Utils.inTileRange(player.getTileX( ), player.getTileY( ), wumpus.getTileX( ), wumpus.getTileY( ), player.getTorchCount( ), map)) {
 			addEvent("You found wumpus droppings.");
+		} else if (Utils.inTileRange(player.getTileX( ), player.getTileY( ), wumpus.getTileX( ), wumpus.getTileY( ), Constants.ENTITY_RANGE, map)) {
+			addEvent("You smell wumpus.");
 		}
 
 		boolean foundHole = false;
@@ -363,9 +363,19 @@ public class GameManager {
 
 		int slotClickedIndex = player.getInventory( ).getSlotClicked( );
 
-		if (slotClickedIndex > -1) {
+		if (slotClickedIndex > -1 && compassTile == null) {
 			if (player.getInventory( ).getItem(slotClickedIndex).getId( ) == Constants.ID_COMPASS) {
 				compassSelection = true;
+
+				if (map.getTileWithItem(map.getWeaponId( )) == null) {
+					compassWeaponButton.setDisabled(true);
+				}
+				if (map.getTileWithItem(Constants.ID_TORCH) == null) {
+					compassTorchButton.setDisabled(true);
+				}
+
+				player.getInventory( ).getSlot(slotClickedIndex).setDisabled(true);
+
 				return true;
 			}
 		} else if (moveUp.isClicked( )) {

@@ -157,8 +157,8 @@ public class Map {
 	}
 
 	public Tile getTileWithItem (int id) {
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
+		for (int i = Constants.MAP_BORDER; i < Constants.MAP_BORDER + size; i++) {
+			for (int j = Constants.MAP_BORDER; j < Constants.MAP_BORDER + size; j++) {
 				if (getTile(i, j).hasItem( )) {
 					if (getTile(i, j).getItem( ).getId( ) == id) {
 						return getTile(i, j);

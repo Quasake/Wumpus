@@ -15,6 +15,8 @@ public class CreditsState extends State {
 
 	private Button backButton;
 
+	private int line = 0;
+
 	public CreditsState (Handler handler) {
 		super(handler);
 	}
@@ -44,32 +46,38 @@ public class CreditsState extends State {
 
 		backButton.render(graphics);
 
-		Renderer.drawText("Creator : Frank Alfano", Constants.INFOBOX_CREDITS_X, Constants.INFOBOX_CREDITS_Y, Constants.GAME_TEXT_SIZE, true, Color.LIGHT_GRAY, graphics);
-		Renderer.drawText("Teacher : Mr. Grossi", Constants.INFOBOX_CREDITS_X, Constants.INFOBOX_CREDITS_Y + Constants.INFOBOX_CREDITS_SPACING, Constants.GAME_TEXT_SIZE, true,
-			Color.LIGHT_GRAY, graphics);
-		Renderer.drawText("Language : Java", Constants.INFOBOX_CREDITS_X, Constants.INFOBOX_CREDITS_Y + (Constants.INFOBOX_CREDITS_SPACING * 2), Constants.GAME_TEXT_SIZE, true,
-			Color.LIGHT_GRAY, graphics);
+		line = 0;
 
-		Renderer.drawText("Music : Bosca Ceoil", Constants.INFOBOX_CREDITS_X, Constants.INFOBOX_CREDITS_Y + (Constants.INFOBOX_CREDITS_SPACING * 5), Constants.GAME_TEXT_SIZE, true,
-			Color.LIGHT_GRAY, graphics);
-		Renderer.drawText("Sound Effects : sfxr", Constants.INFOBOX_CREDITS_X, Constants.INFOBOX_CREDITS_Y + (Constants.INFOBOX_CREDITS_SPACING * 6), Constants.GAME_TEXT_SIZE,
-			true, Color.LIGHT_GRAY, graphics);
+		drawLine("Creator : Frank Alfano", Color.WHITE, graphics);
+		drawLine("Teacher : Mr. Grossi", Color.LIGHT_GRAY, graphics);
+		drawLine("Language : Java", Color.LIGHT_GRAY, graphics);
+		drawSpace(2);
 
-		Renderer.drawText("Art : paint.NET", Constants.INFOBOX_CREDITS_X, Constants.INFOBOX_CREDITS_Y + (Constants.INFOBOX_CREDITS_SPACING * 9), Constants.GAME_TEXT_SIZE, true,
-			Color.LIGHT_GRAY, graphics);
-		Renderer.drawText("Font : fontstruct.com", Constants.INFOBOX_CREDITS_X, Constants.INFOBOX_CREDITS_Y + (Constants.INFOBOX_CREDITS_SPACING * 10), Constants.GAME_TEXT_SIZE,
-			true, Color.LIGHT_GRAY, graphics);
+		drawLine("Music : Bosca Ceoil", Color.LIGHT_GRAY, graphics);
+		drawLine("Sound Effects : sfxr", Color.LIGHT_GRAY, graphics);
+		drawSpace(2);
 
-		Renderer.drawText("Special Thanks To :", Constants.INFOBOX_CREDITS_X, Constants.INFOBOX_CREDITS_Y + (Constants.INFOBOX_CREDITS_SPACING * 13), Constants.GAME_TEXT_SIZE,
-			true, Color.LIGHT_GRAY, graphics);
-		Renderer.drawText("CodeNMore", Constants.INFOBOX_CREDITS_X, Constants.INFOBOX_CREDITS_Y + (Constants.INFOBOX_CREDITS_SPACING * 14), Constants.GAME_TEXT_SIZE, true,
-			Color.YELLOW, graphics);
-		Renderer.drawText("Brackeys", Constants.INFOBOX_CREDITS_X, Constants.INFOBOX_CREDITS_Y + (Constants.INFOBOX_CREDITS_SPACING * 15), Constants.GAME_TEXT_SIZE, true,
-			Color.YELLOW, graphics);
-		Renderer.drawText("Mr. Grossi [the god himself]", Constants.INFOBOX_CREDITS_X, Constants.INFOBOX_CREDITS_Y + (Constants.INFOBOX_CREDITS_SPACING * 16),
-			Constants.GAME_TEXT_SIZE, true, Color.YELLOW, graphics);
+		drawLine("Art : paint.NET", Color.LIGHT_GRAY, graphics);
+		drawLine("Font : fontstruct.com", Color.LIGHT_GRAY, graphics);
+		drawSpace(2);
+
+		drawLine("Special Thanks To :", Color.WHITE, graphics);
+		drawLine("CodeNMore", Color.YELLOW, graphics);
+		drawLine("Brackeys", Color.YELLOW, graphics);
+		drawLine("Mr. Grossi [the god himself]", Color.YELLOW, graphics);
 
 		panel.render(graphics);
+	}
+
+	private void drawLine (String text, Color color, Graphics graphics) {
+		Renderer.drawText(text, Constants.INFOBOX_CREDITS_X,
+			Constants.INFOBOX_CREDITS_Y - ((Constants.INFOBOX_CREDITS_LINES / 2) * (Constants.GAME_TEXT_SIZE * 1.5f)) + ((Constants.GAME_TEXT_SIZE * 1.5f) * line),
+			Constants.GAME_TEXT_SIZE, true, color, graphics);
+		line++;
+	}
+
+	private void drawSpace (int spaceSize) {
+		line += spaceSize;
 	}
 
 }

@@ -20,6 +20,7 @@ public class InventorySlot {
 		this.y = y;
 
 		slot = new ImageButton(x, y, 4, handler);
+		slot.setDisabled(true);
 	}
 
 	public void update ( ) {
@@ -42,8 +43,16 @@ public class InventorySlot {
 		return item;
 	}
 
+	public void setDisabled (boolean disabled) {
+		slot.setDisabled(disabled);
+	}
+
 	public void setItem (Item item) {
 		this.item = item;
+
+		if (item != null) {
+			slot.setDisabled(false);
+		}
 	}
 
 	public Button getSlot ( ) {
