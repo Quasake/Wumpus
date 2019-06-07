@@ -25,11 +25,11 @@ public class Handler {
 	}
 
 	public JFrame getFrame ( ) {
-		return game.getWindow( ).getFrame( );
+		return getWindow( ).getFrame( );
 	}
 
 	public Canvas getCanvas ( ) {
-		return game.getWindow( ).getCanvas( );
+		return getWindow( ).getCanvas( );
 	}
 
 	public MouseManager getMouseManager ( ) {
@@ -37,19 +37,23 @@ public class Handler {
 	}
 
 	public int getMouseX ( ) {
-		return game.getMouseManager( ).getMouseX( );
+		return getMouseManager( ).getMouseX( );
 	}
 
 	public int getMouseY ( ) {
-		return game.getMouseManager( ).getMouseY( );
+		return getMouseManager( ).getMouseY( );
 	}
 
 	public boolean isLeftPressed ( ) {
-		return game.getMouseManager( ).isLeftPressed( );
+		return getMouseManager( ).isLeftPressed( );
 	}
 
 	public KeyManager getKeyManager ( ) {
 		return game.getKeyManager( );
+	}
+
+	public boolean getKeyValue (int keyCode) {
+		return getKeyManager( ).getKeyValue(keyCode);
 	}
 
 }

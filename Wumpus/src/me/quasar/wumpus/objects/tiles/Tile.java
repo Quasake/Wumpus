@@ -26,7 +26,7 @@ public abstract class Tile {
 	public void render (Graphics graphics) {
 		graphics.drawImage((hidden) ? Assets.hiddenTile : texture, (int) x, (int) y, null);
 
-		if (item != null) {
+		if (!hidden && item != null) {
 			graphics.drawImage(item.getTexture( ), (int) x, (int) y, null);
 		}
 
@@ -58,8 +58,8 @@ public abstract class Tile {
 	public float getY ( ) {
 		return y;
 	}
-	
-	public boolean hasItem () {
+
+	public boolean hasItem ( ) {
 		return item != null;
 	}
 

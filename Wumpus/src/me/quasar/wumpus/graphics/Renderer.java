@@ -35,4 +35,28 @@ public class Renderer {
 
 		graphics.drawImage(image, drawX, drawY, null);
 	}
+
+	public static BufferedImage rotateImage (BufferedImage image, int direction) {
+		int width = image.getWidth( );
+		int height = image.getHeight( );
+
+		BufferedImage rotatedImage = new BufferedImage(height, width, image.getType( ));
+
+		Graphics2D graphics2D = rotatedImage.createGraphics( );
+		graphics2D.translate((height - width) / 2, (height - width) / 2);
+		switch (direction) {
+			case 1 :
+				graphics2D.rotate(Math.PI / 2, height / 2, width / 2);
+				break;
+			case 2 :
+				graphics2D.rotate(Math.PI, height / 2, width / 2);
+				break;
+			case 3 :
+				graphics2D.rotate((Math.PI / 2) * 3, height / 2, width / 2);
+				break;
+		}
+		graphics2D.drawRenderedImage(image, null);
+
+		return rotatedImage;
+	}
 }

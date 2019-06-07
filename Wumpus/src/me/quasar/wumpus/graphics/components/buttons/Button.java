@@ -35,20 +35,22 @@ public abstract class Button {
 	public abstract void render (Graphics graphics);
 
 	protected void updateInput ( ) {
-		if (!pressed) {
-			if (handler.isLeftPressed( )) {
-				if (Utils.inRange(handler.getMouseX( ), handler.getMouseY( ), x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2))) {
-					clicked = true;
-					pressed = true;
+		if (!disabled) {
+			if (!pressed) {
+				if (handler.isLeftPressed( )) {
+					if (Utils.inRange(handler.getMouseX( ), handler.getMouseY( ), x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2))) {
+						clicked = true;
+						pressed = true;
+					}
 				}
-			}
-		} else {
-			if (clicked) {
-				clicked = false;
-			}
+			} else {
+				if (clicked) {
+					clicked = false;
+				}
 
-			if (!handler.isLeftPressed( )) {
-				pressed = false;
+				if (!handler.isLeftPressed( )) {
+					pressed = false;
+				}
 			}
 		}
 	}
@@ -69,12 +71,8 @@ public abstract class Button {
 		return disabled;
 	}
 
-	public void disable ( ) {
-		disabled = true;
-	}
-
-	public void enable ( ) {
-		disabled = false;
+	public void setDisabled (boolean disabled) {
+		this.disabled = disabled;
 	}
 
 	public float getX ( ) {

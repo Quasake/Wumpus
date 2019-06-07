@@ -42,14 +42,14 @@ public class OptionsState extends State {
 		backButton.update( );
 
 		if (Constants.MAP_SIZE == Constants.MAP_MAX_SIZE && !increaseMapSize.isDisabled( )) {
-			increaseMapSize.disable( );
+			increaseMapSize.setDisabled(true);
 		} else if (Constants.MAP_SIZE < Constants.MAP_MAX_SIZE && increaseMapSize.isDisabled( )) {
-			increaseMapSize.enable( );
+			increaseMapSize.setDisabled(false);
 		}
 		if (Constants.MAP_SIZE == Constants.MAP_MIN_SIZE && !decreaseMapSize.isDisabled( )) {
-			decreaseMapSize.disable( );
+			decreaseMapSize.setDisabled(true);
 		} else if (Constants.MAP_SIZE > Constants.MAP_MIN_SIZE && decreaseMapSize.isDisabled( )) {
-			decreaseMapSize.enable( );
+			decreaseMapSize.setDisabled(false);
 		}
 
 		if (increaseMapSize.isClicked( )) {
