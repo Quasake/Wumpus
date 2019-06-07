@@ -1,4 +1,6 @@
 games-played:0
 games-won:0
-tiles-uncovered:0
 wumpus-killed:0
+tiles-uncovered:0
+times-attacked:0
+torches-picked-up:0

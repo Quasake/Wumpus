@@ -6,7 +6,7 @@ import me.quasar.wumpus.utils.Constants;
 public class Sword extends Item {
 
 	public Sword ( ) {
-		super(Assets.sword, Constants.ID_SWORD);
+		super(Assets.sword, "sword", Constants.ID_SWORD);
 	}
 
 }

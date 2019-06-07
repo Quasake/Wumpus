@@ -3,23 +3,27 @@ package me.quasar.wumpus.objects.entities;
 import java.awt.Graphics;
 
 import me.quasar.wumpus.graphics.Assets;
-import me.quasar.wumpus.objects.Inventory;
 import me.quasar.wumpus.objects.Map;
+import me.quasar.wumpus.objects.inventory.Inventory;
 import me.quasar.wumpus.objects.items.Item;
 import me.quasar.wumpus.utils.Constants;
+import me.quasar.wumpus.utils.Handler;
 
 public class Player extends Entity {
 	private int torchCount;
 
 	private Inventory inventory;
 	private Arrow arrow;
+	private Handler handler;
 
 	private Item weapon;
 
-	public Player (float x, float y, Map map) {
+	public Player (float x, float y, Map map, Handler handler) {
 		super(x, y, Constants.ENTITY_SPEED, map);
 
-		inventory = new Inventory(4);
+		this.handler = handler;
+
+		inventory = new Inventory(4, handler);
 
 		animation = Assets.playerIdle;
 	}
@@ -27,6 +31,8 @@ public class Player extends Entity {
 	@Override
 	public void update ( ) {
 		animation.update( );
+
+		inventory.update( );
 
 		if (arrow != null && arrow.isDestroyed( )) {
 			arrow = null;
@@ -89,8 +95,25 @@ public class Player extends Entity {
 		return torchCount;
 	}
 
-	public void shootArrow (int direction) {
+	public boolean shootArrow (int direction) {
 		arrow = new Arrow(x, y, direction, map);
+
+		return true;
+	}
+
+	public boolean swingSword (int objectTileX, int objectTileY, int direction) {
+		switch (direction) {
+			case 0 :
+				return (this.tileX - 1 == objectTileX || this.tileX == objectTileX || this.tileX + 1 == objectTileX) && this.tileY - 1 == objectTileY;
+			case 1 :
+				return (this.tileY - 1 == objectTileY || this.tileY == objectTileY || this.tileY + 1 == objectTileY) && this.tileX + 1 == objectTileX;
+			case 2 :
+				return (this.tileX - 1 == objectTileX || this.tileX == objectTileX || this.tileX + 1 == objectTileX) && this.tileY + 1 == objectTileY;
+			case 3 :
+				return (this.tileY - 1 == objectTileY || this.tileY == objectTileY || this.tileY + 1 == objectTileY) && this.tileX - 1 == objectTileX;
+		}
+
+		return false;
 	}
 
 	public boolean arrowIsDestroyed ( ) {

@@ -4,10 +4,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
-import me.quasar.wumpus.graphics.Assets;
 import me.quasar.wumpus.graphics.Renderer;
 import me.quasar.wumpus.graphics.components.buttons.Button;
 import me.quasar.wumpus.graphics.components.buttons.ImageButton;
+import me.quasar.wumpus.graphics.components.buttons.TextButton;
 import me.quasar.wumpus.objects.Map;
 import me.quasar.wumpus.objects.entities.Player;
 import me.quasar.wumpus.objects.entities.Wumpus;
@@ -45,7 +45,17 @@ public class GameManager {
 	private String gameOverMessage;
 	private boolean win;
 
+	private Tile compassTile;
+	private boolean compassWumpus;
+	private boolean compassSelection;
+	private Button compassWeaponButton;
+	private Button compassTorchButton;
+	private Button compassWumpusButton;
+
 	private boolean updated;
+
+	private boolean swungSword;
+	private boolean hitWumpus;
 
 	private ArrayList<String> events;
 
@@ -66,6 +76,10 @@ public class GameManager {
 		attackRight = new ImageButton(Constants.INFOBOX_CENTER - (Constants.IMAGE_WIDTH * 0.5f), (Constants.GAME_HEIGHT / 8) * 7, 1, handler);
 		attackDown = new ImageButton(Constants.INFOBOX_CENTER + (Constants.IMAGE_WIDTH * 0.5f), (Constants.GAME_HEIGHT / 8) * 7, 2, handler);
 		attackLeft = new ImageButton(Constants.INFOBOX_CENTER + (Constants.IMAGE_WIDTH * 1.5f), (Constants.GAME_HEIGHT / 8) * 7, 3, handler);
+
+		compassWeaponButton = new TextButton(Constants.MAP_WIDTH / 4, Constants.GAME_HEIGHT / 2, "Weapon", handler);
+		compassTorchButton = new TextButton(Constants.MAP_WIDTH / 2, Constants.GAME_HEIGHT / 2, "Torch", handler);
+		compassWumpusButton = new TextButton((Constants.MAP_WIDTH / 4) * 3, Constants.GAME_HEIGHT / 2, "Wumpus", handler);
 	}
 
 	public void update ( ) {
@@ -103,6 +117,15 @@ public class GameManager {
 		wumpus.render(graphics);
 		player.render(graphics);
 
+		Renderer.drawText("Turns : " + turns, Constants.GAME_TEXT_SIZE * 2, Constants.GAME_HEIGHT - (Constants.GAME_TEXT_SIZE * 2), Constants.GAME_TEXT_SIZE, false,
+			Color.LIGHT_GRAY, graphics);
+
+		if (compassSelection) {
+			compassWeaponButton.render(graphics);
+			compassTorchButton.render(graphics);
+			compassWumpusButton.render(graphics);
+		}
+
 		for (int i = 0; i < events.size( ); i++) {
 			Renderer.drawText(events.get(i), Constants.GAME_WIDTH - Constants.INFOBOX_WIDTH, (Constants.GAME_HEIGHT / 4) + (Constants.GAME_TEXT_SIZE * i),
 				Constants.GAME_TEXT_SIZE / 2, false, Color.BLACK, graphics);
@@ -118,8 +141,24 @@ public class GameManager {
 		}
 
 		if (getPlayerInput( )) {
-			wumpus.moveRandomly( );
 			events.clear( );
+
+			if (swungSword) {
+				if (hitWumpus) {
+					if (Utils.chance(0.65f)) {
+						gameOver("You killed the wumpus with your sword.", true);
+					} else {
+						addEvent("The wumpus dodged your sword.");
+					}
+				} else {
+					addEvent("You missed the wumpus with your sword.");
+				}
+
+				hitWumpus = false;
+				swungSword = false;
+			}
+
+			wumpus.moveRandomly( );
 
 			setButtons(true);
 			updated = false;
@@ -151,7 +190,16 @@ public class GameManager {
 			player.getArrow( ).update( );
 		}
 
-		if (!player.isMoving( ) && !wumpus.isMoving( ) && player.arrowIsDestroyed( )) {
+		if (compassSelection) {
+			if (getCompassInput( )) {
+				compassSelection = false;
+			}
+		}
+		if (compassTile != map.getTile(wumpus.getTileX( ) + Constants.MAP_BORDER, wumpus.getTileY( ) + Constants.MAP_BORDER) && compassWumpus) {
+			compassTile = map.getTile(wumpus.getTileX( ) + Constants.MAP_BORDER, wumpus.getTileY( ) + Constants.MAP_BORDER);
+		}
+
+		if (!player.isMoving( ) && !wumpus.isMoving( ) && player.arrowIsDestroyed( ) && !compassSelection) {
 			turnStage = END_TURN;
 		}
 	}
@@ -160,6 +208,7 @@ public class GameManager {
 		Tile currentPlayerTile = map.getTile(player.getTileX( ) + Constants.MAP_BORDER, player.getTileY( ) + Constants.MAP_BORDER);
 		if (currentPlayerTile.hasItem( )) {
 			player.addItem(currentPlayerTile.getItem( ));
+			addEvent("You picked up a " + currentPlayerTile.getItem( ).getName( ) + "!");
 			currentPlayerTile.setItem(null);
 		}
 
@@ -185,8 +234,8 @@ public class GameManager {
 		}
 
 		boolean foundHole = false;
-		for (int x = -Constants.ENTITY_RANGE + player.getTileX( ); x <= Constants.ENTITY_RANGE + player.getTileX( ); x++) {
-			for (int y = -Constants.ENTITY_RANGE + player.getTileY( ); y <= Constants.ENTITY_RANGE + player.getTileY( ); y++) {
+		for (int x = -Constants.ENTITY_RANGE + player.getTileX( ) + Constants.MAP_BORDER; x <= Constants.ENTITY_RANGE + player.getTileX( ) + Constants.MAP_BORDER; x++) {
+			for (int y = -Constants.ENTITY_RANGE + player.getTileY( ) + Constants.MAP_BORDER; y <= Constants.ENTITY_RANGE + player.getTileY( ) + Constants.MAP_BORDER; y++) {
 				if ((map.getTile(x, y) instanceof FloorTile) && (((FloorTile) map.getTile(x, y)).isHole( ))) {
 					addEvent("You feel a slight breeze.");
 					foundHole = true;
@@ -196,6 +245,32 @@ public class GameManager {
 
 			if (foundHole) {
 				break;
+			}
+		}
+
+		if (compassTile != null) {
+			if (compassTile.getX( ) > player.getX( )) {
+				if (compassTile.getY( ) > player.getY( )) {
+					addEvent("The compass points South East.");
+				} else if (compassTile.getY( ) < player.getY( )) {
+					addEvent("The compass points North East.");
+				} else {
+					addEvent("The compass points East.");
+				}
+			} else if (compassTile.getX( ) < player.getX( )) {
+				if (compassTile.getY( ) > player.getY( )) {
+					addEvent("The compass points South West.");
+				} else if (compassTile.getY( ) < player.getY( )) {
+					addEvent("The compass points North West.");
+				} else {
+					addEvent("The compass points West.");
+				}
+			} else {
+				if (compassTile.getY( ) > player.getY( )) {
+					addEvent("The compass points South.");
+				} else if (compassTile.getY( ) < player.getY( )) {
+					addEvent("The compass points North.");
+				}
 			}
 		}
 
@@ -258,6 +333,23 @@ public class GameManager {
 		}
 	}
 
+	private boolean getCompassInput ( ) {
+		compassWeaponButton.update( );
+		compassTorchButton.update( );
+		compassWumpusButton.update( );
+
+		if (compassWeaponButton.isClicked( )) {
+			compassTile = map.getTileWithItem(map.getWeaponId( ));
+		} else if (compassTorchButton.isClicked( )) {
+			compassTile = map.getTileWithItem(Constants.ID_TORCH);
+		} else if (compassWumpusButton.isClicked( )) {
+			compassTile = map.getTile(wumpus.getTileX( ) + Constants.MAP_BORDER, wumpus.getTileY( ) + Constants.MAP_BORDER);
+			compassWumpus = true;
+		}
+
+		return compassTile != null;
+	}
+
 	private boolean getPlayerInput ( ) {
 		moveUp.update( );
 		moveRight.update( );
@@ -269,20 +361,28 @@ public class GameManager {
 		attackDown.update( );
 		attackLeft.update( );
 
-		if (moveUp.isClicked( )) {
-			return player.moveUp(true);
+		int slotClickedIndex = player.getInventory( ).getSlotClicked( );
+
+		if (slotClickedIndex > -1) {
+			if (player.getInventory( ).getItem(slotClickedIndex).getId( ) == Constants.ID_COMPASS) {
+				compassSelection = true;
+				return true;
+			}
+		} else if (moveUp.isClicked( )) {
+			return player.moveUp(true, true);
 		} else if (moveRight.isClicked( )) {
-			return player.moveRight(true);
+			return player.moveRight(true, true);
 		} else if (moveDown.isClicked( )) {
-			return player.moveDown(true);
+			return player.moveDown(true, true);
 		} else if (moveLeft.isClicked( )) {
-			return player.moveLeft(true);
+			return player.moveLeft(true, true);
 		} else if (attackUp.isClicked( )) {
 			if (player.hasWeapon( )) {
 				if (player.getWeapon( ).getId( ) == Constants.ID_BOW) {
 					player.shootArrow(0);
 				} else {
-
+					swungSword = true;
+					hitWumpus = player.swingSword(wumpus.getTileX( ), wumpus.getTileY( ), 0);
 				}
 
 				return true;
@@ -292,7 +392,8 @@ public class GameManager {
 				if (player.getWeapon( ).getId( ) == Constants.ID_BOW) {
 					player.shootArrow(1);
 				} else {
-
+					swungSword = true;
+					hitWumpus = player.swingSword(wumpus.getTileX( ), wumpus.getTileY( ), 1);
 				}
 
 				return true;
@@ -302,7 +403,8 @@ public class GameManager {
 				if (player.getWeapon( ).getId( ) == Constants.ID_BOW) {
 					player.shootArrow(2);
 				} else {
-
+					swungSword = true;
+					hitWumpus = player.swingSword(wumpus.getTileX( ), wumpus.getTileY( ), 2);
 				}
 
 				return true;
@@ -312,7 +414,8 @@ public class GameManager {
 				if (player.getWeapon( ).getId( ) == Constants.ID_BOW) {
 					player.shootArrow(3);
 				} else {
-
+					swungSword = true;
+					hitWumpus = player.swingSword(wumpus.getTileX( ), wumpus.getTileY( ), 3);
 				}
 
 				return true;

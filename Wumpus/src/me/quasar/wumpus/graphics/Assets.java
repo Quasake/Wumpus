@@ -123,7 +123,7 @@ public class Assets {
 		buttonRight = textures.getSprite(4, 3);
 		buttonDown = textures.getSprite(5, 2);
 		buttonLeft = textures.getSprite(5, 3);
-		
+
 		buttonBoxLeftDisabled = textures.getSprite(0, 4);
 		buttonBoxMiddleDisabled = textures.getSprite(1, 4);
 		buttonBoxRightDisabled = textures.getSprite(2, 4);

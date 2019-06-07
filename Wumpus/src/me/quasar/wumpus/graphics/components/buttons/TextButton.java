@@ -85,4 +85,8 @@ public class TextButton extends Button {
 		return buttonTexture;
 	}
 
+	public void setText (String text) {
+		this.text = text;
+	}
+
 }

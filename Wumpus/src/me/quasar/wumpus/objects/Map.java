@@ -8,7 +8,6 @@ import me.quasar.wumpus.objects.items.Sword;
 import me.quasar.wumpus.objects.items.Torch;
 import me.quasar.wumpus.objects.tiles.EmptyTile;
 import me.quasar.wumpus.objects.tiles.FloorTile;
-import me.quasar.wumpus.objects.tiles.HoleTile;
 import me.quasar.wumpus.objects.tiles.SeparatorTile;
 import me.quasar.wumpus.objects.tiles.Tile;
 import me.quasar.wumpus.objects.tiles.WallTile;
@@ -19,6 +18,7 @@ public class Map {
 	private int size;
 
 	private boolean background;
+	private int weaponId = Constants.ID_NULL;
 
 	private Tile[ ][ ] tiles;
 
@@ -50,15 +50,20 @@ public class Map {
 	private void generateItems ( ) {
 		for (int i = 0; i < size / Constants.MAP_MIN_SIZE; i++) {
 			getRandomTile(false, false).setItem(new Torch( ));
-			((FloorTile) getRandomTile(false, false)).setHole(true);
+
+			if (Constants.SETTINGS_HAZARDS) {
+				((FloorTile) getRandomTile(false, false)).setHole(true);
+			}
 		}
 
 		getRandomTile(false, false).setItem(new Compass( ));
 
 		if (Utils.chance(0.5f)) {
 			getRandomTile(false, false).setItem(new Sword( ));
+			weaponId = Constants.ID_SWORD;
 		} else {
 			getRandomTile(false, false).setItem(new Bow( ));
+			weaponId = Constants.ID_BOW;
 		}
 	}
 
@@ -128,7 +133,7 @@ public class Map {
 		}
 	}
 
-	public Tile getRandomTile (boolean canHaveItem, boolean canHaveHole) {
+	public Tile getRandomTile (boolean canHaveItem, boolean canHaveHazard) {
 		Tile tile = null;
 
 		while (true) {
@@ -139,8 +144,8 @@ public class Map {
 				}
 			}
 
-			if (!canHaveHole) {
-				if (tile instanceof HoleTile) {
+			if (!canHaveHazard) {
+				if (((FloorTile) tile).isHole( )) {
 					continue;
 				}
 			}
@@ -151,12 +156,29 @@ public class Map {
 		return tile;
 	}
 
+	public Tile getTileWithItem (int id) {
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size; j++) {
+				if (getTile(i, j).hasItem( )) {
+					if (getTile(i, j).getItem( ).getId( ) == id) {
+						return getTile(i, j);
+					}
+				}
+			}
+		}
+		return null;
+	}
+
 	public Tile[ ][ ] getTiles ( ) {
 		return tiles;
 	}
 
 	public int getSize ( ) {
 		return size;
+	}
+
+	public int getWeaponId ( ) {
+		return weaponId;
 	}
 
 }

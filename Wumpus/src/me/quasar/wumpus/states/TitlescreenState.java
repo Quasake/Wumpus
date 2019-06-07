@@ -81,6 +81,9 @@ public class TitlescreenState extends State {
 		Renderer.drawText("Created by Frank Alfano", Constants.MAP_WIDTH / 2, Constants.MAP_HEIGHT / 2, Constants.GAME_TEXT_SIZE, true, Color.LIGHT_GRAY, graphics);
 		Renderer.drawImage(Renderer.resizeImage(animation.getCurrentFrame( ), 3), Constants.MAP_WIDTH / 2, (Constants.MAP_HEIGHT / 4) * 3, true, graphics);
 
+		Renderer.drawText("Version " + Constants.GAME_VERSION, Constants.GAME_TEXT_SIZE * 2, Constants.GAME_TEXT_SIZE * 2, Constants.GAME_TEXT_SIZE, false, Color.LIGHT_GRAY,
+			graphics);
+
 		playButton.render(graphics);
 		optionsButton.render(graphics);
 		extrasButton.render(graphics);

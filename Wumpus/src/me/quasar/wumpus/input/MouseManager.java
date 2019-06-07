@@ -16,7 +16,7 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 
 	@Override
 	public void mouseDragged (MouseEvent e) {
-		
+
 	}
 
 	@Override

@@ -28,16 +28,16 @@ public class Arrow extends Entity {
 		if (!moving) {
 			switch (direction) {
 				case 0 :
-					moveUp(false);
+					moveUp(false, true);
 					break;
 				case 1 :
-					moveRight(false);
+					moveRight(false, true);
 					break;
 				case 2 :
-					moveDown(false);
+					moveDown(false, true);
 					break;
 				case 3 :
-					moveLeft(false);
+					moveLeft(false, true);
 					break;
 			}
 		}

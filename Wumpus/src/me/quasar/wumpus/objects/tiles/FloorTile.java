@@ -15,7 +15,7 @@ public class FloorTile extends Tile {
 
 	public void setHole (boolean hole) {
 		this.hole = hole;
-		
+
 		if (hole) {
 			texture = Assets.holeTile;
 		} else {

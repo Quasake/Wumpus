@@ -4,6 +4,7 @@ import java.awt.Graphics;
 
 import me.quasar.wumpus.graphics.resources.Animation;
 import me.quasar.wumpus.objects.Map;
+import me.quasar.wumpus.objects.tiles.FloorTile;
 import me.quasar.wumpus.utils.Constants;
 
 public abstract class Entity {
@@ -95,8 +96,15 @@ public abstract class Entity {
 		}
 	}
 
-	public boolean moveUp (boolean checkBounds) {
+	public boolean moveUp (boolean checkBounds, boolean ignoreHazards) {
 		if (!checkBounds || moveTileY > 0) {
+			try {
+				if (!ignoreHazards && ((FloorTile) map.getTile(tileX + Constants.MAP_BORDER, tileY + Constants.MAP_BORDER - 1)).isHole( )) {
+					return false;
+				}
+			} catch (Exception e) {
+			}
+
 			moveTileY--;
 
 			updateAnimations( );
@@ -107,8 +115,15 @@ public abstract class Entity {
 		return false;
 	}
 
-	public boolean moveRight (boolean checkBounds) {
+	public boolean moveRight (boolean checkBounds, boolean ignoreHazards) {
 		if (!checkBounds || moveTileX < map.getSize( ) - 1) {
+			try {
+				if (!ignoreHazards && ((FloorTile) map.getTile(tileX + Constants.MAP_BORDER + 1, tileY + Constants.MAP_BORDER)).isHole( )) {
+					return false;
+				}
+			} catch (Exception e) {
+			}
+
 			moveTileX++;
 
 			updateAnimations( );
@@ -119,8 +134,15 @@ public abstract class Entity {
 		return false;
 	}
 
-	public boolean moveDown (boolean checkBounds) {
+	public boolean moveDown (boolean checkBounds, boolean ignoreHazards) {
 		if (!checkBounds || moveTileY < map.getSize( ) - 1) {
+			try {
+				if (!ignoreHazards && ((FloorTile) map.getTile(tileX + Constants.MAP_BORDER, tileY + Constants.MAP_BORDER + 1)).isHole( )) {
+					return false;
+				}
+			} catch (Exception e) {
+			}
+
 			moveTileY++;
 
 			updateAnimations( );
@@ -131,8 +153,15 @@ public abstract class Entity {
 		return false;
 	}
 
-	public boolean moveLeft (boolean checkBounds) {
+	public boolean moveLeft (boolean checkBounds, boolean ignoreHazards) {
 		if (!checkBounds || moveTileX > 0) {
+			try {
+				if (!ignoreHazards && ((FloorTile) map.getTile(tileX + Constants.MAP_BORDER + 1, tileY + Constants.MAP_BORDER)).isHole( )) {
+					return false;
+				}
+			} catch (Exception e) {
+			}
+
 			moveTileX--;
 
 			updateAnimations( );

@@ -42,7 +42,7 @@ public class GameState extends State {
 		do {
 			playerTile = map.getRandomTile(false, false);
 		} while (((FloorTile) playerTile).isHole( ));
-		player = new Player(playerTile.getX( ), playerTile.getY( ), map);
+		player = new Player(playerTile.getX( ), playerTile.getY( ), map, handler);
 
 		Tile wumpusTile;
 		do {
