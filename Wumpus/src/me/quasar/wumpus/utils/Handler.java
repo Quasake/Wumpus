@@ -8,6 +8,7 @@ import me.quasar.wumpus.Game;
 import me.quasar.wumpus.graphics.Window;
 import me.quasar.wumpus.input.KeyManager;
 import me.quasar.wumpus.input.MouseManager;
+import me.quasar.wumpus.states.ExtrasState;
 
 public class Handler {
 	private Game game;
@@ -18,6 +19,10 @@ public class Handler {
 
 	public Game getGame ( ) {
 		return game;
+	}
+
+	public void writeScore (int mapSize, int score) {
+		((ExtrasState) getGame( ).extrasState).writeScore(mapSize, score);
 	}
 
 	public Window getWindow ( ) {

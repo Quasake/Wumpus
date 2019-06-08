@@ -2,17 +2,17 @@ package me.quasar.wumpus.objects.menus;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import me.quasar.wumpus.graphics.Renderer;
 import me.quasar.wumpus.utils.Constants;
 
 public class HighscoreTable {
-	private List<String[ ]> table;
+	private ArrayList<String[ ]> table;
 
 	public HighscoreTable (String[ ][ ] table) {
-		this.table = Arrays.asList(table);
+		this.table = new ArrayList<String[ ]>(Arrays.asList(table));
 	}
 
 	public void render (Graphics graphics) {
@@ -27,14 +27,19 @@ public class HighscoreTable {
 		return table.get(index)[1];
 	}
 
-	public void setScore (int index, int score) {
-		table.get(index)[1] = Integer.toString(score);
-	}
-
 	public void addScore (int score) {
 		for (int i = 0; i < table.size( ); i++) {
-			if (Integer.parseInt(getScore(i)) > score) {
-				table.add(new String[ ] { Integer.toString(i + 1), Integer.toString(score) });
+			if (getScore(i).equals("-") || Integer.parseInt(getScore(i)) > score) {
+				String[ ] newScore = new String[ ] { Integer.toString(i + 1), Integer.toString(score) };
+
+				table.add(i, newScore);
+				table.remove(table.size( ) - 1);
+				
+				for (int j = 0; j < table.size( ); j++) {
+					table.get(j)[0] = Integer.toString(j + 1);
+				}
+
+				return;
 			}
 		}
 	}

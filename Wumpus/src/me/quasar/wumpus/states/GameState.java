@@ -62,8 +62,16 @@ public class GameState extends State {
 			exitButton.update( );
 
 			if (retryButton.isClicked( )) {
+				if (gameManager.isWin( )) {
+					handler.writeScore(map.getSize( ), gameManager.getTurns( ));
+				}
+
 				goToState(handler.getGame( ).gameState);
 			} else if (exitButton.isClicked( )) {
+				if (gameManager.isWin( )) {
+					handler.writeScore(map.getSize( ), gameManager.getTurns( ));
+				}
+
 				goToState(handler.getGame( ).titlescreenState);
 			}
 		}

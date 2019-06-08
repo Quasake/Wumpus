@@ -25,7 +25,7 @@ public class Constants {
 	public static final int INFOBOX_WIDTH = IMAGE_WIDTH * 5;
 
 	public static final int GAME_FPS = 60;
-	public static final String GAME_VERSION = "1.0.5";
+	public static final String GAME_VERSION = "1.1.0";
 	public static final float GAME_TEXT_SIZE = 16f;
 	public static final float GAME_FADESPEED = 0.04f;
 	public static final String GAME_TITLE = "Wumpus";

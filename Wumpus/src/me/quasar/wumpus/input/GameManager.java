@@ -464,6 +464,10 @@ public class GameManager {
 	public boolean isWin ( ) {
 		return win;
 	}
+	
+	public int getTurns () {
+		return turns;
+	}
 
 	public String getGameOverMessage ( ) {
 		return gameOverMessage;
