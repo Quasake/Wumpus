@@ -35,7 +35,7 @@ public class ImageButton extends Button {
 			case 3 :
 				return Assets.buttonLeft;
 			case 4 :
-				return Assets.inventorySlot;
+				return Assets.buttonEmpty;
 		}
 		return Assets.nullTile;
 	}
@@ -51,7 +51,7 @@ public class ImageButton extends Button {
 			case 3 :
 				return Assets.buttonLeftDisabled;
 			case 4 :
-				return Assets.inventorySlotDisabled;
+				return Assets.buttonEmptyDisabled;
 		}
 		return Assets.nullTile;
 	}

@@ -103,13 +103,13 @@ public class Player extends Entity {
 
 	public boolean swingSword (int objectTileX, int objectTileY, int direction) {
 		switch (direction) {
-			case 0 :
+			case Constants.UP :
 				return (this.tileX - 1 == objectTileX || this.tileX == objectTileX || this.tileX + 1 == objectTileX) && this.tileY - 1 == objectTileY;
-			case 1 :
+			case Constants.RIGHT :
 				return (this.tileY - 1 == objectTileY || this.tileY == objectTileY || this.tileY + 1 == objectTileY) && this.tileX + 1 == objectTileX;
-			case 2 :
+			case Constants.DOWN :
 				return (this.tileX - 1 == objectTileX || this.tileX == objectTileX || this.tileX + 1 == objectTileX) && this.tileY + 1 == objectTileY;
-			case 3 :
+			case Constants.LEFT :
 				return (this.tileY - 1 == objectTileY || this.tileY == objectTileY || this.tileY + 1 == objectTileY) && this.tileX - 1 == objectTileX;
 		}
 

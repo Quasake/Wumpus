@@ -1,12 +1,13 @@
 package me.quasar.wumpus.graphics;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+
+import me.quasar.wumpus.utils.Constants;
 
 public class Renderer {
 	public static BufferedImage resizeImage (BufferedImage image, float scale) {
@@ -45,13 +46,13 @@ public class Renderer {
 		Graphics2D graphics2D = rotatedImage.createGraphics( );
 		graphics2D.translate((height - width) / 2, (height - width) / 2);
 		switch (direction) {
-			case 1 :
+			case Constants.RIGHT :
 				graphics2D.rotate(Math.PI / 2, height / 2, width / 2);
 				break;
-			case 2 :
+			case Constants.DOWN :
 				graphics2D.rotate(Math.PI, height / 2, width / 2);
 				break;
-			case 3 :
+			case Constants.LEFT :
 				graphics2D.rotate((Math.PI / 2) * 3, height / 2, width / 2);
 				break;
 		}

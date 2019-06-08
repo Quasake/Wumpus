@@ -34,7 +34,7 @@ public class Constants {
 
 	public static float INFOBOX_CENTER = GAME_WIDTH - ((GAME_WIDTH - (MAP_WIDTH + IMAGE_WIDTH)) / 2.0f);
 	public static final float INFOBOX_CREDITS_SPACING = GAME_TEXT_SIZE * 1.5f;
-	public static final int INFOBOX_CREDITS_LINES = 17;
+	public static final int INFOBOX_CREDITS_LINES = 18;
 	public static int INFOBOX_CREDITS_X = Constants.MAP_WIDTH / 2;
 	public static int INFOBOX_CREDITS_Y = Constants.MAP_HEIGHT / 2;
 	public static final int INFOBOX_HIGHSCORE_LENGTH = 5;

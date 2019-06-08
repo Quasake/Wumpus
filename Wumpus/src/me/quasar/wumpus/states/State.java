@@ -63,5 +63,5 @@ public abstract class State {
 	public Panel getPanel ( ) {
 		return panel;
 	}
-	
+
 }

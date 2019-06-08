@@ -55,16 +55,16 @@ public class Wumpus extends Entity {
 		while (!moved) {
 			int randomDirection = Constants.RANDOM.nextInt(5);
 			switch (randomDirection) {
-				case 0 :
+				case Constants.UP :
 					moved = moveUp(true, false);
 					break;
-				case 1 :
+				case Constants.RIGHT :
 					moved = moveRight(true, false);
 					break;
-				case 2 :
+				case Constants.DOWN :
 					moved = moveDown(true, false);
 					break;
-				case 3 :
+				case Constants.LEFT :
 					moved = moveLeft(true, false);
 					break;
 				case 4 :

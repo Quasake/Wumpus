@@ -13,6 +13,12 @@ public class Assets {
 	public static BufferedImage bow;
 	public static BufferedImage compass;
 	public static BufferedImage arrow;
+	public static BufferedImage flashlight;
+	public static BufferedImage trap;
+	public static BufferedImage bomb;
+
+	public static BufferedImage leverLeft;
+	public static BufferedImage leverRight;
 
 	public static BufferedImage wallTop;
 	public static BufferedImage wallTopRight;
@@ -26,10 +32,9 @@ public class Assets {
 	public static BufferedImage floorTile;
 	public static BufferedImage hiddenTile;
 	public static BufferedImage nullTile;
-	public static BufferedImage inventorySlot;
-	public static BufferedImage inventorySlotDisabled;
 	public static BufferedImage coveredTile;
 	public static BufferedImage holeTile;
+	public static BufferedImage trapTile;
 
 	public static BufferedImage poleTop;
 	public static BufferedImage poleMiddle;
@@ -42,6 +47,10 @@ public class Assets {
 	public static BufferedImage buttonRight;
 	public static BufferedImage buttonDown;
 	public static BufferedImage buttonLeft;
+
+	public static BufferedImage buttonEmpty;
+	public static BufferedImage buttonEmptyDisabled;
+	public static BufferedImage buttonPause;
 
 	public static BufferedImage buttonBoxLeftDisabled;
 	public static BufferedImage buttonBoxMiddleDisabled;
@@ -80,6 +89,12 @@ public class Assets {
 		bow = items.getSprite(1, 0);
 		compass = items.getSprite(1, 1);
 		arrow = items.getSprite(2, 0);
+		flashlight = items.getSprite(2, 1);
+		trap = items.getSprite(0, 2);
+		bomb = items.getSprite(1, 2);
+
+		leverLeft = items.getSprite(2, 2);
+		leverRight = items.getSprite(3, 2);
 
 		SpriteSheet player = new SpriteSheet(ImageLoader.loadImage("/tex/player.png"));
 		playerIdle = player.getAnimation(0, 0);
@@ -107,10 +122,9 @@ public class Assets {
 		floorTile = textures.getSprite(1, 1);
 		hiddenTile = textures.getSprite(5, 0);
 		nullTile = textures.getSprite(4, 1);
-		inventorySlot = textures.getSprite(5, 1);
-		inventorySlotDisabled = textures.getSprite(6, 3);
 		coveredTile = textures.getSprite(3, 3);
 		holeTile = textures.getSprite(4, 0);
+		trapTile = textures.getSprite(6, 0);
 
 		poleTop = textures.getSprite(3, 0);
 		poleMiddle = textures.getSprite(3, 1);
@@ -123,6 +137,10 @@ public class Assets {
 		buttonRight = textures.getSprite(4, 3);
 		buttonDown = textures.getSprite(5, 2);
 		buttonLeft = textures.getSprite(5, 3);
+
+		buttonEmpty = textures.getSprite(5, 1);
+		buttonEmptyDisabled = textures.getSprite(6, 3);
+		buttonPause = textures.getSprite(6, 2);
 
 		buttonBoxLeftDisabled = textures.getSprite(0, 4);
 		buttonBoxMiddleDisabled = textures.getSprite(1, 4);

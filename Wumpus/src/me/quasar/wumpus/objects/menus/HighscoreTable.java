@@ -34,7 +34,7 @@ public class HighscoreTable {
 
 				table.add(i, newScore);
 				table.remove(table.size( ) - 1);
-				
+
 				for (int j = 0; j < table.size( ); j++) {
 					table.get(j)[0] = Integer.toString(j + 1);
 				}

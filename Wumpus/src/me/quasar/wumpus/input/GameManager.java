@@ -146,7 +146,7 @@ public class GameManager {
 			if (swungSword) {
 				if (hitWumpus) {
 					if (Utils.chance(0.65f)) {
-						gameOver("You killed the wumpus with your sword.", true);
+						gameOver("You killed the wumpus with a sword.", true);
 					} else {
 						addEvent("The wumpus dodged your sword.");
 					}
@@ -389,10 +389,10 @@ public class GameManager {
 		} else if (attackUp.isClicked( )) {
 			if (player.hasWeapon( )) {
 				if (player.getWeapon( ).getId( ) == Constants.ID_BOW) {
-					player.shootArrow(0);
+					player.shootArrow(Constants.UP);
 				} else {
 					swungSword = true;
-					hitWumpus = player.swingSword(wumpus.getTileX( ), wumpus.getTileY( ), 0);
+					hitWumpus = player.swingSword(wumpus.getTileX( ), wumpus.getTileY( ), Constants.UP);
 				}
 
 				return true;
@@ -400,10 +400,10 @@ public class GameManager {
 		} else if (attackRight.isClicked( )) {
 			if (player.hasWeapon( )) {
 				if (player.getWeapon( ).getId( ) == Constants.ID_BOW) {
-					player.shootArrow(1);
+					player.shootArrow(Constants.RIGHT);
 				} else {
 					swungSword = true;
-					hitWumpus = player.swingSword(wumpus.getTileX( ), wumpus.getTileY( ), 1);
+					hitWumpus = player.swingSword(wumpus.getTileX( ), wumpus.getTileY( ), Constants.RIGHT);
 				}
 
 				return true;
@@ -411,10 +411,10 @@ public class GameManager {
 		} else if (attackDown.isClicked( )) {
 			if (player.hasWeapon( )) {
 				if (player.getWeapon( ).getId( ) == Constants.ID_BOW) {
-					player.shootArrow(2);
+					player.shootArrow(Constants.DOWN);
 				} else {
 					swungSword = true;
-					hitWumpus = player.swingSword(wumpus.getTileX( ), wumpus.getTileY( ), 2);
+					hitWumpus = player.swingSword(wumpus.getTileX( ), wumpus.getTileY( ), Constants.DOWN);
 				}
 
 				return true;
@@ -422,10 +422,10 @@ public class GameManager {
 		} else if (attackLeft.isClicked( )) {
 			if (player.hasWeapon( )) {
 				if (player.getWeapon( ).getId( ) == Constants.ID_BOW) {
-					player.shootArrow(3);
+					player.shootArrow(Constants.LEFT);
 				} else {
 					swungSword = true;
-					hitWumpus = player.swingSword(wumpus.getTileX( ), wumpus.getTileY( ), 3);
+					hitWumpus = player.swingSword(wumpus.getTileX( ), wumpus.getTileY( ), Constants.LEFT);
 				}
 
 				return true;
@@ -464,8 +464,8 @@ public class GameManager {
 	public boolean isWin ( ) {
 		return win;
 	}
-	
-	public int getTurns () {
+
+	public int getTurns ( ) {
 		return turns;
 	}
 

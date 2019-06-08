@@ -65,6 +65,7 @@ public class CreditsState extends State {
 		drawLine("CodeNMore", Color.YELLOW, graphics);
 		drawLine("Brackeys", Color.YELLOW, graphics);
 		drawLine("Mr. Grossi [the god himself]", Color.YELLOW, graphics);
+		drawLine("My brother Michael", Color.YELLOW, graphics);
 
 		panel.render(graphics);
 	}
