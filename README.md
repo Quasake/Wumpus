@@ -73,7 +73,7 @@
   - Flashlight
   - Bomb
 - Easter Eggs [?]
-- Highscore system
+- Highscore system **✓**
 - Currency (+ game shop) [?]
 - Game stats
 
