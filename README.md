@@ -19,14 +19,14 @@
   - Player attack [?]
     - Bow
       - Character animation [?]
-      - Arrow animation
+      - Arrow animation **✓**
     - Sword [?]
       - Character animation [?]
       - Sword slash animation [?]
 - Make game states **✓**
 - Game state transitions **✓**
 - Inventory **✓**
-- Death / win messages (what the player did to win or lose)
+- Death / win messages (what the player did to win or lose) **✓**
 - Titlescreen **✓**
   - Play button **✓**
   - Options button **✓**
@@ -35,14 +35,15 @@
   - Exit button **✓**
 - Options menu
   - Change map size **✓**
+  - Toggle hazards **✓**
   - Change music volume
 - Player movement **✓**
 - Wumpus movement **✓**
 - Player-wumpus collision **✓**
-- Player attack
+- Player attack **✓**
   - Bow **✓**
-  - Sword
-- Compass functionality
+  - Sword **✓**
+- Compass functionality **✓**
 - Music
   - Titlescreen **✓**
   - Death
@@ -56,10 +57,21 @@
 - Blur tiles that are not covered by the player's torch **✓**
 - Map hazards
   - Hole **✓**
+  - Lever
+    - Glance at map
+    - Instant death
+    - Give torch
+    - Give weapon (if player does not have one)
+    - Remove torch
+    - Add holes
+    - Nothing
   - Bat [?]
   - Other hazards [?]
-- Pause menu [?]
-- More items [?]
+- Pause menu
+- More items
+  - Trap
+  - Flashlight
+  - Bomb
 - Easter Eggs [?]
 - Highscore system
 - Currency (+ game shop) [?]
