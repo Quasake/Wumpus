@@ -67,4 +67,7 @@ public class Constants {
 	public static final int ID_SWORD = 2;
 	public static final int ID_TORCH = 3;
 	public static final int ID_COMPASS = 4;
+	public static final int ID_BOMB = 5;
+	public static final int ID_TRAP = 6;
+	public static final int ID_FLASHLIGHT = 7;
 }

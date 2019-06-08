@@ -1,4 +1,4 @@
-package me.quasar.wumpus.objects.inventory;
+package me.quasar.wumpus.objects.menus.inventory;
 
 import java.awt.Graphics;
 
@@ -9,6 +9,8 @@ import me.quasar.wumpus.utils.Handler;
 public class Inventory {
 	private InventorySlot[ ] inventory;
 	private Handler handler;
+
+	private Item movingItem;
 
 	public Inventory (int size, Handler handler) {
 		this.handler = handler;

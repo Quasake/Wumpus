@@ -4,8 +4,8 @@ import java.awt.Graphics;
 
 import me.quasar.wumpus.graphics.Assets;
 import me.quasar.wumpus.objects.Map;
-import me.quasar.wumpus.objects.inventory.Inventory;
 import me.quasar.wumpus.objects.items.Item;
+import me.quasar.wumpus.objects.menus.inventory.Inventory;
 import me.quasar.wumpus.utils.Constants;
 import me.quasar.wumpus.utils.Handler;
 

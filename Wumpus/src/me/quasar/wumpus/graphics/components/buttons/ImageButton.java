@@ -36,6 +36,10 @@ public class ImageButton extends Button {
 				return Assets.buttonLeft;
 			case 4 :
 				return Assets.buttonEmpty;
+			case 5 :
+				return Assets.buttonPause;
+			case 6 :
+				return Assets.buttonEmptySpecial;
 		}
 		return Assets.nullTile;
 	}
@@ -52,6 +56,10 @@ public class ImageButton extends Button {
 				return Assets.buttonLeftDisabled;
 			case 4 :
 				return Assets.buttonEmptyDisabled;
+			case 5 :
+				return Assets.buttonPause;
+			case 6 :
+				return Assets.buttonEmptySpecialDisabled;
 		}
 		return Assets.nullTile;
 	}

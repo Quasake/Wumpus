@@ -19,6 +19,13 @@ public class Assets {
 
 	public static BufferedImage leverLeft;
 	public static BufferedImage leverRight;
+	public static BufferedImage trapTile;
+
+	public static BufferedImage floorTile;
+	public static BufferedImage hiddenTile;
+	public static BufferedImage nullTile;
+	public static BufferedImage coveredTile;
+	public static BufferedImage holeTile;
 
 	public static BufferedImage wallTop;
 	public static BufferedImage wallTopRight;
@@ -28,13 +35,6 @@ public class Assets {
 	public static BufferedImage wallBottomLeft;
 	public static BufferedImage wallLeft;
 	public static BufferedImage wallTopLeft;
-
-	public static BufferedImage floorTile;
-	public static BufferedImage hiddenTile;
-	public static BufferedImage nullTile;
-	public static BufferedImage coveredTile;
-	public static BufferedImage holeTile;
-	public static BufferedImage trapTile;
 
 	public static BufferedImage poleTop;
 	public static BufferedImage poleMiddle;
@@ -50,6 +50,8 @@ public class Assets {
 
 	public static BufferedImage buttonEmpty;
 	public static BufferedImage buttonEmptyDisabled;
+	public static BufferedImage buttonEmptySpecial;
+	public static BufferedImage buttonEmptySpecialDisabled;
 	public static BufferedImage buttonPause;
 
 	public static BufferedImage buttonBoxLeftDisabled;
@@ -95,6 +97,7 @@ public class Assets {
 
 		leverLeft = items.getSprite(2, 2);
 		leverRight = items.getSprite(3, 2);
+		trapTile = items.getSprite(3, 0);
 
 		SpriteSheet player = new SpriteSheet(ImageLoader.loadImage("/tex/player.png"));
 		playerIdle = player.getAnimation(0, 0);
@@ -110,6 +113,12 @@ public class Assets {
 		playerMoveLeftTorch = player.getAnimation(Constants.SPRITE_ANIMATION_LENGTH, 3);
 
 		SpriteSheet textures = new SpriteSheet(ImageLoader.loadImage("/tex/textures.png"));
+		floorTile = textures.getSprite(1, 1);
+		hiddenTile = textures.getSprite(5, 0);
+		nullTile = textures.getSprite(4, 1);
+		coveredTile = textures.getSprite(3, 3);
+		holeTile = textures.getSprite(4, 0);
+
 		wallTop = textures.getSprite(1, 0);
 		wallTopRight = textures.getSprite(2, 0);
 		wallRight = textures.getSprite(2, 1);
@@ -118,13 +127,6 @@ public class Assets {
 		wallBottomLeft = textures.getSprite(0, 2);
 		wallLeft = textures.getSprite(0, 1);
 		wallTopLeft = textures.getSprite(0, 0);
-
-		floorTile = textures.getSprite(1, 1);
-		hiddenTile = textures.getSprite(5, 0);
-		nullTile = textures.getSprite(4, 1);
-		coveredTile = textures.getSprite(3, 3);
-		holeTile = textures.getSprite(4, 0);
-		trapTile = textures.getSprite(6, 0);
 
 		poleTop = textures.getSprite(3, 0);
 		poleMiddle = textures.getSprite(3, 1);
@@ -140,6 +142,8 @@ public class Assets {
 
 		buttonEmpty = textures.getSprite(5, 1);
 		buttonEmptyDisabled = textures.getSprite(6, 3);
+		buttonEmptySpecial = textures.getSprite(6, 1);
+		buttonEmptySpecialDisabled = textures.getSprite(6, 0);
 		buttonPause = textures.getSprite(6, 2);
 
 		buttonBoxLeftDisabled = textures.getSprite(0, 4);

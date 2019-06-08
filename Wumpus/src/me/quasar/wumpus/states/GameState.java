@@ -19,6 +19,7 @@ import me.quasar.wumpus.utils.Handler;
 public class GameState extends State {
 	private Player player;
 	private Wumpus wumpus;
+
 	private Map map;
 
 	private GameManager gameManager;
@@ -47,7 +48,7 @@ public class GameState extends State {
 		Tile wumpusTile;
 		do {
 			wumpusTile = map.getRandomTile(true, false);
-		} while (wumpusTile == playerTile || ((FloorTile) wumpusTile).isHole( ));
+		} while (wumpusTile == playerTile);
 		wumpus = new Wumpus(wumpusTile.getX( ), wumpusTile.getY( ), map);
 
 		gameManager = new GameManager(player, wumpus, map, handler);

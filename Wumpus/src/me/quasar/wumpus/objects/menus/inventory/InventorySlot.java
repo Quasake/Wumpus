@@ -1,4 +1,4 @@
-package me.quasar.wumpus.objects.inventory;
+package me.quasar.wumpus.objects.menus.inventory;
 
 import java.awt.Graphics;
 

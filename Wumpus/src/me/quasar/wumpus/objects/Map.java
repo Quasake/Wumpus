@@ -2,10 +2,13 @@ package me.quasar.wumpus.objects;
 
 import java.awt.Graphics;
 
+import me.quasar.wumpus.objects.items.Bomb;
 import me.quasar.wumpus.objects.items.Bow;
 import me.quasar.wumpus.objects.items.Compass;
+import me.quasar.wumpus.objects.items.FlashLight;
 import me.quasar.wumpus.objects.items.Sword;
 import me.quasar.wumpus.objects.items.Torch;
+import me.quasar.wumpus.objects.items.Trap;
 import me.quasar.wumpus.objects.tiles.EmptyTile;
 import me.quasar.wumpus.objects.tiles.FloorTile;
 import me.quasar.wumpus.objects.tiles.SeparatorTile;
@@ -49,7 +52,11 @@ public class Map {
 
 	private void generateItems ( ) {
 		for (int i = 0; i < size / Constants.MAP_MIN_SIZE; i++) {
-			getRandomTile(false, false).setItem(new Torch( ));
+			if (Utils.chance(0.25f) && getTileWithItem(Constants.ID_FLASHLIGHT) == null) {
+				getRandomTile(false, false).setItem(new FlashLight( ));
+			} else {
+				getRandomTile(false, false).setItem(new Torch( ));
+			}
 
 			if (Constants.SETTINGS_HAZARDS) {
 				((FloorTile) getRandomTile(false, false)).setHole(true);
@@ -64,6 +71,13 @@ public class Map {
 		} else {
 			getRandomTile(false, false).setItem(new Bow( ));
 			weaponId = Constants.ID_BOW;
+		}
+
+		if (Utils.chance(0.33f)) {
+			getRandomTile(false, false).setItem(new Trap( ));
+		}
+		if (Utils.chance(0.1f)) {
+			getRandomTile(false, false).setItem(new Bomb( ));
 		}
 	}
 
