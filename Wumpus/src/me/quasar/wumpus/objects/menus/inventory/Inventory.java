@@ -2,6 +2,7 @@ package me.quasar.wumpus.objects.menus.inventory;
 
 import java.awt.Graphics;
 
+import me.quasar.wumpus.graphics.Renderer;
 import me.quasar.wumpus.objects.items.Item;
 import me.quasar.wumpus.utils.Constants;
 import me.quasar.wumpus.utils.Handler;
@@ -19,7 +20,7 @@ public class Inventory {
 
 		for (int i = 0; i < inventory.length; i++) {
 			inventory[i] = new InventorySlot((float) (Constants.INFOBOX_CENTER + (Constants.IMAGE_WIDTH * (i - (inventory.length / 2.0))) + (Constants.IMAGE_WIDTH / 2)),
-				Constants.GAME_HEIGHT / 8, handler);
+				Constants.GAME_HEIGHT / 8, i == 0, handler);
 		}
 	}
 
@@ -27,12 +28,23 @@ public class Inventory {
 		for (int i = 0; i < inventory.length; i++) {
 			inventory[i].update( );
 		}
+
+		if (getSlotClicked( ) > -1) {
+			Item x = movingItem;
+			movingItem = inventory[getSlotClicked( )].getItem( );
+			inventory[getSlotClicked( )].setItem(x);
+		}
 	}
 
 	public void render (Graphics graphics) {
 		for (int i = 0; i < inventory.length; i++) {
 			inventory[i].render(graphics);
 		}
+
+		if (movingItem != null) {
+			Renderer.drawImage(movingItem.getTexture( ), handler.getMouseX( ), handler.getMouseY( ), true, graphics);
+		}
+
 	}
 
 	public void addItem (Item item) {
@@ -46,7 +58,7 @@ public class Inventory {
 
 	public int getSlotClicked ( ) {
 		for (int i = 0; i < inventory.length; i++) {
-			if (inventory[i].isClicked( ) && inventory[i].getItem( ) != null) {
+			if (inventory[i].isClicked( )) {
 				return i;
 			}
 		}

@@ -361,24 +361,26 @@ public class GameManager {
 		attackDown.update( );
 		attackLeft.update( );
 
-		int slotClickedIndex = player.getInventory( ).getSlotClicked( );
+		/*
+		 * int slotClickedIndex = player.getInventory( ).getSlotClicked( );
+		 * 
+		 * if (slotClickedIndex > -1 && compassTile == null) {
+		 * if (player.getInventory( ).getItem(slotClickedIndex).getId( ) == Constants.ID_COMPASS) {
+		 * compassSelection = true;
+		 * 
+		 * if (map.getTileWithItem(map.getWeaponId( )) == null) {
+		 * compassWeaponButton.setDisabled(true);
+		 * }
+		 * if (map.getTileWithItem(Constants.ID_TORCH) == null) {
+		 * compassTorchButton.setDisabled(true);
+		 * }
+		 * 
+		 * return true;
+		 * }
+		 * } else
+		 */
 
-		if (slotClickedIndex > -1 && compassTile == null) {
-			if (player.getInventory( ).getItem(slotClickedIndex).getId( ) == Constants.ID_COMPASS) {
-				compassSelection = true;
-
-				if (map.getTileWithItem(map.getWeaponId( )) == null) {
-					compassWeaponButton.setDisabled(true);
-				}
-				if (map.getTileWithItem(Constants.ID_TORCH) == null) {
-					compassTorchButton.setDisabled(true);
-				}
-
-				player.getInventory( ).getSlot(slotClickedIndex).setDisabled(true);
-
-				return true;
-			}
-		} else if (moveUp.isClicked( )) {
+		if (moveUp.isClicked( )) {
 			return player.moveUp(true, true);
 		} else if (moveRight.isClicked( )) {
 			return player.moveRight(true, true);

@@ -15,12 +15,11 @@ public class InventorySlot {
 	private Item item;
 	private Button slot;
 
-	public InventorySlot (float x, float y, Handler handler) {
+	public InventorySlot (float x, float y, boolean special, Handler handler) {
 		this.x = x;
 		this.y = y;
 
-		slot = new ImageButton(x, y, 4, handler);
-		slot.setDisabled(true);
+		slot = new ImageButton(x, y, (special) ? 6 : 4, handler);
 	}
 
 	public void update ( ) {
@@ -41,10 +40,6 @@ public class InventorySlot {
 
 	public Item getItem ( ) {
 		return item;
-	}
-
-	public void setDisabled (boolean disabled) {
-		slot.setDisabled(disabled);
 	}
 
 	public void setItem (Item item) {
