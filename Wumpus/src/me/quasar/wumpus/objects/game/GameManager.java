@@ -1,7 +1,8 @@
-package me.quasar.wumpus.input;
+package me.quasar.wumpus.objects.game;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import me.quasar.wumpus.graphics.Renderer;
@@ -9,7 +10,9 @@ import me.quasar.wumpus.graphics.components.buttons.Button;
 import me.quasar.wumpus.graphics.components.buttons.ImageButton;
 import me.quasar.wumpus.graphics.components.buttons.TextButton;
 import me.quasar.wumpus.objects.Map;
+import me.quasar.wumpus.objects.entities.Lever;
 import me.quasar.wumpus.objects.entities.Player;
+import me.quasar.wumpus.objects.entities.Trap;
 import me.quasar.wumpus.objects.entities.Wumpus;
 import me.quasar.wumpus.objects.tiles.FloorTile;
 import me.quasar.wumpus.objects.tiles.Tile;
@@ -41,21 +44,25 @@ public class GameManager {
 
 	private int turns = 0;
 
-	private boolean gameOver;
-	private String gameOverMessage;
-	private boolean win;
+	private boolean gameOver = false;
+	private String gameOverMessage = "";
+	private boolean win = false;
 
 	private Tile compassTile;
-	private boolean compassWumpus;
-	private boolean compassSelection;
+	private boolean compassWumpus = false;
+	private boolean compassSelection = false;
 	private Button compassWeaponButton;
 	private Button compassTorchButton;
 	private Button compassWumpusButton;
 
-	private boolean updated;
+	private boolean updated = false;
 
-	private boolean swungSword;
-	private boolean hitWumpus;
+	private boolean swungSword = false;
+	private boolean hitWumpus = false;
+	private boolean laidTrap = false;
+
+	private Trap trap = null;
+	private Lever lever = null;
 
 	private ArrayList<String> events;
 
@@ -80,11 +87,26 @@ public class GameManager {
 		compassWeaponButton = new TextButton(Constants.MAP_WIDTH / 4, Constants.GAME_HEIGHT / 2, "Weapon", handler);
 		compassTorchButton = new TextButton(Constants.MAP_WIDTH / 2, Constants.GAME_HEIGHT / 2, "Torch", handler);
 		compassWumpusButton = new TextButton((Constants.MAP_WIDTH / 4) * 3, Constants.GAME_HEIGHT / 2, "Wumpus", handler);
+
+		if (Utils.chance(0.5f)) {
+			Tile leverTile;
+			do {
+				leverTile = map.getRandomTile(false, false);
+			} while (leverTile == map.getTile(player.getTileX( ) + Constants.MAP_BORDER, player.getTileY( ) + Constants.MAP_BORDER));
+			lever = new Lever(leverTile.getX( ), leverTile.getY( ), map);
+		}
 	}
 
 	public void update ( ) {
 		player.update( );
 		wumpus.update( );
+
+		if (lever != null) {
+			lever.update( );
+		}
+		if (trap != null) {
+			trap.update( );
+		}
 
 		if (!gameOver) {
 			switch (turnStage) {
@@ -108,11 +130,18 @@ public class GameManager {
 		moveDown.render(graphics);
 		moveLeft.render(graphics);
 
-		Renderer.drawText("Attack", Constants.INFOBOX_CENTER, (Constants.GAME_HEIGHT / 4) * 3, Constants.GAME_TEXT_SIZE, true, Color.BLACK, graphics);
+		Renderer.drawText("Attack / Use", Constants.INFOBOX_CENTER, (Constants.GAME_HEIGHT / 4) * 3, Constants.GAME_TEXT_SIZE, true, Color.BLACK, graphics);
 		attackUp.render(graphics);
 		attackRight.render(graphics);
 		attackDown.render(graphics);
 		attackLeft.render(graphics);
+
+		if (lever != null) {
+			lever.render(graphics);
+		}
+		if (trap != null) {
+			trap.render(graphics);
+		}
 
 		wumpus.render(graphics);
 		player.render(graphics);
@@ -120,15 +149,15 @@ public class GameManager {
 		Renderer.drawText("Turns : " + turns, Constants.GAME_TEXT_SIZE * 2, Constants.GAME_HEIGHT - (Constants.GAME_TEXT_SIZE * 2), Constants.GAME_TEXT_SIZE, false,
 			Color.LIGHT_GRAY, graphics);
 
+		for (int i = 0; i < events.size( ); i++) {
+			Renderer.drawText(events.get(i), Constants.GAME_WIDTH - Constants.INFOBOX_WIDTH, (Constants.GAME_HEIGHT / 4) + (Constants.GAME_TEXT_SIZE * i),
+				Constants.GAME_TEXT_SIZE / 2, false, Color.BLACK, graphics);
+		}
+
 		if (compassSelection) {
 			compassWeaponButton.render(graphics);
 			compassTorchButton.render(graphics);
 			compassWumpusButton.render(graphics);
-		}
-
-		for (int i = 0; i < events.size( ); i++) {
-			Renderer.drawText(events.get(i), Constants.GAME_WIDTH - Constants.INFOBOX_WIDTH, (Constants.GAME_HEIGHT / 4) + (Constants.GAME_TEXT_SIZE * i),
-				Constants.GAME_TEXT_SIZE / 2, false, Color.BLACK, graphics);
 		}
 	}
 
@@ -136,12 +165,16 @@ public class GameManager {
 		if (!updated) {
 			updateEvents( );
 
-			coverTiles( );
-			uncoverTiles(player.getTileX( ) + Constants.MAP_BORDER, player.getTileY( ) + Constants.MAP_BORDER);
+			GameUtils.coverTiles(player, map);
+			GameUtils.uncoverTiles(player.getTileX( ) + Constants.MAP_BORDER, player.getTileY( ) + Constants.MAP_BORDER, player, map);
 		}
 
 		if (getPlayerInput( )) {
-			events.clear( );
+			if (!laidTrap) {
+				events.clear( );
+			} else {
+				laidTrap = false;
+			}
 
 			if (swungSword) {
 				if (hitWumpus) {
@@ -163,8 +196,8 @@ public class GameManager {
 			setButtons(true);
 			updated = false;
 
-			coverTiles( );
-			uncoverTiles(player.getMoveTileX( ) + Constants.MAP_BORDER, player.getMoveTileY( ) + Constants.MAP_BORDER);
+			GameUtils.coverTiles(player, map);
+			GameUtils.uncoverTiles(player.getMoveTileX( ) + Constants.MAP_BORDER, player.getMoveTileY( ) + Constants.MAP_BORDER, player, map);
 
 			turnStage = DO_TURN;
 			turns++;
@@ -193,10 +226,14 @@ public class GameManager {
 		if (compassSelection && compassTile == null) {
 			if (getCompassInput( )) {
 				compassSelection = false;
+				player.removeItem(0);
 			}
 		}
 		if (compassTile != map.getTile(wumpus.getTileX( ) + Constants.MAP_BORDER, wumpus.getTileY( ) + Constants.MAP_BORDER) && compassWumpus) {
 			compassTile = map.getTile(wumpus.getTileX( ) + Constants.MAP_BORDER, wumpus.getTileY( ) + Constants.MAP_BORDER);
+		}
+		if (map.getTile(player.getTileX( ) + Constants.MAP_BORDER, player.getTileY( ) + Constants.MAP_BORDER) == compassTile) {
+			compassTile = null;
 		}
 
 		if (!player.isMoving( ) && !wumpus.isMoving( ) && player.arrowIsDestroyed( ) && !compassSelection) {
@@ -220,6 +257,12 @@ public class GameManager {
 			}
 		} else if (((FloorTile) map.getTile(player.getTileX( ) + Constants.MAP_BORDER, player.getTileY( ) + Constants.MAP_BORDER)).isHole( )) {
 			gameOver("You fell into a pit.", false);
+		}
+
+		if (trap != null) {
+			if (wumpus.getTileX( ) == trap.getTileX( ) && wumpus.getTileY( ) == trap.getTileY( )) {
+				gameOver("The wumpus fell into your trap.", true);
+			}
 		}
 
 		turnStage = START_TURN;
@@ -277,62 +320,6 @@ public class GameManager {
 		updated = true;
 	}
 
-	private void uncoverTiles (int tileX, int tileY) {
-		for (int x = -player.getTorchCount( ) + tileX; x <= player.getTorchCount( ) + tileX; x++) {
-			for (int y = -player.getTorchCount( ) + tileY; y <= player.getTorchCount( ) + tileY; y++) {
-				try {
-					map.getTile(x, y).setHidden(false);
-
-					if (x == Constants.MAP_BORDER) {
-						if (y == Constants.MAP_BORDER) {
-							map.getTile(x - 1, y).setHidden(false);
-							map.getTile(x - 1, y - 1).setHidden(false);
-							map.getTile(x, y - 1).setHidden(false);
-						} else if (y == Constants.MAP_BORDER + map.getSize( ) - 1) {
-							map.getTile(x - 1, y).setHidden(false);
-							map.getTile(x - 1, y + 1).setHidden(false);
-							map.getTile(x, y + 1).setHidden(false);
-						} else {
-							map.getTile(x - 1, y).setHidden(false);
-						}
-					} else if (x == Constants.MAP_BORDER + map.getSize( ) - 1) {
-						if (y == Constants.MAP_BORDER) {
-							map.getTile(x, y - 1).setHidden(false);
-							map.getTile(x + 1, y - 1).setHidden(false);
-							map.getTile(x + 1, y).setHidden(false);
-						} else if (y == Constants.MAP_BORDER + map.getSize( ) - 1) {
-							map.getTile(x + 1, y).setHidden(false);
-							map.getTile(x + 1, y + 1).setHidden(false);
-							map.getTile(x, y + 1).setHidden(false);
-						} else {
-							map.getTile(x + 1, y).setHidden(false);
-						}
-					} else {
-						if (y == Constants.MAP_BORDER) {
-							map.getTile(x, y - 1).setHidden(false);
-						} else if (y == Constants.MAP_BORDER + map.getSize( ) - 1) {
-							map.getTile(x, y + 1).setHidden(false);
-						}
-					}
-				} catch (Exception e) {
-				}
-			}
-		}
-	}
-
-	private void coverTiles ( ) {
-		for (int x = Constants.MAP_BORDER - 1; x <= Constants.MAP_BORDER + map.getSize( ); x++) {
-			for (int y = Constants.MAP_BORDER - 1; y <= Constants.MAP_BORDER + map.getSize( ); y++) {
-				if (!Utils.inTileRange(x, y, player.getTileX( ) + Constants.MAP_BORDER, player.getTileY( ) + Constants.MAP_BORDER, player.getTorchCount( ), map)
-					&& !Utils.inTileRange(x, y, player.getMoveTileX( ) + Constants.MAP_BORDER, player.getMoveTileY( ) + Constants.MAP_BORDER, player.getTorchCount( ), map)) {
-					map.getTile(x, y).setCovered(true);
-				} else {
-					map.getTile(x, y).setCovered(false);
-				}
-			}
-		}
-	}
-
 	private boolean getCompassInput ( ) {
 		compassWeaponButton.update( );
 		compassTorchButton.update( );
@@ -341,7 +328,10 @@ public class GameManager {
 		if (compassWeaponButton.isClicked( )) {
 			compassTile = map.getTileWithItem(map.getWeaponId( ));
 		} else if (compassTorchButton.isClicked( )) {
-			compassTile = map.getTileWithItem(Constants.ID_TORCH);
+			compassTile = map.getTileWithItem(Constants.ID_FLASHLIGHT);
+			if (compassTile == null) {
+				compassTile = map.getTileWithItem(Constants.ID_TORCH);
+			}
 		} else if (compassWumpusButton.isClicked( )) {
 			compassTile = map.getTile(wumpus.getTileX( ) + Constants.MAP_BORDER, wumpus.getTileY( ) + Constants.MAP_BORDER);
 			compassWumpus = true;
@@ -361,76 +351,88 @@ public class GameManager {
 		attackDown.update( );
 		attackLeft.update( );
 
-		/*
-		 * int slotClickedIndex = player.getInventory( ).getSlotClicked( );
-		 * 
-		 * if (slotClickedIndex > -1 && compassTile == null) {
-		 * if (player.getInventory( ).getItem(slotClickedIndex).getId( ) == Constants.ID_COMPASS) {
-		 * compassSelection = true;
-		 * 
-		 * if (map.getTileWithItem(map.getWeaponId( )) == null) {
-		 * compassWeaponButton.setDisabled(true);
-		 * }
-		 * if (map.getTileWithItem(Constants.ID_TORCH) == null) {
-		 * compassTorchButton.setDisabled(true);
-		 * }
-		 * 
-		 * return true;
-		 * }
-		 * } else
-		 */
-
-		if (moveUp.isClicked( )) {
+		if (moveUp.isClicked( ) || handler.getKeyValue(KeyEvent.VK_W)) {
 			return player.moveUp(true, true);
-		} else if (moveRight.isClicked( )) {
+		} else if (moveRight.isClicked( ) || handler.getKeyValue(KeyEvent.VK_D)) {
 			return player.moveRight(true, true);
-		} else if (moveDown.isClicked( )) {
+		} else if (moveDown.isClicked( ) || handler.getKeyValue(KeyEvent.VK_S)) {
 			return player.moveDown(true, true);
-		} else if (moveLeft.isClicked( )) {
+		} else if (moveLeft.isClicked( ) || handler.getKeyValue(KeyEvent.VK_A)) {
 			return player.moveLeft(true, true);
-		} else if (attackUp.isClicked( )) {
-			if (player.hasWeapon( )) {
-				if (player.getWeapon( ).getId( ) == Constants.ID_BOW) {
-					player.shootArrow(Constants.UP);
-				} else {
-					swungSword = true;
-					hitWumpus = player.swingSword(wumpus.getTileX( ), wumpus.getTileY( ), Constants.UP);
-				}
+		} else if (attackUp.isClicked( ) || handler.getKeyValue(KeyEvent.VK_UP)) {
+			return doAction(Constants.UP);
+		} else if (attackRight.isClicked( ) || handler.getKeyValue(KeyEvent.VK_RIGHT)) {
+			return doAction(Constants.RIGHT);
+		} else if (attackDown.isClicked( ) || handler.getKeyValue(KeyEvent.VK_DOWN)) {
+			return doAction(Constants.DOWN);
+		} else if (attackLeft.isClicked( ) || handler.getKeyValue(KeyEvent.VK_LEFT)) {
+			return doAction(Constants.LEFT);
+		}
 
-				return true;
-			}
-		} else if (attackRight.isClicked( )) {
-			if (player.hasWeapon( )) {
-				if (player.getWeapon( ).getId( ) == Constants.ID_BOW) {
-					player.shootArrow(Constants.RIGHT);
-				} else {
-					swungSword = true;
-					hitWumpus = player.swingSword(wumpus.getTileX( ), wumpus.getTileY( ), Constants.RIGHT);
-				}
+		return false;
+	}
 
-				return true;
-			}
-		} else if (attackDown.isClicked( )) {
-			if (player.hasWeapon( )) {
-				if (player.getWeapon( ).getId( ) == Constants.ID_BOW) {
-					player.shootArrow(Constants.DOWN);
-				} else {
-					swungSword = true;
-					hitWumpus = player.swingSword(wumpus.getTileX( ), wumpus.getTileY( ), Constants.DOWN);
-				}
+	private boolean doAction (int direction) {
+		if (player.getInventory( ).getItem(0) != null) {
+			switch (player.getWeapon( ).getId( )) {
+				case Constants.ID_BOW :
+					player.shootArrow(direction);
 
-				return true;
-			}
-		} else if (attackLeft.isClicked( )) {
-			if (player.hasWeapon( )) {
-				if (player.getWeapon( ).getId( ) == Constants.ID_BOW) {
-					player.shootArrow(Constants.LEFT);
-				} else {
+					return true;
+				case Constants.ID_SWORD :
 					swungSword = true;
-					hitWumpus = player.swingSword(wumpus.getTileX( ), wumpus.getTileY( ), Constants.LEFT);
-				}
+					hitWumpus = player.swingSword(wumpus.getTileX( ), wumpus.getTileY( ), direction);
 
-				return true;
+					return true;
+				case Constants.ID_BOMB :
+
+					break;
+				case Constants.ID_COMPASS :
+					compassSelection = true;
+
+					if (map.getTileWithItem(map.getWeaponId( )) == null) {
+						compassWeaponButton.setDisabled(true);
+					}
+					if (map.getTileWithItem(Constants.ID_TORCH) == null && map.getTileWithItem(Constants.ID_FLASHLIGHT) == null) {
+						compassTorchButton.setDisabled(true);
+					}
+
+					return true;
+				case Constants.ID_TRAP :
+					Tile trapTile = null;
+					switch (direction) {
+						case Constants.UP :
+							trapTile = map.getTile(player.getTileX( ) + Constants.MAP_BORDER, player.getTileY( ) + Constants.MAP_BORDER - 1);
+
+							break;
+						case Constants.RIGHT :
+							trapTile = map.getTile(player.getTileX( ) + Constants.MAP_BORDER + 1, player.getTileY( ) + Constants.MAP_BORDER);
+
+							break;
+						case Constants.DOWN :
+							trapTile = map.getTile(player.getTileX( ) + Constants.MAP_BORDER, player.getTileY( ) + Constants.MAP_BORDER + 1);
+
+							break;
+						case Constants.LEFT :
+							trapTile = map.getTile(player.getTileX( ) + Constants.MAP_BORDER - 1, player.getTileY( ) + Constants.MAP_BORDER);
+
+							break;
+					}
+
+					boolean notLever = lever == null
+						|| (lever != null && trapTile != map.getTile(lever.getTileX( ) + Constants.MAP_BORDER, lever.getTileY( ) + Constants.MAP_BORDER));
+					boolean isFloorTile = (trapTile instanceof FloorTile) && !((FloorTile) trapTile).isHole( );
+
+					if (notLever && isFloorTile) {
+						trap = new Trap(trapTile.getX( ), trapTile.getY( ), map);
+
+						addEvent("You laid down a trap.");
+						laidTrap = true;
+						player.removeItem(0);
+						return true;
+					}
+
+					return false;
 			}
 		}
 

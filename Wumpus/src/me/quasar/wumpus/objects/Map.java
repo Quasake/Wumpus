@@ -52,7 +52,7 @@ public class Map {
 
 	private void generateItems ( ) {
 		for (int i = 0; i < size / Constants.MAP_MIN_SIZE; i++) {
-			if (Utils.chance(0.25f) && getTileWithItem(Constants.ID_FLASHLIGHT) == null) {
+			if (Utils.chance(1f) && getTileWithItem(Constants.ID_FLASHLIGHT) == null) {
 				getRandomTile(false, false).setItem(new FlashLight( ));
 			} else {
 				getRandomTile(false, false).setItem(new Torch( ));
@@ -75,9 +75,10 @@ public class Map {
 
 		if (Utils.chance(0.33f)) {
 			getRandomTile(false, false).setItem(new Trap( ));
-		}
-		if (Utils.chance(0.1f)) {
-			getRandomTile(false, false).setItem(new Bomb( ));
+		} else {
+			if (Utils.chance(0.1f)) {
+				getRandomTile(false, false).setItem(new Bomb( ));
+			}
 		}
 	}
 
@@ -145,6 +146,10 @@ public class Map {
 			tiles[x][y] = tile;
 		} catch (ArrayIndexOutOfBoundsException e) {
 		}
+	}
+
+	public boolean freeTile (int tileX, int tileY) {
+		return getTile(tileX, tileY) instanceof FloorTile;
 	}
 
 	public Tile getRandomTile (boolean canHaveItem, boolean canHaveHazard) {

@@ -16,7 +16,7 @@ public class Player extends Entity {
 	private Arrow arrow;
 	private Handler handler;
 
-	private Item weapon;
+	private int lastDirectionMoved = -1;
 
 	public Player (float x, float y, Map map, Handler handler) {
 		super(x, y, Constants.ENTITY_SPEED, map);
@@ -60,24 +60,32 @@ public class Player extends Entity {
 			} else {
 				setAnimation(Assets.playerMoveRight);
 			}
+
+			lastDirectionMoved = Constants.RIGHT;
 		} else if (moveTileX < tileX) {
 			if (hasTorch( )) {
 				setAnimation(Assets.playerMoveLeftTorch);
 			} else {
 				setAnimation(Assets.playerMoveLeft);
 			}
+
+			lastDirectionMoved = Constants.LEFT;
 		} else if (moveTileY > tileY) {
 			if (hasTorch( )) {
 				setAnimation(Assets.playerMoveDownTorch);
 			} else {
 				setAnimation(Assets.playerMoveDown);
 			}
+
+			lastDirectionMoved = Constants.DOWN;
 		} else if (moveTileY < tileY) {
 			if (hasTorch( )) {
 				setAnimation(Assets.playerMoveUpTorch);
 			} else {
 				setAnimation(Assets.playerMoveUp);
 			}
+
+			lastDirectionMoved = Constants.UP;
 		} else {
 			if (hasTorch( )) {
 				setAnimation(Assets.playerIdleTorch);
@@ -121,10 +129,6 @@ public class Player extends Entity {
 	}
 
 	public void addItem (Item item) {
-		if (item.getId( ) == Constants.ID_BOW || item.getId( ) == Constants.ID_SWORD) {
-			weapon = item;
-		}
-
 		if (item.getId( ) == Constants.ID_TORCH) {
 			torchCount++;
 		} else {
@@ -132,16 +136,34 @@ public class Player extends Entity {
 		}
 	}
 
+	public void removeItem (int index) {
+		inventory.removeItem(index);
+	}
+
 	public Inventory getInventory ( ) {
 		return inventory;
 	}
 
+	public int getLastDirectionMoved ( ) {
+		return lastDirectionMoved;
+	}
+
 	public boolean hasWeapon ( ) {
-		return weapon != null;
+		if (getWeapon( ) != null) {
+			return getWeapon( ).getId( ) == Constants.ID_BOW || getWeapon( ).getId( ) == Constants.ID_SWORD;
+		}
+		return false;
+	}
+
+	public boolean hasFlashLight ( ) {
+		if (getWeapon( ) != null) {
+			return getWeapon( ).getId( ) == Constants.ID_FLASHLIGHT;
+		}
+		return false;
 	}
 
 	public Item getWeapon ( ) {
-		return weapon;
+		return inventory.getItem(0);
 	}
 
 	public Arrow getArrow ( ) {

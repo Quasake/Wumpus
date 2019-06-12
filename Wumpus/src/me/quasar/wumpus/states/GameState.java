@@ -7,14 +7,17 @@ import me.quasar.wumpus.graphics.Assets;
 import me.quasar.wumpus.graphics.Renderer;
 import me.quasar.wumpus.graphics.components.buttons.Button;
 import me.quasar.wumpus.graphics.components.buttons.TextButton;
-import me.quasar.wumpus.input.GameManager;
 import me.quasar.wumpus.objects.Map;
+import me.quasar.wumpus.objects.entities.Lever;
 import me.quasar.wumpus.objects.entities.Player;
+import me.quasar.wumpus.objects.entities.Trap;
 import me.quasar.wumpus.objects.entities.Wumpus;
+import me.quasar.wumpus.objects.game.GameManager;
 import me.quasar.wumpus.objects.tiles.FloorTile;
 import me.quasar.wumpus.objects.tiles.Tile;
 import me.quasar.wumpus.utils.Constants;
 import me.quasar.wumpus.utils.Handler;
+import me.quasar.wumpus.utils.Utils;
 
 public class GameState extends State {
 	private Player player;

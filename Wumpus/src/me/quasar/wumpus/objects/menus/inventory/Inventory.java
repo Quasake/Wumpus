@@ -92,6 +92,11 @@ public class Inventory {
 		return -1;
 	}
 
+	public void removeItem (int index) {
+		inventory[index].setItem(null);
+		;
+	}
+
 	public InventorySlot getSlot (int index) {
 		return inventory[index];
 	}

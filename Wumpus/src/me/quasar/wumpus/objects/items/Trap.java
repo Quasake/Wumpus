@@ -5,7 +5,7 @@ import me.quasar.wumpus.utils.Constants;
 
 public class Trap extends Item {
 
-	public Trap () {
+	public Trap ( ) {
 		super(Assets.trap, "trap", Constants.ID_TRAP);
 	}
 

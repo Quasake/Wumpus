@@ -5,7 +5,7 @@ import me.quasar.wumpus.utils.Constants;
 
 public class FlashLight extends Item {
 
-	public FlashLight () {
+	public FlashLight ( ) {
 		super(Assets.flashlight, "flashlight", Constants.ID_FLASHLIGHT);
 	}
 

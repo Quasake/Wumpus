@@ -80,6 +80,9 @@ public class Game implements Runnable {
 		window.getCanvas( ).addMouseListener(mouseManager);
 		window.getCanvas( ).addMouseMotionListener(mouseManager);
 
+		keyManager = new KeyManager( );
+		window.getFrame( ).addKeyListener(keyManager);
+
 		try {
 			font = Font.createFont(Font.TRUETYPE_FONT, getClass( ).getClassLoader( ).getResourceAsStream("fonts/pixelated.ttf"));
 			GraphicsEnvironment.getLocalGraphicsEnvironment( ).registerFont(font);
