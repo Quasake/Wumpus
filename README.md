@@ -69,8 +69,8 @@
   - Other hazards [?]
 - Pause menu
 - More items
-  - Trap
-  - Flashlight
+  - Trap **✓**
+  - Flashlight **✓**
   - Bomb
 - Easter Eggs [?]
 - Highscore system **✓**
