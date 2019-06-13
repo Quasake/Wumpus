@@ -1,15 +1,20 @@
-package me.quasar.wumpus.objects.game;
+package me.quasar.wumpus.objects;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
+import me.quasar.wumpus.audio.AudioManager;
+import me.quasar.wumpus.audio.Sounds;
 import me.quasar.wumpus.graphics.Renderer;
 import me.quasar.wumpus.graphics.components.buttons.Button;
 import me.quasar.wumpus.graphics.components.buttons.ImageButton;
 import me.quasar.wumpus.graphics.components.buttons.TextButton;
-import me.quasar.wumpus.objects.Map;
 import me.quasar.wumpus.objects.entities.Lever;
 import me.quasar.wumpus.objects.entities.Player;
 import me.quasar.wumpus.objects.entities.Trap;
@@ -378,10 +383,14 @@ public class GameManager {
 				case Constants.ID_BOW :
 					player.shootArrow(direction);
 
+					AudioManager.playSoundEffect(Sounds.shootArrow);
+
 					return true;
 				case Constants.ID_SWORD :
 					swungSword = true;
 					hitWumpus = player.swingSword(wumpus.getTileX( ), wumpus.getTileY( ), direction);
+
+					AudioManager.playSoundEffect(Sounds.swingSword);
 
 					return true;
 				case Constants.ID_BOMB :
@@ -441,6 +450,14 @@ public class GameManager {
 
 	private void gameOver (String gameOverMessage, boolean win) {
 		gameOver = true;
+
+		AudioManager.playSoundEffect(Sounds.death);
+
+		if (win) {
+			wumpus.setDead(true);
+		} else {
+			player.setDead(true);
+		}
 
 		this.gameOverMessage = gameOverMessage;
 		this.win = win;

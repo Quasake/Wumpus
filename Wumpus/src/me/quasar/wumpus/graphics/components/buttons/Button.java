@@ -2,7 +2,13 @@ package me.quasar.wumpus.graphics.components.buttons;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
+import me.quasar.wumpus.audio.AudioManager;
+import me.quasar.wumpus.audio.Sounds;
 import me.quasar.wumpus.graphics.Assets;
 import me.quasar.wumpus.utils.Handler;
 import me.quasar.wumpus.utils.Utils;
@@ -41,6 +47,8 @@ public abstract class Button {
 					if (Utils.inRange(handler.getMouseX( ), handler.getMouseY( ), x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2))) {
 						clicked = true;
 						pressed = true;
+
+						AudioManager.playSoundEffect(Sounds.clickButton);
 					}
 				}
 			} else {

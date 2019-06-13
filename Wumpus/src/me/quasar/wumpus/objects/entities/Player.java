@@ -17,6 +17,8 @@ public class Player extends Entity {
 	private Handler handler;
 
 	private int lastDirectionMoved = -1;
+	private boolean dead = false;
+	private int deadCount = 0;
 
 	public Player (float x, float y, Map map, Handler handler) {
 		super(x, y, Constants.ENTITY_SPEED, map);
@@ -38,7 +40,13 @@ public class Player extends Entity {
 			arrow = null;
 		}
 
-		move( );
+		if (!dead) {
+			move( );
+		} else {
+			y -= moveSpeed;
+			x += 2 * Math.cos(0.05 * deadCount);
+			deadCount++;
+		}
 	}
 
 	@Override
@@ -54,44 +62,48 @@ public class Player extends Entity {
 
 	@Override
 	protected void updateAnimations ( ) {
-		if (moveTileX > tileX) {
-			if (hasTorch( )) {
-				setAnimation(Assets.playerMoveRightTorch);
-			} else {
-				setAnimation(Assets.playerMoveRight);
-			}
+		if (!dead) {
+			if (moveTileX > tileX) {
+				if (hasTorch( )) {
+					setAnimation(Assets.playerMoveRightTorch);
+				} else {
+					setAnimation(Assets.playerMoveRight);
+				}
 
-			lastDirectionMoved = Constants.RIGHT;
-		} else if (moveTileX < tileX) {
-			if (hasTorch( )) {
-				setAnimation(Assets.playerMoveLeftTorch);
-			} else {
-				setAnimation(Assets.playerMoveLeft);
-			}
+				lastDirectionMoved = Constants.RIGHT;
+			} else if (moveTileX < tileX) {
+				if (hasTorch( )) {
+					setAnimation(Assets.playerMoveLeftTorch);
+				} else {
+					setAnimation(Assets.playerMoveLeft);
+				}
 
-			lastDirectionMoved = Constants.LEFT;
-		} else if (moveTileY > tileY) {
-			if (hasTorch( )) {
-				setAnimation(Assets.playerMoveDownTorch);
-			} else {
-				setAnimation(Assets.playerMoveDown);
-			}
+				lastDirectionMoved = Constants.LEFT;
+			} else if (moveTileY > tileY) {
+				if (hasTorch( )) {
+					setAnimation(Assets.playerMoveDownTorch);
+				} else {
+					setAnimation(Assets.playerMoveDown);
+				}
 
-			lastDirectionMoved = Constants.DOWN;
-		} else if (moveTileY < tileY) {
-			if (hasTorch( )) {
-				setAnimation(Assets.playerMoveUpTorch);
-			} else {
-				setAnimation(Assets.playerMoveUp);
-			}
+				lastDirectionMoved = Constants.DOWN;
+			} else if (moveTileY < tileY) {
+				if (hasTorch( )) {
+					setAnimation(Assets.playerMoveUpTorch);
+				} else {
+					setAnimation(Assets.playerMoveUp);
+				}
 
-			lastDirectionMoved = Constants.UP;
+				lastDirectionMoved = Constants.UP;
+			} else {
+				if (hasTorch( )) {
+					setAnimation(Assets.playerIdleTorch);
+				} else {
+					setAnimation(Assets.playerIdle);
+				}
+			}
 		} else {
-			if (hasTorch( )) {
-				setAnimation(Assets.playerIdleTorch);
-			} else {
-				setAnimation(Assets.playerIdle);
-			}
+			setAnimation(Assets.playerDead);
 		}
 	}
 
@@ -168,6 +180,12 @@ public class Player extends Entity {
 
 	public Arrow getArrow ( ) {
 		return arrow;
+	}
+
+	public void setDead (boolean dead) {
+		this.dead = dead;
+
+		updateAnimations( );
 	}
 
 }

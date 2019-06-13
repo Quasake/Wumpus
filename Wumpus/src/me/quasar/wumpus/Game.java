@@ -8,6 +8,7 @@ import java.awt.GraphicsEnvironment;
 import java.awt.image.BufferStrategy;
 import java.io.IOException;
 
+import me.quasar.wumpus.audio.Sounds;
 import me.quasar.wumpus.graphics.Assets;
 import me.quasar.wumpus.graphics.Window;
 import me.quasar.wumpus.input.KeyManager;

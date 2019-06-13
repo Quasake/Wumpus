@@ -1,6 +1,5 @@
-package me.quasar.wumpus.objects.game;
+package me.quasar.wumpus.objects;
 
-import me.quasar.wumpus.objects.Map;
 import me.quasar.wumpus.objects.entities.Player;
 import me.quasar.wumpus.utils.Constants;
 import me.quasar.wumpus.utils.Utils;

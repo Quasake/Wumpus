@@ -9,6 +9,8 @@ import me.quasar.wumpus.utils.Constants;
 public class Wumpus extends Entity {
 	private boolean hidden;
 
+	private boolean dead = false;
+
 	public Wumpus (float x, float y, Map map) {
 		super(x, y, Constants.ENTITY_SPEED, map);
 
@@ -24,13 +26,15 @@ public class Wumpus extends Entity {
 			&& (map.getTile(tileX + Constants.MAP_BORDER, tileY + Constants.MAP_BORDER).isHidden( )
 				|| map.getTile(tileX + Constants.MAP_BORDER, tileY + Constants.MAP_BORDER).isCovered( ));
 
-		move( );
+		if (!dead) {
+			move( );
+		}
 	}
 
 	@Override
 	public void render (Graphics graphics) {
 		if (!hidden) {
-			graphics.drawImage(animation.getCurrentFrame( ), (int) x, (int) y, null);
+			graphics.drawImage((dead) ? Assets.wumpusDead : animation.getCurrentFrame( ), (int) x, (int) y, null);
 		}
 	}
 
@@ -72,6 +76,10 @@ public class Wumpus extends Entity {
 					break;
 			}
 		}
+	}
+
+	public void setDead (boolean dead) {
+		this.dead = dead;
 	}
 
 }

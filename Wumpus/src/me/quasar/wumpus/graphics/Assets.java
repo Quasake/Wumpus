@@ -3,9 +3,9 @@ package me.quasar.wumpus.graphics;
 import java.awt.image.BufferedImage;
 
 import me.quasar.wumpus.graphics.resources.Animation;
-import me.quasar.wumpus.graphics.resources.ImageLoader;
 import me.quasar.wumpus.graphics.resources.SpriteSheet;
 import me.quasar.wumpus.utils.Constants;
+import me.quasar.wumpus.utils.ResourceLoader;
 
 public class Assets {
 	public static BufferedImage torch;
@@ -71,6 +71,7 @@ public class Assets {
 	public static Animation playerMoveRight;
 	public static Animation playerMoveDown;
 	public static Animation playerMoveLeft;
+	public static Animation playerDead;
 
 	public static Animation playerIdleTorch;
 	public static Animation playerMoveUpTorch;
@@ -83,9 +84,10 @@ public class Assets {
 	public static Animation wumpusMoveRight;
 	public static Animation wumpusMoveDown;
 	public static Animation wumpusMoveLeft;
+	public static BufferedImage wumpusDead;
 
 	public static void init ( ) {
-		SpriteSheet items = new SpriteSheet(ImageLoader.loadImage("/tex/items.png"));
+		SpriteSheet items = new SpriteSheet(ResourceLoader.loadImage("/tex/items.png"));
 		torch = items.getSprite(0, 0);
 		sword = items.getSprite(0, 1);
 		bow = items.getSprite(1, 0);
@@ -99,12 +101,13 @@ public class Assets {
 		leverRight = items.getSprite(3, 2);
 		trapTile = items.getSprite(3, 0);
 
-		SpriteSheet player = new SpriteSheet(ImageLoader.loadImage("/tex/player.png"));
+		SpriteSheet player = new SpriteSheet(ResourceLoader.loadImage("/tex/player.png"));
 		playerIdle = player.getAnimation(0, 0);
 		playerMoveUp = player.getAnimation(0, 2);
 		playerMoveRight = player.getAnimation(0, 4);
 		playerMoveDown = player.getAnimation(0, 1);
 		playerMoveLeft = player.getAnimation(0, 3);
+		playerDead = player.getAnimation(Constants.SPRITE_ANIMATION_LENGTH * 2, 0);
 
 		playerIdleTorch = player.getAnimation(Constants.SPRITE_ANIMATION_LENGTH, 0);
 		playerMoveUpTorch = player.getAnimation(Constants.SPRITE_ANIMATION_LENGTH, 2);
@@ -112,7 +115,7 @@ public class Assets {
 		playerMoveDownTorch = player.getAnimation(Constants.SPRITE_ANIMATION_LENGTH, 1);
 		playerMoveLeftTorch = player.getAnimation(Constants.SPRITE_ANIMATION_LENGTH, 3);
 
-		SpriteSheet textures = new SpriteSheet(ImageLoader.loadImage("/tex/textures.png"));
+		SpriteSheet textures = new SpriteSheet(ResourceLoader.loadImage("/tex/textures.png"));
 		floorTile = textures.getSprite(1, 1);
 		hiddenTile = textures.getSprite(5, 0);
 		nullTile = textures.getSprite(4, 1);
@@ -154,15 +157,16 @@ public class Assets {
 		buttonDownDisabled = textures.getSprite(5, 4);
 		buttonLeftDisabled = textures.getSprite(6, 4);
 
-		title = Renderer.resizeImage(ImageLoader.loadImage("/tex/title.png"), Constants.SPRITE_SCALE * 1.5f);
-		gameover = Renderer.resizeImage(ImageLoader.loadImage("/tex/gameover.png"), Constants.SPRITE_SCALE * 1.5f);
-		win = Renderer.resizeImage(ImageLoader.loadImage("/tex/win.png"), Constants.SPRITE_SCALE * 1.5f);
+		title = Renderer.resizeImage(ResourceLoader.loadImage("/tex/title.png"), Constants.SPRITE_SCALE * 1.5f);
+		gameover = Renderer.resizeImage(ResourceLoader.loadImage("/tex/gameover.png"), Constants.SPRITE_SCALE * 1.5f);
+		win = Renderer.resizeImage(ResourceLoader.loadImage("/tex/win.png"), Constants.SPRITE_SCALE * 1.5f);
 
-		SpriteSheet wumpus = new SpriteSheet(ImageLoader.loadImage("/tex/wumpus.png"));
+		SpriteSheet wumpus = new SpriteSheet(ResourceLoader.loadImage("/tex/wumpus.png"));
 		wumpusIdle = wumpus.getAnimation(0, 0);
 		wumpusMoveUp = wumpus.getAnimation(0, 2);
 		wumpusMoveRight = wumpus.getAnimation(0, 4);
 		wumpusMoveDown = wumpus.getAnimation(0, 1);
 		wumpusMoveLeft = wumpus.getAnimation(0, 3);
+		wumpusDead = wumpus.getSprite(0, 5);
 	}
 }

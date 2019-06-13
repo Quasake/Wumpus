@@ -25,7 +25,7 @@ public class Constants {
 	public static final int INFOBOX_WIDTH = IMAGE_WIDTH * 5;
 
 	public static final int GAME_FPS = 60;
-	public static final String GAME_VERSION = "1.4.01";
+	public static final String GAME_VERSION = "1.6.5";
 	public static final float GAME_TEXT_SIZE = 16f;
 	public static final float GAME_FADESPEED = 0.04f;
 	public static final String GAME_TITLE = "Wumpus";
@@ -61,6 +61,11 @@ public class Constants {
 	public static final int RIGHT = 1;
 	public static final int DOWN = 2;
 	public static final int LEFT = 3;
+	
+	public static final int CLICK_BUTTON = 1;
+	public static final int SWING_SWORD = 2;
+	public static final int SHOOT_ARROW = 3;
+	public static final int DEATH = 4;
 
 	public static final int ID_NULL = 0;
 	public static final int ID_BOW = 1;
