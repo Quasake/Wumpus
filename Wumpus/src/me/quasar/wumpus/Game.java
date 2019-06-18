@@ -8,6 +8,7 @@ import java.awt.GraphicsEnvironment;
 import java.awt.image.BufferStrategy;
 import java.io.IOException;
 
+import me.quasar.wumpus.audio.AudioManager;
 import me.quasar.wumpus.audio.Sounds;
 import me.quasar.wumpus.graphics.Assets;
 import me.quasar.wumpus.graphics.Window;
@@ -152,6 +153,8 @@ public class Game implements Runnable {
 		float delta = 0;
 		long now;
 		long lastTime = System.nanoTime( );
+
+		AudioManager.playMusic(Sounds.theme);
 
 		while (running) {
 			now = System.nanoTime( );

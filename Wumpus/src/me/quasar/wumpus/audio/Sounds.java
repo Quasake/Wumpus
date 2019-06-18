@@ -5,4 +5,6 @@ public class Sounds {
 	public static String death = "sounds/effects/death.wav";
 	public static String shootArrow = "sounds/effects/shootarrow.wav";
 	public static String swingSword = "sounds/effects/swingsword.wav";
+
+	public static String theme = "sounds/music/theme.wav";
 }

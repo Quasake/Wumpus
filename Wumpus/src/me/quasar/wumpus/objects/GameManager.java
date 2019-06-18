@@ -93,13 +93,17 @@ public class GameManager {
 		compassTorchButton = new TextButton(Constants.MAP_WIDTH / 2, Constants.GAME_HEIGHT / 2, "Torch", handler);
 		compassWumpusButton = new TextButton((Constants.MAP_WIDTH / 4) * 3, Constants.GAME_HEIGHT / 2, "Wumpus", handler);
 
-		if (Utils.chance(0.5f)) {
-			Tile leverTile;
-			do {
-				leverTile = map.getRandomTile(false, false);
-			} while (leverTile == map.getTile(player.getTileX( ) + Constants.MAP_BORDER, player.getTileY( ) + Constants.MAP_BORDER));
-			lever = new Lever(leverTile.getX( ), leverTile.getY( ), map);
-		}
+		/*
+		 * 
+		 * if (Utils.chance(0.5f)) {
+		 * Tile leverTile;
+		 * do {
+		 * leverTile = map.getRandomTile(false, false);
+		 * } while (leverTile == map.getTile(player.getTileX( ) + Constants.MAP_BORDER, player.getTileY( ) + Constants.MAP_BORDER));
+		 * lever = new Lever(leverTile.getX( ), leverTile.getY( ), map);
+		 * }
+		 * 
+		 */
 	}
 
 	public void update ( ) {

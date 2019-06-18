@@ -24,4 +24,21 @@ public class AudioManager {
 		}).start( );
 	}
 
+	public static synchronized void playMusic (String musicPath) {
+		new Thread(new Runnable( ) {
+			public void run ( ) {
+				try {
+					Clip clip = AudioSystem.getClip( );
+					AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File(musicPath));
+
+					clip.open(inputStream);
+					clip.loop(Clip.LOOP_CONTINUOUSLY);
+					clip.start( );
+				} catch (Exception e) {
+					e.printStackTrace( );
+				}
+			}
+		}).start( );
+	}
+
 }
